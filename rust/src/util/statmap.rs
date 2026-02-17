@@ -1,11 +1,11 @@
 use std::{collections::HashMap, ops::{Deref, DerefMut}};
 
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
 use crate::Stat;
 
 /// Wrapper around a HashMap of stats to their values
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct StatMap(pub HashMap<Stat, i64>);
 
 impl StatMap {
