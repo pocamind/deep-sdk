@@ -33,4 +33,4 @@ jobs:
             ${{ runner.os }}-cargo-rust-
 
       - name: Run tests
-        run: cargo test -- --nocapture
+        run: cargo test --all-features -- --nocapture
