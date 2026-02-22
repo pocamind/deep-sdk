@@ -24,7 +24,38 @@ pub enum Stat {
     Bloodrend = 15,
     /// A stat representing the total cost of all stats, aka the 'Cost'
     /// Can and should be used to model power levels
+    // NOTE! KEEP THIS LAST FOR  THE TEST
     Total = 16
+}
+
+pub const CORE: &[Stat] = &[
+    Stat::Strength,
+    Stat::Fortitude,
+    Stat::Agility,
+    Stat::Intelligence,
+    Stat::Willpower,
+    Stat::Charisma
+];
+
+pub const WEAPON: &[Stat] = &[
+    Stat::HeavyWeapon,
+    Stat::MediumWeapon,
+    Stat::LightWeapon,
+];
+
+pub const ATTUNEMENT: &[Stat] = &[
+    Stat::Flamecharm,
+    Stat::Frostdraw,
+    Stat::Thundercall,
+    Stat::Galebreathe,
+    Stat::Shadowcast,
+    Stat::Ironsing,
+    Stat::Bloodrend,
+];
+
+#[test]
+fn consts_form_partition() {
+    assert_eq!(CORE.len() + WEAPON.len() + ATTUNEMENT.len(), Stat::Total.as_u32() as usize);
 }
 
 impl Stat {

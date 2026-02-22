@@ -1,9 +1,17 @@
 export type { Talent, Weapon, Mantra, Outfit, Aspect, Stat } from './types.js';
 
 import wasmInit, { DeepData as WasmDeepData } from './pkg/deepwoken.js';
-import type { Talent, Weapon, Mantra, Outfit, Aspect } from './types.js';
+import type { Talent, Weapon, Mantra, Outfit, Aspect, Stat } from './types.js';
 
-await wasmInit();
+if (typeof window !== 'undefined') {
+    await wasmInit();
+}
+
+import { coreStats, weaponStats, attunementStats } from './pkg/deepwoken.js';
+
+export const CORE_STATS: Stat[] = coreStats();
+export const WEAPON_STATS: Stat[] = weaponStats();
+export const ATTUNEMENT_STATS: Stat[] = attunementStats();
 
 export class DeepData {
     private _wasm: WasmDeepData;
