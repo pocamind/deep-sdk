@@ -1,8 +1,9 @@
-export { default as init } from './pkg/deepwoken.js';
 export type { Talent, Weapon, Mantra, Outfit, Aspect, Stat } from './types.js';
 
-import { DeepData as WasmDeepData } from './pkg/deepwoken.js';
+import wasmInit, { DeepData as WasmDeepData } from './pkg/deepwoken.js';
 import type { Talent, Weapon, Mantra, Outfit, Aspect } from './types.js';
+
+await wasmInit();
 
 export class DeepData {
     private _wasm: WasmDeepData;

@@ -2,7 +2,7 @@
 
 export type Stat =
     | "Strength" | "Fortitude" | "Agility" | "Intelligence" | "Willpower" | "Charisma"
-    | "Heavy Wep." | "Medium Wep." | "Light Wep."
+    | "Heavy" | "Medium" | "Light"
     | "Frostdraw" | "Flamecharm" | "Thundercall" | "Galebreathe" | "Shadowcast" | "Ironsing" | "Bloodrend"
     | "Total";
 
