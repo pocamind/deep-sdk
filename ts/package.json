@@ -1,0 +1,17 @@
+{
+    "name": "deepwoken",
+    "version": "0.1.1",
+    "type": "module",
+    "main": "index.ts",
+    "types": "index.ts",
+    "files": [
+        "index.ts",
+        "types.ts",
+        "pkg/deepwoken_bg.wasm",
+        "pkg/deepwoken.js",
+        "pkg/deepwoken.d.ts"
+    ],
+    "scripts": {
+        "build": "wasm-pack build --target web"
+    }
+}
