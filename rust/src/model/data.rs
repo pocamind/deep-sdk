@@ -76,7 +76,8 @@ pub struct Mantra {
 
 /// A struct mirroring the structure of the 'all.json'
 /// bundle found on [pocamind/data releases](https://github.com/pocamind/data/releases).
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[serde(default)]
 pub struct DeepData {
     aspects: HashMap<String, Aspect>,
     talents: HashMap<String, Talent>,
