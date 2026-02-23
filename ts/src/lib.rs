@@ -4,6 +4,7 @@ use wasm_bindgen::prelude::*;
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
 use deepwoken_rs::util::statmap::StatMap;
+use deepwoken_rs::util::algos;
 
 #[wasm_bindgen(js_name = "DeepData")]
 pub struct JsDeepData {
@@ -134,5 +135,15 @@ impl JsStatMap {
     pub fn to_json(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner)
     }
+
+    #[wasm_bindgen(js_name = "shrineOrder")]
+    pub fn shrine_order(&self, racial: &JsStatMap) -> JsStatMap {
+        JsStatMap { inner: algos::shrine_order_dwb(&self.inner, &racial.inner) }
+    }
+}
+
+#[wasm_bindgen(js_name = "shrineOrderDwb")]
+pub fn shrine_order_dwb(pre: &JsStatMap, racial: &JsStatMap) -> JsStatMap {
+    JsStatMap { inner: algos::shrine_order_dwb(&pre.inner, &racial.inner) }
 }
 

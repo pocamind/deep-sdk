@@ -1,0 +1,13 @@
+[project]
+name = "deepwoken"
+version = "0.1.0"
+description = "Python bindings for the deepwoken SDK"
+readme = "README.md"
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["maturin>=1.12,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]

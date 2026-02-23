@@ -1,6 +1,6 @@
 [package]
 name = "deepwoken"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2024"
 description = "A library for interacting with Deepwoken data in a more convenient format, with a few added utilities."
 license = "MIT"

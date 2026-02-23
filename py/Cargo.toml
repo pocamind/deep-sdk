@@ -1,0 +1,16 @@
+[package]
+name = "deepwoken"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "deepwoken"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+deepwoken-rs = { package = "deepwoken", path = "../rust", features = ["fetch"] }
+pyo3 = { version = "0.28", features = ["extension-module"] }
+pyo3-stub-gen = "0.19"
+serde = "1.0"
+serde_json = "1.0"
+tokio = { version = "1", features = ["rt", "rt-multi-thread"] }

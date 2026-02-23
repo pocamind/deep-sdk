@@ -1,6 +1,7 @@
 pub mod reqtree;
 pub mod statmap;
 pub mod traits;
+pub mod algos;
 
 #[cfg(feature = "fetch")]
 pub mod datafetch;

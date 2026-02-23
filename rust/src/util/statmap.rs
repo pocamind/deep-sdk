@@ -2,7 +2,7 @@ use std::{collections::HashMap, ops::{Deref, DerefMut}};
 
 use serde::{Serialize, Deserialize};
 
-use crate::{Stat, model::stat::MAX_TOTAL};
+use crate::{Stat, model::stat::MAX_TOTAL, util::algos};
 
 /// Wrapper around a HashMap of stats to their values
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -29,6 +29,10 @@ impl StatMap {
 
     pub fn get(&self, stat: &Stat) -> i64 {
         *self.0.get(stat).unwrap_or(&0)
+    }
+
+    pub fn shrine_order(&self, racial: &StatMap) -> StatMap {
+        algos::shrine_order_dwb(self, racial)
     }
 }
 
