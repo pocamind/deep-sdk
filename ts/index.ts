@@ -1,15 +1,17 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS } from './types.js';
 export type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
 
-import type { Aspect, Mantra, Outfit, Talent, Weapon } from './types.js';
+import type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
 
 // dynamically import wasm bc the server will try to load wasm regardless man
-let WasmDeepData: typeof import('./pkg/deepwoken.js').DeepData;
+let WasmDeepData: any;
+let WasmStatMap: any;
 
 if (typeof window !== 'undefined') {
     const wasm = await import('./pkg/deepwoken.js');
     await wasm.default();
     WasmDeepData = wasm.DeepData;
+    WasmStatMap = wasm.StatMap;
 }
 
 export class DeepData {
@@ -42,4 +44,23 @@ export class DeepData {
     weapons(): Weapon[] { return this._wasm.weapons(); }
     outfits(): Outfit[] { return this._wasm.outfits(); }
     aspects(): Aspect[] { return this._wasm.aspects(); }
+}
+
+export class StatMap {
+    private _wasm: any;
+
+    constructor(map: Partial<Record<Stat, number>> = {}) {
+        this._wasm = new WasmStatMap(map);
+    }
+
+    /* The total build cost, accounting for multi-attunement shenanigans */
+    cost(): number { return this._wasm.cost(); }
+    /* The points remaining available to invest */
+    remaining(): number { return this._wasm.remaining(); }
+    /* The level the character is at */
+    level(): number { return this._wasm.level(); }
+
+    get(stat: Stat): number { return this._wasm.get(stat); }
+    set(stat: Stat, value: number) { this._wasm.set(stat, value); }
+    toJSON(): Partial<Record<Stat, number>> { return this._wasm.toJSON(); }
 }

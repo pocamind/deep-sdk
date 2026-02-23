@@ -1,5 +1,9 @@
+use std::collections::HashMap;
+
 use wasm_bindgen::prelude::*;
+use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
+use deepwoken_rs::util::statmap::StatMap;
 
 #[wasm_bindgen(js_name = "DeepData")]
 pub struct JsDeepData {
@@ -84,6 +88,51 @@ impl JsDeepData {
 
     pub fn aspects(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.aspects().collect::<Vec<_>>())
+    }
+}
+
+#[wasm_bindgen(js_name = "StatMap")]
+pub struct JsStatMap {
+    inner: StatMap,
+}
+
+#[wasm_bindgen(js_class = "StatMap")]
+impl JsStatMap {
+    #[wasm_bindgen(constructor)]
+    pub fn new(map: JsValue) -> Result<JsStatMap, JsError> {
+        let map: HashMap<Stat, i64> = serde_wasm_bindgen::from_value(map)
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        Ok(JsStatMap { inner: StatMap::from(map) })
+    }
+
+    pub fn cost(&self) -> i32 {
+        self.inner.cost() as i32
+    }
+
+    pub fn remaining(&self) -> i32 {
+        self.inner.remaining() as i32
+    }
+
+    pub fn level(&self) -> i32 {
+        self.inner.level() as i32
+    }
+
+    pub fn get(&self, stat: &str) -> Result<i32, JsError> {
+        let stat: Stat = stat.parse()
+            .map_err(|e: &str| JsError::new(e))?;
+        Ok(self.inner.get(&stat) as i32)
+    }
+
+    pub fn set(&mut self, stat: &str, value: i32) -> Result<(), JsError> {
+        let stat: Stat = stat.parse()
+            .map_err(|e: &str| JsError::new(e))?;
+        self.inner.insert(stat, value as i64);
+        Ok(())
+    }
+
+    #[wasm_bindgen(js_name = "toJSON")]
+    pub fn to_json(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner)
     }
 }
 

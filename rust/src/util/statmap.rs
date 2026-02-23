@@ -2,7 +2,7 @@ use std::{collections::HashMap, ops::{Deref, DerefMut}};
 
 use serde::{Serialize, Deserialize};
 
-use crate::Stat;
+use crate::{Stat, model::stat::MAX_TOTAL};
 
 /// Wrapper around a HashMap of stats to their values
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -16,7 +16,15 @@ impl StatMap {
 
     pub fn cost(&self) -> i64 {
         self.0.values().sum::<i64>()
-            - (self.0.iter().filter(|(s, _)| s.is_attunement()).count() as i64 - 1).max(0)
+            - (self.0.iter().filter(|(s, v)| s.is_attunement() && **v > 0).count() as i64 - 1).max(0)
+    }
+
+    pub fn remaining(&self) -> i64 {
+        MAX_TOTAL - self.cost()
+    }
+
+    pub fn level(&self) -> i64 {
+        ((self.cost() - 15) / 15).max(0)
     }
 
     pub fn get(&self, stat: &Stat) -> i64 {

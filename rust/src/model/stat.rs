@@ -53,6 +53,8 @@ pub const ATTUNEMENT: &[Stat] = &[
     Stat::Bloodrend,
 ];
 
+pub const MAX_TOTAL: i64 = 330;
+
 #[test]
 fn consts_form_partition() {
     assert_eq!(CORE.len() + WEAPON.len() + ATTUNEMENT.len(), Stat::Total.as_u32() as usize);
