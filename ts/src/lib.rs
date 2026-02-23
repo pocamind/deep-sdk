@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::*;
-use deepwoken_rs::{Stat, data::DeepData, model::stat};
+use deepwoken_rs::data::DeepData;
 
 #[wasm_bindgen(js_name = "DeepData")]
 pub struct JsDeepData {
@@ -9,21 +9,6 @@ pub struct JsDeepData {
 fn to_js<T: serde::Serialize>(value: &T) -> Result<JsValue, JsError> {
     serde_wasm_bindgen::to_value(value)
         .map_err(|e| JsError::new(&e.to_string()))
-}
-
-#[wasm_bindgen(js_name = "coreStats")]
-pub fn core_stats() -> Result<JsValue, JsError> {                                                                                                                                                                                                                                  
-    to_js(&stat::CORE)                                                                                                                                                                                                                                                           
-}
-
-#[wasm_bindgen(js_name = "weaponStats")]
-pub fn weapon_stats() -> Result<JsValue, JsError> {
-    to_js(&stat::WEAPON)
-}
-
-#[wasm_bindgen(js_name = "attunementStats")]
-pub fn attunement_stats() -> Result<JsValue, JsError> {
-    to_js(&stat::ATTUNEMENT)
 }
 
 #[wasm_bindgen(js_class = "DeepData")]

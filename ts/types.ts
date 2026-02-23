@@ -1,10 +1,7 @@
-// copy the rust provided types (is there a better way to mirror types? man)
+export type { Stat } from './generated.js';
+export { CORE_STATS, WEAPON_STATS, ATTUNEMENT_STATS } from './generated.js';
 
-export type Stat =
-    | "Strength" | "Fortitude" | "Agility" | "Intelligence" | "Willpower" | "Charisma"
-    | "Heavy" | "Medium" | "Light"
-    | "Frostdraw" | "Flamecharm" | "Thundercall" | "Galebreathe" | "Shadowcast" | "Ironsing" | "Bloodrend"
-    | "Total";
+import type { Stat } from './generated.js';
 
 export interface Talent {
     name: string;

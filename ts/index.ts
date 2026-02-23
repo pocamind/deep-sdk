@@ -1,22 +1,21 @@
-export type { Talent, Weapon, Mantra, Outfit, Aspect, Stat } from './types.js';
+export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS } from './types.js';
+export type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
 
-import wasmInit, { DeepData as WasmDeepData } from './pkg/deepwoken.js';
-import type { Talent, Weapon, Mantra, Outfit, Aspect, Stat } from './types.js';
+import type { Aspect, Mantra, Outfit, Talent, Weapon } from './types.js';
+
+// dynamically import wasm bc the server will try to load wasm regardless man
+let WasmDeepData: typeof import('./pkg/deepwoken.js').DeepData;
 
 if (typeof window !== 'undefined') {
-    await wasmInit();
+    const wasm = await import('./pkg/deepwoken.js');
+    await wasm.default();
+    WasmDeepData = wasm.DeepData;
 }
 
-import { coreStats, weaponStats, attunementStats } from './pkg/deepwoken.js';
-
-export const CORE_STATS: Stat[] = coreStats();
-export const WEAPON_STATS: Stat[] = weaponStats();
-export const ATTUNEMENT_STATS: Stat[] = attunementStats();
-
 export class DeepData {
-    private _wasm: WasmDeepData;
+    private _wasm: any;
 
-    private constructor(wasm: WasmDeepData) {
+    private constructor(wasm: any) {
         this._wasm = wasm;
     }
 
