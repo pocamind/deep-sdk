@@ -169,7 +169,7 @@ checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 name = "deepwoken"
 version = "0.1.0"
 dependencies = [
- "deepwoken 0.1.6",
+ "deepwoken 0.1.7",
  "pyo3",
  "pyo3-stub-gen",
  "serde",
@@ -179,7 +179,7 @@ dependencies = [
 
 [[package]]
 name = "deepwoken"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "env_logger",
  "log",
