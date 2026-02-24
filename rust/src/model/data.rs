@@ -84,12 +84,21 @@ pub struct DeepData {
     mantras: HashMap<String, Mantra>,
     weapons: HashMap<String, Weapon>,
     outfits: HashMap<String, Outfit>,
+
+    /// The raw json payload used to construct the object, which may be more up-to-date. 
+    /// The shape is guarenteed to have at least the fields that DeepData has.
+    #[serde(skip, default)]
+    raw: String
 }
 
 impl DeepData {
     pub fn from_json(json: &str) -> Result<DeepData> {
-        serde_json::from_str(json)
-            .map_err(DeepError::from)
+        let mut ret: DeepData = serde_json::from_str(json)
+            .map_err(DeepError::from)?;
+
+        ret.raw = json.to_string();
+
+        Ok(ret)
     }
 
     /// Retrieve a talent by it's name.

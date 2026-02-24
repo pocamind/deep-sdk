@@ -5,15 +5,20 @@ use thiserror::Error;
 pub enum DeepError {
     #[error("Parse error: {0}")]
     Req(String),
+
     #[error("Parse on line {line}: {message}")]
     Reqfile {
         line: usize,
         message: String
     },
+
     #[error("IO error: {0}")]
     IO(String),
     #[error("Serde error: {0}")]
     SerdeError(#[from] serde_json::Error),
+    
+    #[error("Build reqfile error: {0}")]
+    ReqfileBuild(String),
     
     #[cfg(feature = "fetch")]
     #[error("Reqwest error: {0}")]

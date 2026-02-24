@@ -1,4 +1,4 @@
-use std::str::FromStr;
+use std::{ops::{Add, AddAssign}, str::FromStr};
 
 use serde::{Deserialize, Deserializer, de};
 
@@ -13,6 +13,26 @@ pub struct Reqfile {
     pub post: Vec<Requirement>,
 
     pub optional: Vec<OptionalGroup>
+}
+
+impl Add for Reqfile {
+    type Output = Reqfile;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Self {
+            general: self.general.iter().chain(rhs.general.iter()).cloned().collect(),
+            post: self.post.iter().chain(rhs.post.iter()).cloned().collect(),
+            optional: self.optional.iter().chain(rhs.optional.iter()).cloned().collect(),
+        }
+    }
+}
+
+impl AddAssign for Reqfile {
+    fn add_assign(&mut self, rhs: Self) {
+        self.general.extend(rhs.general);
+        self.post.extend(rhs.post);
+        self.optional.extend(rhs.optional);
+    }
 }
 
 impl Reqfile {
