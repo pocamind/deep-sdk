@@ -11,4 +11,5 @@ pub fn name_to_identifier(s: &str) -> String {
     s.replace(' ', "_")
         .replace(['[', ']', '\'', ':', '(', ')', ','], "")
         .replace(['-'], "_")
+        .to_lowercase()
 }
