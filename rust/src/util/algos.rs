@@ -1,9 +1,21 @@
 /* algo implementations */
 
-use crate::{Stat, data::DeepData, error::{DeepError, Result}, model::reqfile::Reqfile, req::{Atom, Clause, ClauseType, Reducability, Requirement}, util::statmap::StatMap};
+use crate::{
+    Stat,
+    data::DeepData,
+    error::{DeepError, Result},
+    model::reqfile::Reqfile,
+    req::{Atom, Clause, ClauseType, Reducability, Requirement},
+    util::statmap::StatMap,
+};
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 
+#[must_use]
+#[allow(
+    clippy::cast_precision_loss,
+    reason = "values are not big enough for this to matter"
+)]
 pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
     const SHRINE_DIFF_CAP: f64 = 25.0;
     const STAT_CAP: i64 = 100;
@@ -12,7 +24,7 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
 
     let mut work: HashMap<Stat, f64> = pre
         .iter()
-        .map(|(stat, value)| (stat.clone(), *value as f64))
+        .map(|(stat, value)| (*stat, *value as f64))
         .collect();
 
     let mut total = 0.0_f64;
@@ -31,7 +43,7 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
         }
 
         total += (*value - racial_val.max(0)) as f64;
-        affected_stats.push(stat.clone());
+        affected_stats.push(*stat);
         divide_by += 1;
     }
 
@@ -41,7 +53,7 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
 
     let average = total / divide_by as f64;
     for stat in &affected_stats {
-        work.insert(stat.clone(), average);
+        work.insert(*stat, average);
     }
 
     let mut bottlenecked_divide_by = divide_by;
@@ -63,10 +75,10 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
 
             if shrine_val - current > SHRINE_DIFF_CAP {
                 let new_val = shrine_val - SHRINE_DIFF_CAP;
-                work.insert(stat.clone(), new_val);
+                work.insert(*stat, new_val);
                 bottlenecked_points += new_val - prev_val;
 
-                if bottlenecked.insert(stat.clone()) {
+                if bottlenecked.insert(*stat) {
                     bottlenecked_divide_by -= 1;
                 }
             }
@@ -86,7 +98,7 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
 
             let current = *work.get(stat).unwrap_or(&0.0);
             let next = current - spread;
-            work.insert(stat.clone(), next);
+            work.insert(*stat, next);
 
             if !stat.is_attunement() {
                 let shrine_val = pre.get(stat) as f64;
@@ -96,7 +108,7 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
             }
         }
 
-        prev = work.clone();
+        prev.clone_from(&work);
 
         if !bottlenecked_stats {
             break;
@@ -104,6 +116,10 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
     }
 
     let mut result = pre.clone();
+    #[allow(
+        clippy::cast_possible_truncation,
+        reason = "value is floored before converting to i64"
+    )]
     for (stat, value) in work {
         result.insert(stat, value.floor() as i64);
     }
@@ -122,7 +138,7 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
                 continue;
             }
 
-            *result.entry(stat.clone()).or_insert(0) += 1;
+            *result.entry(*stat).or_insert(0) += 1;
             spare_points -= 1;
             changed = true;
         }
@@ -137,13 +153,14 @@ pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
 
 /// The configuration for a build that affect requirement generation.
 pub struct BuildConfig {
-    /// Controls whether the requirement generation will output weapon requirements as 
+    /// Controls whether the requirement generation will output weapon requirements as
     /// strict or reducible.
-    /// 
+    ///
+    #[allow(clippy::doc_markdown, reason = "false positive on SoM")]
     /// Default: false (allow SoM on weapon requirements)
     pub disable_som_weapons: bool,
 
-    /// Puts weapon requirements in the Free: block instead of constraining it to Post. 
+    /// Puts weapon requirements in the Free: block instead of constraining it to Post.
     pub allow_weapons_preshrine: bool,
 
     pub talents: Vec<String>,
@@ -155,46 +172,72 @@ pub struct BuildConfig {
     pub race: Option<String>,
 
     /// Use optional reqfiles (don't expose the optional req api yet)
-    pub use_presets: Vec<Reqfile>
+    pub use_presets: Vec<Reqfile>,
 }
-
 
 impl BuildConfig {
     pub fn to_reqfile(&self, data: &DeepData) -> Result<Reqfile> {
-        let mut ret = Reqfile { general: vec![], post: vec![], optional: vec![] };
+        let mut ret = Reqfile {
+            general: vec![],
+            post: vec![],
+            optional: vec![],
+        };
 
         for name in &self.talents {
-            let talent = data.get_talent(name)
-                .ok_or(DeepError::ReqfileBuild(format!("Talent {name} not found in database")))?;
+            let talent = data
+                .get_talent(name)
+                .ok_or(DeepError::ReqfileBuild(format!(
+                    "Talent {name} not found in database"
+                )))?;
 
             ret.general.push(talent.reqs.clone());
         }
 
         for name in &self.mantras {
-            let mantra = data.get_mantra(name)
-                .ok_or(DeepError::ReqfileBuild(format!("Mantra {name} not found in database")))?;
+            let mantra = data
+                .get_mantra(name)
+                .ok_or(DeepError::ReqfileBuild(format!(
+                    "Mantra {name} not found in database"
+                )))?;
 
             ret.general.push(mantra.reqs.clone());
         }
 
         for name in &self.weapons {
-            let weapon = data.get_weapon(name)
-                .ok_or(DeepError::ReqfileBuild(format!("Weapon {name} not found in database")))?;
+            let weapon = data
+                .get_weapon(name)
+                .ok_or(DeepError::ReqfileBuild(format!(
+                    "Weapon {name} not found in database"
+                )))?;
 
             let mut req = if self.disable_som_weapons {
-                let mut new_req = weapon.reqs.clone();
+                let mut new_req_clauses: BTreeSet<Clause> = BTreeSet::new();
 
-                for clause in &mut new_req.clauses {
-                    clause.atoms = clause.atoms.clone().into_iter().map(|a| a.reducability(Reducability::Strict)).collect();
+                for clause in &weapon.reqs.clauses {
+                    new_req_clauses.insert(Clause {
+                        clause_type: clause.clause_type.clone(),
+                        atoms: clause
+                            .atoms
+                            .clone()
+                            .into_iter()
+                            .map(|a| a.reducability(Reducability::Strict))
+                            .collect(),
+                    });
                 }
 
-                new_req
+                Requirement {
+                    name: weapon.reqs.name.clone(),
+                    prereqs: weapon.reqs.prereqs.clone(),
+                    clauses: new_req_clauses,
+                }
             } else {
                 weapon.reqs.clone()
             };
 
             if let Some(race) = &self.race {
-                let race = data.get_aspect(race).ok_or(DeepError::ReqfileBuild(format!("Race not found: {race}")))?;
+                let race = data
+                    .get_aspect(race)
+                    .ok_or(DeepError::ReqfileBuild(format!("Race not found: {race}")))?;
 
                 if race.name == "Khan" {
                     req.add_to_all(-3);
@@ -202,14 +245,23 @@ impl BuildConfig {
             }
 
             {
-                if self.allow_weapons_preshrine { &mut ret.general } else { &mut ret.post }
-            }.push(req);
+                if self.allow_weapons_preshrine {
+                    &mut ret.general
+                } else {
+                    &mut ret.post
+                }
+            }
+            .push(req);
         }
 
         if let Some(name) = &self.outfit {
             ret.general.push(
                 data.get_outfit(name)
-                    .ok_or(DeepError::ReqfileBuild(format!("Outfit {name} not found in database")))?.reqs.clone()
+                    .ok_or(DeepError::ReqfileBuild(format!(
+                        "Outfit {name} not found in database"
+                    )))?
+                    .reqs
+                    .clone(),
             );
         }
 
@@ -248,7 +300,7 @@ impl BuildConfig {
 
             ret.post.push(req);
         }
-       
+
         // append on the presets if applicable
         for preset in self.use_presets.clone() {
             ret += preset;

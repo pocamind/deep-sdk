@@ -1,4 +1,3 @@
-
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -7,19 +6,16 @@ pub enum DeepError {
     Req(String),
 
     #[error("Parse on line {line}: {message}")]
-    Reqfile {
-        line: usize,
-        message: String
-    },
+    Reqfile { line: usize, message: String },
 
     #[error("IO error: {0}")]
     IO(String),
     #[error("Serde error: {0}")]
     SerdeError(#[from] serde_json::Error),
-    
+
     #[error("Build reqfile error: {0}")]
     ReqfileBuild(String),
-    
+
     #[cfg(feature = "fetch")]
     #[error("Reqwest error: {0}")]
     ReqwestError(#[from] reqwest::Error),

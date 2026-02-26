@@ -1,5 +1,9 @@
 use core::fmt;
-use std::{collections::{BTreeSet, HashSet}, str::FromStr};
+use std::{
+    collections::{BTreeSet, HashSet},
+    hash::Hash,
+    str::FromStr,
+};
 
 use serde::{Deserialize, Deserializer, Serialize, de};
 
@@ -31,6 +35,7 @@ pub struct Atom {
 }
 
 impl Atom {
+    #[must_use]
     pub fn new(r: Reducability) -> Self {
         Self {
             reducability: r,
@@ -39,6 +44,7 @@ impl Atom {
         }
     }
 
+    #[must_use]
     pub fn strict() -> Self {
         Self {
             reducability: Reducability::Strict,
@@ -47,6 +53,7 @@ impl Atom {
         }
     }
 
+    #[must_use]
     pub fn reducible() -> Self {
         Self {
             reducability: Reducability::Reducible,
@@ -55,16 +62,19 @@ impl Atom {
         }
     }
 
+    #[must_use]
     pub fn value(mut self, v: i64) -> Self {
         self.value = v;
         self
     }
 
+    #[must_use]
     pub fn reducability(mut self, r: Reducability) -> Self {
         self.reducability = r;
         self
     }
 
+    #[must_use]
     /// Adds a stat to the stat summation requirement.
     pub fn stat(mut self, stat: Stat) -> Self {
         self.stats.insert(stat);
@@ -75,6 +85,7 @@ impl Atom {
         self.stats.insert(stat);
     }
 
+    #[must_use]
     pub fn satisfied_by(&self, stats: &StatMap) -> bool {
         let sum: i64 = self
             .stats
@@ -91,6 +102,7 @@ impl Atom {
         sum >= self.value
     }
 
+    #[must_use]
     // is it trivially satisfied
     pub fn is_empty(&self) -> bool {
         self.stats.is_empty() && self.value == 0
@@ -101,9 +113,10 @@ impl fmt::Display for Atom {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.stats.len() == 1 {
             write!(
-                f, "{}{} {}", 
-                self.value, 
-                self.reducability, 
+                f,
+                "{}{} {}",
+                self.value,
+                self.reducability,
                 self.stats.first().unwrap().short_name()
             )
         } else {
@@ -120,19 +133,20 @@ impl fmt::Display for Atom {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum ClauseType {
     And,
     Or,
 }
 
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Clause {
     pub clause_type: ClauseType,
     pub atoms: BTreeSet<Atom>,
 }
 
 impl Clause {
+    #[must_use]
     pub fn new(clause_type: ClauseType) -> Self {
         Self {
             clause_type,
@@ -140,6 +154,7 @@ impl Clause {
         }
     }
 
+    #[must_use]
     pub fn and() -> Self {
         Self {
             clause_type: ClauseType::And,
@@ -147,6 +162,7 @@ impl Clause {
         }
     }
 
+    #[must_use]
     pub fn or() -> Self {
         Self {
             clause_type: ClauseType::Or,
@@ -154,11 +170,13 @@ impl Clause {
         }
     }
 
+    #[must_use]
     pub fn clause_type(mut self, ct: ClauseType) -> Self {
         self.clause_type = ct;
         self
     }
 
+    #[must_use]
     pub fn atoms(&self) -> &BTreeSet<Atom> {
         &self.atoms
     }
@@ -167,12 +185,14 @@ impl Clause {
         &mut self.atoms
     }
 
+    #[must_use]
     pub fn insert(mut self, stats: StatSet, mut atom: Atom) -> Self {
         atom.stats = stats;
         self.atoms.insert(atom);
         self
     }
 
+    #[must_use]
     pub fn atom(mut self, atom: Atom) -> Self {
         self.atoms.insert(atom);
         self
@@ -182,6 +202,7 @@ impl Clause {
         self.atoms.insert(atom);
     }
 
+    #[must_use]
     pub fn satisfied_by(&self, stats: &StatMap) -> bool {
         match self.clause_type {
             ClauseType::And => self.atoms.iter().all(|atom| atom.satisfied_by(stats)),
@@ -189,6 +210,7 @@ impl Clause {
         }
     }
 
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         !self.atoms().iter().any(|a| !a.is_empty())
     }
@@ -205,59 +227,44 @@ impl fmt::Display for Clause {
             .atoms
             .iter()
             .filter(|a| !a.is_empty())
-            .map(|atom| format!("{}", atom))
+            .map(|atom| format!("{atom}"))
             .collect();
 
         write!(f, "{}", atom_strs.join(joiner))
     }
 }
 
-#[derive(Clone, Debug, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Requirement {
     // optional name for the req for referencing elsewhere
     pub name: Option<String>,
     // DIRECT prerequisites (does not include transitive)
-    pub prereqs: Vec<String>,
+    pub prereqs: BTreeSet<String>,
 
-    pub clauses: Vec<Clause>,
+    pub clauses: BTreeSet<Clause>,
 }
-
-impl PartialEq for Requirement {
-    fn eq(&self, other: &Self) -> bool {
-        if self.clauses.len() != other.clauses.len() {
-            return false;
-        }
-
-        // a \subseteq b and b \subseteq a iff a = b ahh comparison
-        self.clauses.iter().all(|c| other.clauses.contains(c))
-            && other.clauses.iter().all(|c| self.clauses.contains(c))
-            && self.name_or_default() == other.name_or_default() 
-            // also check if string names are the same (yes names will matter now)
-    }
-}
-
-impl Eq for Requirement {}
 
 impl Requirement {
     pub fn parse(input: &str) -> error::Result<Self> {
         crate::parse::req::parse_req(input)
     }
 
+    #[must_use]
     pub fn new() -> Self {
         Self {
             name: None,
-            prereqs: Vec::new(),
-            clauses: Vec::new(),
+            prereqs: BTreeSet::new(),
+            clauses: BTreeSet::new(),
         }
     }
 
     pub fn add_clause(&mut self, clause: Clause) -> &mut Self {
-        self.clauses.push(clause);
+        self.clauses.insert(clause);
         self
     }
 
     pub fn add_prereq(&mut self, prereq: &str) -> &mut Self {
-        self.prereqs.push(prereq.to_string());
+        self.prereqs.insert(prereq.to_string());
         self
     }
 
@@ -266,6 +273,7 @@ impl Requirement {
         self
     }
 
+    #[must_use]
     pub fn name_or_default(&self) -> String {
         match &self.name {
             Some(n) => n.clone(),
@@ -294,19 +302,24 @@ impl Requirement {
     }
 
     pub fn add_to_all(&mut self, val: i64) -> &mut Self {
+        let mut new_clauses: BTreeSet<Clause> = BTreeSet::new();
         // construct new atoms
-        for clause in &mut self.clauses {
-            clause.atoms = clause
-                .atoms
-                .iter()
-                .map(|atom| {
-                    let mut new_atom = atom.clone();
-                    new_atom.value += val;
-                    new_atom.value = new_atom.value.clamp(0, 100);
-                    new_atom
-                })
-                .collect();
+        for clause in self.clauses.iter().cloned() {
+            new_clauses.insert(Clause {
+                clause_type: clause.clause_type,
+                atoms: clause
+                    .atoms
+                    .iter()
+                    .map(|atom| {
+                        let mut new_atom = atom.clone();
+                        new_atom.value += val;
+                        new_atom.value = new_atom.value.clamp(0, 100);
+                        new_atom
+                    })
+                    .collect(),
+            });
         }
+        self.clauses = new_clauses;
         self
     }
 
@@ -319,6 +332,7 @@ impl Requirement {
         })
     }
 
+    #[must_use]
     /// Grab all the stats present in a requirement
     pub fn used_stats(&self) -> HashSet<Stat> {
         self.atoms().fold(HashSet::new(), |mut acc, atom| {
@@ -327,19 +341,27 @@ impl Requirement {
                     continue;
                 }
 
-                acc.insert(stat.clone());
+                acc.insert(*stat);
             }
             acc
         })
     }
 
+    #[must_use]
     pub fn satisfied_by(&self, stats: &StatMap) -> bool {
         self.clauses.iter().all(|clause| clause.satisfied_by(stats))
     }
 
+    #[must_use]
     /// The requirement requires nothing and is therefore trivially satisfied (wow!)
     pub fn is_empty(&self) -> bool {
         !self.clauses.iter().any(|c| !c.is_empty())
+    }
+}
+
+impl Default for Requirement {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -347,8 +369,8 @@ impl From<Clause> for Requirement {
     fn from(clause: Clause) -> Self {
         Self {
             name: None,
-            prereqs: Vec::new(),
-            clauses: vec![clause],
+            prereqs: BTreeSet::new(),
+            clauses: BTreeSet::from_iter([clause]),
         }
     }
 }
@@ -356,10 +378,23 @@ impl From<Clause> for Requirement {
 impl fmt::Display for Requirement {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if !self.prereqs.is_empty() {
-            write!(f, "{} => ", self.prereqs.join(", "))?;
+            write!(
+                f,
+                "{} => ",
+                self.prereqs
+                    .iter()
+                    .enumerate()
+                    .fold(String::new(), |mut acc, (i, val)| {
+                        if i > 0 {
+                            acc.push_str(", ");
+                        }
+                        acc.push_str(val);
+                        acc
+                    })
+            )?;
         }
         if let Some(name) = &self.name {
-            write!(f, "{} := ", name)?;
+            write!(f, "{name} := ")?;
         }
         if self.is_empty() {
             write!(f, "()")
@@ -368,7 +403,7 @@ impl fmt::Display for Requirement {
                 .clauses
                 .iter()
                 .filter(|clause| !clause.is_empty())
-                .map(|clause| clause.to_string())
+                .map(ToString::to_string)
                 .collect();
 
             write!(f, "{}", clause_strs.join(", "))
@@ -380,7 +415,7 @@ impl FromStr for Requirement {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        crate::parse::req::parse_req(s).map_err(|e| format!("Failed to parse requirement: {}", e))
+        crate::parse::req::parse_req(s).map_err(|e| format!("Failed to parse requirement: {e}"))
     }
 }
 

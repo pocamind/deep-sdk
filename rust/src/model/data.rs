@@ -5,8 +5,8 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
 use crate::Stat;
-use crate::model::req::Requirement;
 use crate::error::{DeepError, Result};
+use crate::model::req::Requirement;
 use crate::util::name_to_identifier;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -56,7 +56,7 @@ pub struct Weapon {
     pub range: f64,
     pub speed: f64,
     pub endlag: f64,
-    /// Can contain stats as keys, can also contain 
+    /// Can contain stats as keys, can also contain
     /// pseudo-stats like 'Mind'
     pub scaling: HashMap<String, f64>,
 }
@@ -85,16 +85,15 @@ pub struct DeepData {
     weapons: HashMap<String, Weapon>,
     outfits: HashMap<String, Outfit>,
 
-    /// The raw json payload used to construct the object, which may be more up-to-date. 
-    /// The shape is guarenteed to have at least the fields that DeepData has.
+    /// The raw json payload used to construct the object, which may be more up-to-date.
+    /// The shape is guarenteed to have at least the fields that `DeepData` has.
     #[serde(skip, default)]
-    raw: String
+    raw: String,
 }
 
 impl DeepData {
     pub fn from_json(json: &str) -> Result<DeepData> {
-        let mut ret: DeepData = serde_json::from_str(json)
-            .map_err(DeepError::from)?;
+        let mut ret: DeepData = serde_json::from_str(json).map_err(DeepError::from)?;
 
         ret.raw = json.to_string();
 
@@ -102,67 +101,72 @@ impl DeepData {
     }
 
     /// Retrieve a talent by it's name.
-    /// 
+    ///
     /// The passed in name can be it's in-game name, or the
     /// internal map key
+    #[must_use]
     pub fn get_talent(&self, name: &str) -> Option<&Talent> {
         self.talents.get(&name_to_identifier(name))
-    }    
+    }
 
     /// Retrieve a mantra by it's name.
-    /// 
+    ///
     /// The passed in name can be it's in-game name, or the
     /// internal map key
+    #[must_use]
     pub fn get_mantra(&self, name: &str) -> Option<&Mantra> {
         self.mantras.get(&name_to_identifier(name))
-    }    
+    }
 
     /// Retrieve a weapon by it's name.
-    /// 
+    ///
     /// The passed in name can be it's in-game name, or the
     /// internal map key
+    #[must_use]
     pub fn get_weapon(&self, name: &str) -> Option<&Weapon> {
         self.weapons.get(&name_to_identifier(name))
-    }    
+    }
 
     /// Retrieve an outfit by it's name.
-    /// 
+    ///
     /// The passed in name can be it's in-game name, or the
     /// internal map key
+    #[must_use]
     pub fn get_outfit(&self, name: &str) -> Option<&Outfit> {
         self.outfits.get(&name_to_identifier(name))
     }
 
     /// Retrieve an aspect by it's name.
-    /// 
+    ///
     /// The passed in name can be it's in-game name, or the
     /// internal map key
+    #[must_use]
     pub fn get_aspect(&self, name: &str) -> Option<&Aspect> {
         self.aspects.get(&name_to_identifier(name))
     }
 
-    /// Retrieve an iterator of talents 
+    /// Retrieve an iterator of talents
     pub fn talents(&self) -> impl Iterator<Item = &Talent> {
-        self.talents.iter().map(|(_, i)| i)
+        self.talents.values()
     }
 
-    /// Retrieve an iterator of talents 
+    /// Retrieve an iterator of talents
     pub fn mantras(&self) -> impl Iterator<Item = &Mantra> {
-        self.mantras.iter().map(|(_, i)| i)
+        self.mantras.values()
     }
 
-    /// Retrieve an iterator of talents 
+    /// Retrieve an iterator of talents
     pub fn weapons(&self) -> impl Iterator<Item = &Weapon> {
-        self.weapons.iter().map(|(_, i)| i)
+        self.weapons.values()
     }
 
-    /// Retrieve an iterator of talents 
+    /// Retrieve an iterator of talents
     pub fn outfits(&self) -> impl Iterator<Item = &Outfit> {
-        self.outfits.iter().map(|(_, i)| i)
+        self.outfits.values()
     }
 
-    /// Retrieve an iterator of talents 
+    /// Retrieve an iterator of talents
     pub fn aspects(&self) -> impl Iterator<Item = &Aspect> {
-        self.aspects.iter().map(|(_, i)| i)
+        self.aspects.values()
     }
 }

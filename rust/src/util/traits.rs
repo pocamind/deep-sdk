@@ -1,11 +1,10 @@
 use std::borrow::Borrow;
 
-use crate::{req::Requirement, Stat, util::statmap::StatMap};
-
+use crate::{Stat, req::Requirement, util::statmap::StatMap};
 
 // Utility for dealing with a group of reqs
 pub trait ReqVecExt {
-    fn map_names<F>(&mut self, f: F) 
+    fn map_names<F>(&mut self, f: F)
     where
         F: Fn(&str) -> String;
 }
@@ -16,9 +15,9 @@ impl ReqVecExt for Vec<Requirement> {
         F: Fn(&str) -> String,
     {
         for req in self.iter_mut() {
-            req.name = req.name.as_ref().map(|name| f(&name));
+            req.name = req.name.as_ref().map(|name| f(name));
 
-            req.prereqs = req.prereqs.iter().map(|name| f(&name)).collect();
+            req.prereqs = req.prereqs.iter().map(|name| f(name)).collect();
         }
     }
 }
@@ -32,7 +31,7 @@ pub trait ReqIterExt {
 impl<I> ReqIterExt for I
 where
     I: Iterator,
-    I::Item: Borrow<Requirement>, 
+    I::Item: Borrow<Requirement>,
 {
     fn max_map(self) -> StatMap {
         let mut maxes: StatMap = StatMap::new();

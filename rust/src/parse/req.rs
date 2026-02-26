@@ -1,8 +1,10 @@
-use crate::model::req::{Atom, Clause, Reducability, Requirement};
-use crate::error::{DeepError, Result };
+use std::collections::BTreeSet;
+
 use crate::Stat;
+use crate::error::{DeepError, Result};
+use crate::model::req::{Atom, Clause, Reducability, Requirement};
 use log::warn;
-use winnow::ascii::{alpha1, digit1, multispace0, Caseless};
+use winnow::ascii::{Caseless, alpha1, digit1, multispace0};
 use winnow::combinator::{alt, delimited, opt, preceded, repeat, separated};
 use winnow::prelude::*;
 use winnow::token::one_of;
@@ -29,7 +31,7 @@ use winnow::token::one_of;
 pub(crate) fn parse_req(input: &str) -> Result<Requirement> {
     let input = input.trim();
     requirement
-        .parse(&input)
+        .parse(input)
         .map_err(|e| DeepError::Req(e.to_string()))
 }
 
@@ -43,7 +45,7 @@ pub(crate) fn requirement(input: &mut &str) -> ModalResult<Requirement> {
     let mut req = bare_requirement.parse_next(input)?;
 
     if let Some((prereqs, name)) = prefix {
-        req.prereqs = prereqs;
+        req.prereqs = prereqs.into_iter().collect();
         req.name = name;
     }
 
@@ -83,17 +85,19 @@ pub(crate) fn identifier(input: &mut &str) -> ModalResult<String> {
 
 // requirement = '(' ')' | clause (',' clause)*
 fn bare_requirement(input: &mut &str) -> ModalResult<Requirement> {
-    let clauses: Vec<Clause> = alt((
+    let clauses = alt((
         // if () then its an empty req
         ('(', multispace0, ')').map(|_| Vec::new()),
         // Normal: 1+ clauses (clauses can have their own parens)
         separated(1.., clause, (multispace0, ',', multispace0)),
     ))
-    .parse_next(input)?;
+    .parse_next(input)?
+    .into_iter()
+    .collect::<BTreeSet<Clause>>();
 
     Ok(Requirement {
         name: None,
-        prereqs: Vec::new(),
+        prereqs: BTreeSet::new(),
         clauses,
     })
 }
@@ -150,7 +154,7 @@ struct ParsedAtom {
 
 impl ParsedAtom {
     fn into_atom(self, is_or: bool) -> Atom {
-        let reducability = self.reducability.unwrap_or_else(|| {
+        let reducability = self.reducability.unwrap_or({
             if is_or {
                 // OR clause atoms default to reducible
                 Reducability::Reducible
@@ -168,7 +172,7 @@ impl ParsedAtom {
                 "You have specified a strict SUM requirement, please note that \
                 strict SUM requirements' semantics are not properly defined currently. \
                 You probably don't need it anyways."
-            )
+            );
         }
 
         let mut atom = Atom::new(reducability).value(self.value);
@@ -314,7 +318,7 @@ mod tests {
         let req = parse_req("90 FTD").unwrap();
         assert_eq!(req.clauses.len(), 1);
 
-        let clause = &req.clauses[0];
+        let clause = req.clauses.iter().next().unwrap();
         assert_eq!(clause.clause_type, ClauseType::And);
         assert_eq!(clause.atoms.len(), 1);
 
@@ -339,31 +343,33 @@ mod tests {
 
         let parsed: Vec<Requirement> = variants
             .iter()
-            .map(|s| parse_req(s).expect(&format!("Failed to parse: {}", s)))
+            .map(|s| parse_req(s).unwrap_or_else(|_| panic!("Failed to parse: {s}")))
             .collect();
 
         // verify all parse successfully and are equal
         for (i, req) in parsed.iter().enumerate() {
-            assert_eq!(req.clauses.len(), 2, "variant {} should have 2 clauses", i);
+            assert_eq!(req.clauses.len(), 2, "variant {i} should have 2 clauses");
         }
 
         // all variants should be equal to each other
         for i in 1..parsed.len() {
-            assert_eq!(parsed[0], parsed[i], "variant 0 should equal variant {}", i);
+            assert_eq!(parsed[0], parsed[i], "variant 0 should equal variant {i}");
         }
 
         // verify structure of one of them (then they all are correct)
         let req = &parsed[0];
 
+        // these checks are completely identical so order doesn't matter
+        let mut clauses = req.clauses.iter();
         // first clause: 25 STR OR 25 AGL
-        let clause1 = &req.clauses[0];
-        assert_eq!(clause1.clause_type, ClauseType::Or);
-        assert_eq!(clause1.atoms.len(), 2);
+        let first_clause = clauses.next().unwrap();
+        assert_eq!(first_clause.clause_type, ClauseType::Or);
+        assert_eq!(first_clause.atoms.len(), 2);
 
         // second clause: 75 MED OR (LHT + MED + HVY = 90)
-        let clause2 = &req.clauses[1];
-        assert_eq!(clause2.clause_type, ClauseType::Or);
-        assert_eq!(clause2.atoms.len(), 2);
+        let second_clause = clauses.next().unwrap();
+        assert_eq!(second_clause.clause_type, ClauseType::Or);
+        assert_eq!(second_clause.atoms.len(), 2);
     }
 
     #[test]
@@ -389,30 +395,55 @@ mod tests {
     #[test]
     fn explicit_reducability() {
         let req = parse_req("25S STR").unwrap();
-        let atom = req.clauses[0].atoms.iter().next().unwrap();
+        let atom = req
+            .clauses
+            .iter()
+            .next()
+            .unwrap()
+            .atoms
+            .iter()
+            .next()
+            .unwrap();
         assert_eq!(atom.reducability, Reducability::Strict);
 
         let req = parse_req("25R STR").unwrap();
-        let atom = req.clauses[0].atoms.iter().next().unwrap();
+        let atom = req
+            .clauses
+            .iter()
+            .next()
+            .unwrap()
+            .atoms
+            .iter()
+            .next()
+            .unwrap();
         assert_eq!(atom.reducability, Reducability::Reducible);
 
         let req = parse_req("25S STR OR 25R AGL").unwrap();
-        assert_eq!(req.clauses[0].clause_type, ClauseType::Or);
+        assert_eq!(
+            req.clauses.iter().next().unwrap().clause_type,
+            ClauseType::Or
+        );
     }
 
     #[test]
     fn prereq_prefix_parsing() {
         let req = parse_req("base, armor => reinforced := 90 FTD").unwrap();
-        assert_eq!(req.prereqs, vec!["base", "armor"]);
+        assert_eq!(
+            req.prereqs,
+            BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+        );
         assert_eq!(req.name, Some("reinforced".to_string()));
         assert_eq!(req.clauses.len(), 1);
 
         let req = parse_req("base => 90 FTD").unwrap();
-        assert_eq!(req.prereqs, vec!["base"]);
+        assert_eq!(req.prereqs, BTreeSet::from(["base".to_owned()]));
         assert!(req.name.is_none());
 
         let req = parse_req("base, armor => 50 INT, 25 STR OR 25 AGL").unwrap();
-        assert_eq!(req.prereqs, vec!["base", "armor"]);
+        assert_eq!(
+            req.prereqs,
+            BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+        );
         assert_eq!(req.clauses.len(), 2);
     }
 

@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
 
 use crate::req::Requirement;
 
@@ -10,6 +10,7 @@ pub struct ReqTree {
 }
 
 impl ReqTree {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             reqs: HashMap::new(),
@@ -17,7 +18,7 @@ impl ReqTree {
         }
     }
 
-    /// Insert a requirement 
+    /// Insert a requirement
     pub fn insert(&mut self, req: Requirement) {
         let name = req.name_or_default();
 
@@ -31,20 +32,24 @@ impl ReqTree {
         self.reqs.insert(name, req);
     }
 
+    #[must_use]
     pub fn get(&self, name: &str) -> Option<&Requirement> {
         self.reqs.get(name)
     }
 
+    #[must_use]
     /// Retrieve direct prereqs as names
-    pub fn prereqs(&self, name: &str) -> Option<&[String]> {
-        self.reqs.get(name).map(|r| r.prereqs.as_slice())
+    pub fn prereqs(&self, name: &str) -> Option<&BTreeSet<String>> {
+        self.reqs.get(name).map(|r| &r.prereqs)
     }
 
+    #[must_use]
     /// Retrieve direct dependents as names
     pub fn dependents(&self, name: &str) -> Option<&HashSet<String>> {
         self.dependents.get(name)
     }
 
+    #[must_use]
     /// All transitive prereqs via BFS
     pub fn all_prereqs(&self, name: &str) -> HashSet<String> {
         let mut visited = HashSet::new();
@@ -55,16 +60,17 @@ impl ReqTree {
         }
 
         while let Some(current) = queue.pop_front() {
-            if visited.insert(current.clone()) {
-                if let Some(req) = self.reqs.get(&current) {
-                    queue.extend(req.prereqs.iter().cloned());
-                }
+            if visited.insert(current.clone())
+                && let Some(req) = self.reqs.get(&current)
+            {
+                queue.extend(req.prereqs.iter().cloned());
             }
         }
 
         visited
     }
 
+    #[must_use]
     /// All transitive dependents via BFS
     pub fn all_dependents(&self, name: &str) -> HashSet<String> {
         let mut visited = HashSet::new();
@@ -75,16 +81,17 @@ impl ReqTree {
         }
 
         while let Some(current) = queue.pop_front() {
-            if visited.insert(current.clone()) {
-                if let Some(deps) = self.dependents.get(&current) {
-                    queue.extend(deps.iter().cloned());
-                }
+            if visited.insert(current.clone())
+                && let Some(deps) = self.dependents.get(&current)
+            {
+                queue.extend(deps.iter().cloned());
             }
         }
 
         visited
     }
 
+    #[must_use]
     /// Check for any cycles (shoudl be invalid for deep anyways)
     pub fn find_cycle(&self) -> Option<Vec<String>> {
         let mut visited = HashSet::new();
@@ -92,12 +99,7 @@ impl ReqTree {
         let mut path = Vec::new();
 
         for name in self.reqs.keys() {
-            if let Some(cycle) = self.cycle_visit(
-                name, 
-                &mut visited, 
-                &mut stack, 
-                &mut path
-            ) {
+            if let Some(cycle) = self.cycle_visit(name, &mut visited, &mut stack, &mut path) {
                 return Some(cycle);
             }
         }
@@ -112,9 +114,8 @@ impl ReqTree {
         path: &mut Vec<String>,
     ) -> Option<Vec<String>> {
         if stack.contains(name) {
-            let idx = path.iter()
-                .position(|n| n == name).unwrap();
-            
+            let idx = path.iter().position(|n| n == name).unwrap();
+
             return Some(path[idx..].to_vec());
         }
         if visited.contains(name) {
@@ -127,12 +128,7 @@ impl ReqTree {
 
         if let Some(req) = self.reqs.get(name) {
             for prereq in &req.prereqs {
-                if let Some(cycle) = self.cycle_visit(
-                    prereq, 
-                    visited, 
-                    stack, 
-                    path
-                ) {
+                if let Some(cycle) = self.cycle_visit(prereq, visited, stack, path) {
                     return Some(cycle);
                 }
             }
@@ -141,5 +137,11 @@ impl ReqTree {
         stack.remove(name);
         path.pop();
         None
+    }
+}
+
+impl Default for ReqTree {
+    fn default() -> Self {
+        Self::new()
     }
 }

@@ -1,7 +1,10 @@
 use reqwest::header::{ACCEPT, USER_AGENT};
 use serde::Deserialize;
 
-use crate::{data::DeepData, error::{DeepError, Result}};
+use crate::{
+    data::DeepData,
+    error::{DeepError, Result},
+};
 
 #[derive(Debug, Deserialize)]
 pub struct GithubRelease {
@@ -20,18 +23,13 @@ impl DeepData {
     pub async fn latest_release() -> Result<GithubRelease> {
         const OWNER: &str = "pocamind";
         const REPO: &str = "data";
-        
+
         Self::latest_release_from(OWNER, REPO).await
     }
 
     /// Fetch the latest release from a fork
-    pub async fn latest_release_from(
-        owner: &str,
-        repo: &str
-    ) -> Result<GithubRelease> {
-        let url = format!(
-            "https://api.github.com/repos/{owner}/{repo}/releases/latest"
-        );
+    pub async fn latest_release_from(owner: &str, repo: &str) -> Result<GithubRelease> {
+        let url = format!("https://api.github.com/repos/{owner}/{repo}/releases/latest");
 
         let client = reqwest::Client::new();
 
@@ -67,11 +65,15 @@ impl DeepData {
 
             DeepData::from_json(&content)
         } else {
-            Err(
-                DeepError::FetchError(
-                    format!("Failed to find 'all.json', found files [{}] instead.", release.assets.iter().map(|a| a.name.clone()).collect::<Vec<String>>().join(", "))
-                )
-            )
+            Err(DeepError::FetchError(format!(
+                "Failed to find 'all.json', found files [{}] instead.",
+                release
+                    .assets
+                    .iter()
+                    .map(|a| a.name.clone())
+                    .collect::<Vec<String>>()
+                    .join(", ")
+            )))
         }
     }
 }

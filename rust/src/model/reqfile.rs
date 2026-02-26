@@ -12,7 +12,7 @@ pub struct Reqfile {
     pub general: Vec<Requirement>,
     pub post: Vec<Requirement>,
 
-    pub optional: Vec<OptionalGroup>
+    pub optional: Vec<OptionalGroup>,
 }
 
 impl Add for Reqfile {
@@ -44,6 +44,7 @@ impl Reqfile {
         crate::parse::reqfile::parse_reqfile(path)
     }
 
+    #[must_use]
     pub fn generate(&self) -> String {
         crate::parse::reqfile::gen_reqfile(self)
     }
@@ -59,7 +60,7 @@ impl FromStr for Reqfile {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         crate::parse::reqfile::parse_reqfile_str(s)
-            .map_err(|e| format!("Failed to parse requirement: {}", e))
+            .map_err(|e| format!("Failed to parse requirement: {e}"))
     }
 }
 

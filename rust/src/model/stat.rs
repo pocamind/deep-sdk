@@ -25,7 +25,7 @@ pub enum Stat {
     /// A stat representing the total cost of all stats, aka the 'Cost'
     /// Can and should be used to model power levels
     // NOTE! KEEP THIS LAST FOR  THE TEST
-    Total = 16
+    Total = 16,
 }
 
 pub const CORE: &[Stat] = &[
@@ -34,14 +34,10 @@ pub const CORE: &[Stat] = &[
     Stat::Agility,
     Stat::Intelligence,
     Stat::Willpower,
-    Stat::Charisma
+    Stat::Charisma,
 ];
 
-pub const WEAPON: &[Stat] = &[
-    Stat::HeavyWeapon,
-    Stat::MediumWeapon,
-    Stat::LightWeapon,
-];
+pub const WEAPON: &[Stat] = &[Stat::HeavyWeapon, Stat::MediumWeapon, Stat::LightWeapon];
 
 pub const ATTUNEMENT: &[Stat] = &[
     Stat::Flamecharm,
@@ -57,15 +53,20 @@ pub const MAX_TOTAL: i64 = 330;
 
 #[test]
 fn consts_form_partition() {
-    assert_eq!(CORE.len() + WEAPON.len() + ATTUNEMENT.len(), Stat::Total.as_u32() as usize);
+    assert_eq!(
+        CORE.len() + WEAPON.len() + ATTUNEMENT.len(),
+        Stat::Total.as_u32() as usize
+    );
 }
 
 impl Stat {
+    #[must_use]
     pub fn from_u32_unchecked(value: u32) -> Self {
         // LOL
         unsafe { std::mem::transmute(value) }
     }
-    
+
+    #[must_use]
     pub fn short_name(&self) -> &'static str {
         match self {
             Stat::Strength => "STR",
@@ -88,6 +89,7 @@ impl Stat {
         }
     }
 
+    #[must_use]
     pub fn name(&self) -> &'static str {
         match self {
             Stat::Strength => "Strength",
@@ -110,6 +112,7 @@ impl Stat {
         }
     }
 
+    #[must_use]
     pub fn from_name(name: &str) -> Option<Self> {
         let name = name.to_uppercase();
         match name.as_str() {
@@ -134,6 +137,7 @@ impl Stat {
         }
     }
 
+    #[must_use]
     pub fn from_short_name(short: &str) -> Option<Self> {
         let short = short.to_uppercase();
 
@@ -160,19 +164,26 @@ impl Stat {
         }
     }
 
+    #[must_use]
     pub const fn is_attunement(&self) -> bool {
-        match self {
-            Stat::Frostdraw | Stat::Flamecharm | Stat::Thundercall
-            | Stat::Galebreathe | Stat::Shadowcast | Stat::Ironsing
-            | Stat::Bloodrend => true,
-            _ => false,
-        }
+        matches!(
+            self,
+            Stat::Frostdraw
+                | Stat::Flamecharm
+                | Stat::Thundercall
+                | Stat::Galebreathe
+                | Stat::Shadowcast
+                | Stat::Ironsing
+                | Stat::Bloodrend
+        )
     }
 
+    #[must_use]
     pub const fn as_u32(self) -> u32 {
         self as u32
     }
 
+    #[must_use]
     pub const fn as_i64(self) -> i64 {
         self as i64
     }
@@ -219,6 +230,8 @@ impl TryFrom<u32> for Stat {
 impl TryFrom<i64> for Stat {
     type Error = &'static str;
 
+    #[allow(clippy::cast_sign_loss, reason = "value is checked to not be negative")]
+    #[allow(clippy::cast_possible_truncation, reason = "i64 to u32 is fine")]
     fn try_from(value: i64) -> Result<Self, Self::Error> {
         if value < 0 {
             return Err("Stat id cannot be negative");

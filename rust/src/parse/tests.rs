@@ -1,10 +1,10 @@
-use std::collections::HashSet;
+use std::collections::{BTreeSet, HashSet};
 
-use super::reqfile::{gen_reqfile        , parse_reqfile_str};
+use super::reqfile::{gen_reqfile, parse_reqfile_str};
 
 #[test]
 fn reqfile_prereqs() {
-    let content = r#"
+    let content = r"
         # base reqs
         base := 25 STR
         armor := 90 FTD
@@ -19,9 +19,9 @@ fn reqfile_prereqs() {
         upgraded := 75 WLL
 
         base, armor => 100 CHA
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_owned()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     assert_eq!(payload.general.len(), 5);
 
@@ -44,21 +44,27 @@ fn reqfile_prereqs() {
         .iter()
         .find(|r| r.name == Some("advanced".to_string()))
         .unwrap();
-    assert_eq!(advanced.prereqs, vec!["base"]);
+    assert_eq!(advanced.prereqs, BTreeSet::from(["base".to_owned()]));
     let upgraded = payload
         .general
         .iter()
         .find(|r| r.name == Some("upgraded".to_string()))
         .unwrap();
-    assert_eq!(upgraded.prereqs, vec!["base", "armor"]);
+    assert_eq!(
+        upgraded.prereqs,
+        BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+    );
 
     let anon = payload.general.iter().find(|r| r.name.is_none()).unwrap();
-    assert_eq!(anon.prereqs, vec!["base", "armor"]);
+    assert_eq!(
+        anon.prereqs,
+        BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+    );
 }
 
 #[test]
 fn reqfile_gen_no_optional() {
-    let content = r#"
+    let content = r"
         Free:
         crystal := 40 ice
         surge := 40 ltn
@@ -81,9 +87,9 @@ fn reqfile_gen_no_optional() {
         crystal, surge => fulgurite_formation
         battleaxe := ()
         ()
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
     let gen_content = gen_reqfile(&payload);
 
     let new_payload = parse_reqfile_str(&gen_content).expect(&gen_content);
@@ -102,17 +108,20 @@ fn reqfile_gen_no_optional() {
 
 #[test]
 fn optional_basic_parsing() {
-    let content = r#"
+    let content = r"
         Free:
         1; exoskeleton := 40 ftd
         neural_overload := 85 int
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // neural_overload should be in general (required)
     assert_eq!(payload.general.len(), 1);
-    let neural = payload.general.iter().find(|r| r.name == Some("neural_overload".to_string()));
+    let neural = payload
+        .general
+        .iter()
+        .find(|r| r.name == Some("neural_overload".to_string()));
     assert!(neural.is_some());
 
     // exoskeleton should be in an optional group
@@ -121,7 +130,10 @@ fn optional_basic_parsing() {
     assert_eq!(opt_group.weight, 1);
     assert_eq!(opt_group.general.len(), 1);
 
-    let exo = opt_group.general.iter().find(|r| r.name == Some("exoskeleton".to_string()));
+    let exo = opt_group
+        .general
+        .iter()
+        .find(|r| r.name == Some("exoskeleton".to_string()));
     assert!(exo.is_some());
 }
 
@@ -129,10 +141,12 @@ fn optional_basic_parsing() {
 fn optional_weight_range() {
     // weights 1-20 should all parse
     for w in 1..=20 {
-        let content = format!(r#"
+        let content = format!(
+            r"
             Free:
-            {}; some_req := 40 ftd
-            "#, w);
+            {w}; some_req := 40 ftd
+            "
+        );
 
         let payload = parse_reqfile_str(&content).unwrap();
         assert_eq!(payload.optional.len(), 1);
@@ -140,36 +154,36 @@ fn optional_weight_range() {
     }
 
     // weight 21 should fail
-    let content = r#"
+    let content = r"
         Free:
         21; some_req := 40 ftd
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 
     // weight 0 should fail
-    let content = r#"
+    let content = r"
         Free:
         0; some_req := 40 ftd
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 }
 
 #[test]
 fn optional_prereq_of_required_is_invalid() {
     // making a prereq optional when its dependent is required should error
-    let content = r#"
+    let content = r"
         Free:
         1; optional_prereq := 30 ftd
         required_dependent := 50 int
 
         optional_prereq => required_dependent
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 
     let err_msg = result.unwrap_err().to_string();
@@ -179,7 +193,7 @@ fn optional_prereq_of_required_is_invalid() {
 #[test]
 fn optional_prereqs_become_optional() {
     // prereqs of an optional req should be recursively marked optional
-    let content = r#"
+    let content = r"
         Free:
         p1 := 10 str
         p2 := 20 int
@@ -188,9 +202,9 @@ fn optional_prereqs_become_optional() {
         1; has_prereqs := 42 hvy
 
         p1, p2, p3 => has_prereqs
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // all reqs should be optional, none in general
     assert!(payload.general.is_empty());
@@ -202,7 +216,9 @@ fn optional_prereqs_become_optional() {
     assert_eq!(group.general.len(), 4);
 
     // verify all are present
-    let names: HashSet<_> = group.general.iter()
+    let names: HashSet<_> = group
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
     assert!(names.contains("p1"));
@@ -214,7 +230,7 @@ fn optional_prereqs_become_optional() {
 #[test]
 fn optional_force_required_directive() {
     // the + directive should force a prereq back to required
-    let content = r#"
+    let content = r"
         Free:
         p1 := 10 str
         + p2 := 20 int
@@ -223,13 +239,16 @@ fn optional_force_required_directive() {
         1; has_prereqs := 42 hvy
 
         p1, p2, p3 => has_prereqs
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // p2 should be required (in general), not optional
     assert_eq!(payload.general.len(), 1);
-    let p2 = payload.general.iter().find(|r| r.name == Some("p2".to_string()));
+    let p2 = payload
+        .general
+        .iter()
+        .find(|r| r.name == Some("p2".to_string()));
     assert!(p2.is_some());
 
     // the optional group should have p1, p3, and has_prereqs (not p2)
@@ -237,7 +256,9 @@ fn optional_force_required_directive() {
     let group = &payload.optional[0];
     assert_eq!(group.general.len(), 3);
 
-    let opt_names: HashSet<_> = group.general.iter()
+    let opt_names: HashSet<_> = group
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
     assert!(opt_names.contains("p1"));
@@ -249,15 +270,15 @@ fn optional_force_required_directive() {
 #[test]
 fn optional_inline_prereqs_syntax() {
     // the syntax `1; p1, p2 => 42 hvy` should work
-    let content = r#"
+    let content = r"
         Free:
         p1 := 10 str
         p2 := 20 int
 
         1; p1, p2 => 42 hvy
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // all should be in the optional group
     assert!(payload.general.is_empty());
@@ -271,15 +292,15 @@ fn optional_inline_prereqs_syntax() {
 #[test]
 fn optional_timing_respected() {
     // optional reqs should respect Free/Post timing
-    let content = r#"
+    let content = r"
         Free:
         1; free_opt := 40 ftd
 
         Post:
         2; post_opt := 50 int
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     assert_eq!(payload.optional.len(), 2);
 
@@ -297,15 +318,15 @@ fn optional_timing_respected() {
 #[test]
 fn optional_annotation_on_dependency_statement_errors() {
     // optional annotation must be at definition, not dependency statement
-    let content = r#"
+    let content = r"
         Free:
         prereq := 10 str
         dependent := 20 int
 
         1; prereq => dependent
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 
     let err_msg = result.unwrap_err().to_string();
@@ -315,7 +336,7 @@ fn optional_annotation_on_dependency_statement_errors() {
 #[test]
 fn optional_empty_req_with_prereqs() {
     // empty optional req with prereqs should work (golden_age pattern)
-    let content = r#"
+    let content = r"
         Free:
         scrapsinger := 35 mtl
         crystal := 40 ice
@@ -324,9 +345,9 @@ fn optional_empty_req_with_prereqs() {
         1; golden_age := ()
 
         scrapsinger, crystal, surge => golden_age
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     assert!(payload.general.is_empty());
     assert_eq!(payload.optional.len(), 1);
@@ -339,7 +360,7 @@ fn optional_empty_req_with_prereqs() {
 #[test]
 fn optional_transitive_prereqs() {
     // prereqs of prereqs should also become optional
-    let content = r#"
+    let content = r"
         Free:
         root := 10 str
         mid := 20 int
@@ -347,9 +368,9 @@ fn optional_transitive_prereqs() {
 
         root => mid
         mid => leaf
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // all should be optional
     assert!(payload.general.is_empty());
@@ -358,7 +379,9 @@ fn optional_transitive_prereqs() {
     let group = &payload.optional[0];
     assert_eq!(group.general.len(), 3);
 
-    let names: HashSet<_> = group.general.iter()
+    let names: HashSet<_> = group
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
     assert!(names.contains("root"));
@@ -369,7 +392,7 @@ fn optional_transitive_prereqs() {
 #[test]
 fn optional_force_required_transitive() {
     // force required should also force prereqs of that req to be required
-    let content = r#"
+    let content = r"
         Free:
         grandparent := 5 cha
         parent := 10 str
@@ -379,14 +402,16 @@ fn optional_force_required_transitive() {
         grandparent => parent
         parent => child
         child => grandchild
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // grandparent, parent, child should all be required
     assert_eq!(payload.general.len(), 3);
 
-    let req_names: HashSet<_> = payload.general.iter()
+    let req_names: HashSet<_> = payload
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
     assert!(req_names.contains("grandparent"));
@@ -398,7 +423,9 @@ fn optional_force_required_transitive() {
     let group = &payload.optional[0];
     assert_eq!(group.general.len(), 1);
 
-    let opt_names: HashSet<_> = group.general.iter()
+    let opt_names: HashSet<_> = group
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
     assert!(opt_names.contains("grandchild"));
@@ -408,7 +435,7 @@ fn optional_force_required_transitive() {
 fn optional_shared_prereq_duplicated() {
     // when two optional reqs share a prereq, the prereq should be
     // duplicated into both groups
-    let content = r#"
+    let content = r"
         Free:
         shared := 10 str
 
@@ -417,9 +444,9 @@ fn optional_shared_prereq_duplicated() {
 
         shared => opt_a
         shared => opt_b
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     // no required reqs
     assert!(payload.general.is_empty());
@@ -436,10 +463,14 @@ fn optional_shared_prereq_duplicated() {
     assert_eq!(group_b.general.len(), 2);
 
     // both groups should contain 'shared'
-    let names_a: HashSet<_> = group_a.general.iter()
+    let names_a: HashSet<_> = group_a
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
-    let names_b: HashSet<_> = group_b.general.iter()
+    let names_b: HashSet<_> = group_b
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
 
@@ -451,7 +482,7 @@ fn optional_shared_prereq_duplicated() {
 
 #[test]
 fn optional_shared_prereq() {
-    let content = r#"
+    let content = r"
         Free:
         root := 5 cha
         shared := 10 str
@@ -462,9 +493,9 @@ fn optional_shared_prereq() {
         root => shared
         shared => opt_a
         shared => opt_b
-        "#;
+        ";
 
-    let payload = parse_reqfile_str(&content.to_string()).unwrap();
+    let payload = parse_reqfile_str(content).unwrap();
 
     assert!(payload.general.is_empty());
     assert_eq!(payload.optional.len(), 2);
@@ -476,10 +507,14 @@ fn optional_shared_prereq() {
     assert_eq!(group_a.general.len(), 3);
     assert_eq!(group_b.general.len(), 3);
 
-    let names_a: HashSet<_> = group_a.general.iter()
+    let names_a: HashSet<_> = group_a
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
-    let names_b: HashSet<_> = group_b.general.iter()
+    let names_b: HashSet<_> = group_b
+        .general
+        .iter()
         .filter_map(|r| r.name.clone())
         .collect();
 
@@ -497,7 +532,7 @@ fn optional_shared_prereq() {
 
 #[test]
 fn invalid_dependence_cycle() {
-    let content = r#"
+    let content = r"
         Free:
         a := 10 str
         b := 20 int
@@ -506,9 +541,9 @@ fn invalid_dependence_cycle() {
         a => b
         b => c
         c => a
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 
     let Err(err) = result else { panic!() };
@@ -519,43 +554,42 @@ fn invalid_dependence_cycle() {
 #[test]
 fn invalid_dependence_cycle_2() {
     // cycle detection should work even with optional reqs
-    let content = r#"
+    let content = r"
         Free:
         1; a := 10 str
         b := 20 int
 
         a => b
         b => a
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 }
-
 
 #[test]
 fn invalid_annotations_on_deps() {
     // annotations on dependency statement (not definition) should error
-    let content = r#"
+    let content = r"
         Free:
         prereq := 10 str
         dependent := 20 int
 
         + prereq => dependent
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 
     // annotations on dependency statement (not definition) should error
-    let content = r#"
+    let content = r"
         Free:
         prereq := 10 str
         dependent := 20 int
 
         1 ; prereq => dependent
-        "#;
+        ";
 
-    let result = parse_reqfile_str(&content.to_string());
+    let result = parse_reqfile_str(content);
     assert!(result.is_err());
 }

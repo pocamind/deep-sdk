@@ -1,15 +1,15 @@
 use std::collections::HashSet;
 
-use crate::{req::Requirement, model::req::Timing};
+use crate::{model::req::Timing, req::Requirement};
 
 /// Represents a group of requirements that are optional, but will be
-/// either all acquired or all not 
+/// either all acquired or all not
 #[derive(Clone, Default, Debug)]
 pub struct OptionalGroup {
     pub general: HashSet<Requirement>,
     pub post: HashSet<Requirement>,
 
-    pub weight: i64
+    pub weight: i64,
 }
 
 impl OptionalGroup {
