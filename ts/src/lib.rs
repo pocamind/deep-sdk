@@ -4,7 +4,7 @@ use wasm_bindgen::prelude::*;
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
 use deepwoken_rs::util::statmap::StatMap;
-use deepwoken_rs::util::algos;
+use deepwoken_rs::util::{algos, name_to_identifier};
 
 #[wasm_bindgen(js_name = "DeepData")]
 pub struct JsDeepData {
@@ -145,5 +145,11 @@ impl JsStatMap {
 #[wasm_bindgen(js_name = "shrineOrderDwb")]
 pub fn shrine_order_dwb(pre: &JsStatMap, racial: &JsStatMap) -> JsStatMap {
     JsStatMap { inner: algos::shrine_order_dwb(&pre.inner, &racial.inner) }
+}
+
+/// Transforms the name of things ingame into an identifier/key used in the database
+#[wasm_bindgen(js_name = "nameToIdentifier")]
+pub fn js_name_to_identifier(name: &str) -> String {
+    name_to_identifier(name)
 }
 

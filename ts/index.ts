@@ -6,12 +6,14 @@ import type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
 // dynamically import wasm bc the server will try to load wasm regardless man
 let WasmDeepData: any;
 let WasmStatMap: any;
+let wasmNameToIdentifier: (name: string) => string;
 
 if (typeof window !== 'undefined') {
     const wasm = await import('./pkg/deepwoken.js');
     await wasm.default();
     WasmDeepData = wasm.DeepData;
     WasmStatMap = wasm.StatMap;
+    wasmNameToIdentifier = wasm.nameToIdentifier;
 }
 
 export class DeepData {
@@ -44,6 +46,11 @@ export class DeepData {
     weapons(): Weapon[] { return this._wasm.weapons(); }
     outfits(): Outfit[] { return this._wasm.outfits(); }
     aspects(): Aspect[] { return this._wasm.aspects(); }
+}
+
+/** Transforms the name of things ingame into a parsable identifier/key used in the database */
+export function nameToIdentifier(name: string): string {
+    return wasmNameToIdentifier(name);
 }
 
 export class StatMap {
