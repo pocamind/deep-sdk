@@ -100,6 +100,15 @@ impl DeepData {
         Ok(ret)
     }
 
+    /// Retrieve the raw JSON used to construct the data schema. 
+    /// 
+    /// We expose this functionality because the data schema may be
+    /// frequently updated, though it is a guarentee that the data must be
+    /// parsable into the current DeepData structure and it's strongly-typed definitions.
+    pub fn raw(&self) -> &String {
+        &self.raw
+    }
+
     /// Retrieve a talent by it's name.
     ///
     /// The passed in name can be it's in-game name, or the
