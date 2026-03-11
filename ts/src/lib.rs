@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
+use deepwoken_rs::model::req::Requirement;
 use deepwoken_rs::util::statmap::StatMap;
 use deepwoken_rs::util::{algos, name_to_identifier};
 
@@ -151,5 +152,54 @@ pub fn shrine_order_dwb(pre: &JsStatMap, racial: &JsStatMap) -> JsStatMap {
 #[wasm_bindgen(js_name = "nameToIdentifier")]
 pub fn js_name_to_identifier(name: &str) -> String {
     name_to_identifier(name)
+}
+
+#[wasm_bindgen(js_name = "Requirement")]
+pub struct JsRequirement {
+    inner: Requirement,
+}
+
+#[wasm_bindgen(js_class = "Requirement")]
+impl JsRequirement {
+    #[wasm_bindgen(constructor)]
+    pub fn new(input: &str) -> Result<JsRequirement, JsError> {
+        let req = Requirement::parse(input)
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        Ok(JsRequirement { inner: req })
+    }
+
+    #[wasm_bindgen(js_name = "satisfiedBy")]
+    pub fn satisfied_by(&self, stats: &JsStatMap) -> bool {
+        self.inner.satisfied_by(&stats.inner)
+    }
+
+    #[wasm_bindgen(js_name = "isEmpty")]
+    pub fn is_empty(&self) -> bool {
+        self.inner.is_empty()
+    }
+
+    #[wasm_bindgen(js_name = "usedStats")]
+    pub fn used_stats(&self) -> Result<JsValue, JsError> {
+        let stats: Vec<&str> = self.inner.used_stats().iter().map(Stat::name).collect();
+        to_js(&stats)
+    }
+
+    pub fn name(&self) -> Option<String> {
+        self.inner.name.clone()
+    }
+
+    pub fn prereqs(&self) -> Result<JsValue, JsError> {
+        let prereqs: Vec<&str> = self.inner.prereqs.iter().map(String::as_str).collect();
+        to_js(&prereqs)
+    }
+
+    pub fn clauses(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.clauses)
+    }
+
+    #[wasm_bindgen(js_name = "toString")]
+    pub fn to_string_js(&self) -> String {
+        self.inner.to_string()
+    }
 }
 

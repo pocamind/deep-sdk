@@ -5,7 +5,7 @@ use std::{
 
 use serde::{Deserialize, Serialize};
 
-use crate::{Stat, model::stat::MAX_TOTAL, util::algos};
+use crate::{Stat, model::stat::MAX_TOTAL, req::Requirement, util::algos};
 
 /// Wrapper around a `HashMap` of stats to their values
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -52,6 +52,11 @@ impl StatMap {
     #[must_use]
     pub fn shrine_order(&self, racial: &StatMap) -> StatMap {
         algos::shrine_order_dwb(self, racial)
+    }
+
+    #[must_use]
+    pub fn satisfies(&self, req: Requirement) -> bool {
+        req.satisfied_by(&self)
     }
 }
 

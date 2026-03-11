@@ -9,7 +9,8 @@ use serde::{Deserialize, Deserializer, Serialize, de};
 
 use crate::{Stat, error, util::statmap::StatMap};
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum Reducability {
     Reducible,
     Strict,
@@ -26,7 +27,7 @@ impl fmt::Display for Reducability {
 
 pub type StatSet = BTreeSet<Stat>;
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Atom {
     pub reducability: Reducability,
     pub value: i64,
@@ -133,13 +134,14 @@ impl fmt::Display for Atom {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum ClauseType {
     And,
     Or,
 }
 
-#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Clause {
     pub clause_type: ClauseType,
     pub atoms: BTreeSet<Atom>,
