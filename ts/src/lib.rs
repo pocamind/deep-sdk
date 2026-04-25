@@ -13,7 +13,7 @@ pub struct JsDeepData {
 }
 
 fn to_js<T: serde::Serialize>(value: &T) -> Result<JsValue, JsError> {
-    serde_wasm_bindgen::to_value(value)
+    value.serialize(&serde_wasm_bindgen::Serializer::new().serialize_maps_as_objects(true))
         .map_err(|e| JsError::new(&e.to_string()))
 }
 
