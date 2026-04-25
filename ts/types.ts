@@ -54,6 +54,7 @@ export interface Outfit {
 }
 
 export interface AspectVariantInfo {
+	name: string;
     unlock: string | null;
     colors: Record<string, string>;
 }
