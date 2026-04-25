@@ -53,8 +53,15 @@ export interface Outfit {
     notes: number;
 }
 
+export interface AspectVariantInfo {
+    unlock: string | null;
+    colors: Record<string, string>;
+}
+
 export interface Aspect {
     name: string;
+    desc: string;
     innate: Partial<Record<Stat, number>>;
     is_pathfinder: boolean;
+    variants: Record<string, AspectVariantInfo>;
 }

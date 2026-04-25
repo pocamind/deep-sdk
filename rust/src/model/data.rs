@@ -10,10 +10,19 @@ use crate::model::req::Requirement;
 use crate::util::name_to_identifier;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct AspectVariantInfo {
+    unlock: Option<String>,
+    /// All colors are in hexadecimal format #RRGGBB
+    colors: HashMap<String, String>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Aspect {
     pub name: String,
+    pub desc: String,
     pub innate: HashMap<Stat, i64>,
     pub is_pathfinder: bool,
+    pub variants: HashMap<String, AspectVariantInfo>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
