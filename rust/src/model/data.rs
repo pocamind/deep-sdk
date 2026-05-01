@@ -11,6 +11,7 @@ use crate::util::name_to_identifier;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AspectVariantInfo {
+    name: String,
     unlock: Option<String>,
     /// All colors are in hexadecimal format #RRGGBB
     colors: HashMap<String, String>,

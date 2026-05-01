@@ -5,20 +5,21 @@ export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 import type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
-// dynamically import wasm bc the server will try to load wasm regardless man
-let WasmDeepData: any;
-let WasmStatMap: any;
-let WasmRequirement: any;
-let wasmNameToIdentifier: (name: string) => string;
+const wasm = await import('./pkg/deepwoken.js');
 
-if (typeof window !== 'undefined') {
-    const wasm = await import('./pkg/deepwoken.js');
+if (typeof process !== 'undefined' && process.versions?.node) {
+    const { readFile } = await import('node:fs/promises');
+    const { fileURLToPath } = await import('node:url');
+    const wasmPath = fileURLToPath(new URL('./pkg/deepwoken_bg.wasm', import.meta.url));
+    await wasm.default(await readFile(wasmPath));
+} else {
     await wasm.default();
-    WasmDeepData = wasm.DeepData;
-    WasmStatMap = wasm.StatMap;
-    WasmRequirement = wasm.Requirement;
-    wasmNameToIdentifier = wasm.nameToIdentifier;
 }
+
+const WasmDeepData = wasm.DeepData;
+const WasmStatMap = wasm.StatMap;
+const WasmRequirement = wasm.Requirement;
+const wasmNameToIdentifier = wasm.nameToIdentifier;
 
 export class DeepData {
     private _wasm: any;
@@ -74,6 +75,11 @@ export class StatMap {
 
     get(stat: Stat): number { return this._wasm.get(stat); }
     set(stat: Stat, value: number) { this._wasm.set(stat, value); }
+    shrineOrder(racial: StatMap): StatMap {
+        const result = new StatMap();
+        result._wasm = this._wasm.shrineOrder(racial._wasm);
+        return result;
+    }
     toJSON(): Partial<Record<Stat, number>> { return this._wasm.toJSON(); }
 }
 
