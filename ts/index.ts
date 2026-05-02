@@ -9,8 +9,9 @@ const wasm = await import('./pkg/deepwoken.js');
 
 if (typeof process !== 'undefined' && process.versions?.node) {
     const { readFile } = await import('node:fs/promises');
-    const { fileURLToPath } = await import('node:url');
-    const wasmPath = fileURLToPath(new URL('./pkg/deepwoken_bg.wasm', import.meta.url));
+    const { createRequire } = await import('node:module');
+    const require = createRequire(import.meta.url);
+    const wasmPath = require.resolve('deepwoken/pkg/deepwoken_bg.wasm');
     await wasm.default(await readFile(wasmPath));
 } else {
     await wasm.default();
