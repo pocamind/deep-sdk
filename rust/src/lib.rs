@@ -6,4 +6,4 @@ pub mod model;
 pub mod parse;
 pub mod util;
 
-pub use model::{data, req, stat::Stat};
+pub use model::{data, enums, req, stat::Stat};

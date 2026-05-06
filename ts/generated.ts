@@ -5,3 +5,20 @@ export type Stat = "Strength" | "Fortitude" | "Agility" | "Intelligence" | "Will
 export const CORE_STATS: Stat[] = ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma"];
 export const WEAPON_STATS: Stat[] = ["Heavy", "Medium", "Light"];
 export const ATTUNEMENT_STATS: Stat[] = ["Flamecharm", "Frostdraw", "Thundercall", "Galebreathe", "Shadowcast", "Ironsing", "Bloodrend"];
+
+export type ItemRarity = "Common" | "Uncommon" | "Rare" | "Legendary" | "Mythical" | "Unique" | "Exclusive" | "Relic" | "Unknown" | "Named" | "Hallowtide" | "Spec";
+export const ITEM_RARITIES: ItemRarity[] = ["Common", "Uncommon", "Rare", "Legendary", "Mythical", "Unique", "Exclusive", "Relic", "Unknown", "Named", "Hallowtide", "Spec"];
+
+export type TalentRarity = "Common" | "Rare" | "Advanced" | "Faction" | "Innate" | "Memento" | "Murmur" | "Oath" | "Origin" | "Quest" | "Spec" | "Equipment" | "Outfit" | "Weapon";
+export const TALENT_RARITIES: TalentRarity[] = ["Common", "Rare", "Advanced", "Faction", "Innate", "Memento", "Murmur", "Oath", "Origin", "Quest", "Spec", "Equipment", "Outfit", "Weapon"];
+
+export type WeaponType = "Bow" | "Club" | "Dagger" | "Fist" | "Greataxe" | "Greatcannon" | "Greathammer" | "Greatsword" | "Parrying Dagger" | "Pistol" | "Rapier" | "Rifle" | "Shield" | "Spear" | "Spear / Rifle" | "Staff" | "Sword" | "Sword / Greatsword" | "Twinblade" | "Exclusive";
+export const WEAPON_TYPES: WeaponType[] = ["Bow", "Club", "Dagger", "Fist", "Greataxe", "Greatcannon", "Greathammer", "Greatsword", "Parrying Dagger", "Pistol", "Rapier", "Rifle", "Shield", "Spear", "Spear / Rifle", "Staff", "Sword", "Sword / Greatsword", "Twinblade", "Exclusive"];
+
+export type EquipmentSlot = "Arms" | "Earrings" | "Face" | "Head" | "Legs" | "Rings" | "Torso";
+export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["Arms", "Earrings", "Face", "Head", "Legs", "Rings", "Torso"];
+
+export type RangeType = "Sweep" | "Lunge";
+
+export type MantraType = "Normal" | "Oath" | "Origin" | "Event" | "Monster";
+

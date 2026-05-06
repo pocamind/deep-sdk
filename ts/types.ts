@@ -1,33 +1,61 @@
-export type { Stat } from './generated.js';
-export { CORE_STATS, WEAPON_STATS, ATTUNEMENT_STATS } from './generated.js';
+export type { Stat, ItemRarity, TalentRarity, WeaponType, EquipmentSlot, RangeType, MantraType } from './generated.js';
+export { CORE_STATS, WEAPON_STATS, ATTUNEMENT_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './generated.js';
 
-import type { Stat } from './generated.js';
+import type { Stat, ItemRarity, TalentRarity, WeaponType, EquipmentSlot, RangeType, MantraType } from './generated.js';
+
+export interface StatValue {
+    value: number;
+    percentage: boolean;
+}
 
 export interface Talent {
     name: string;
     desc: string;
-    rarity: string;
+    rarity: TalentRarity;
     category: string;
     reqs: string;
-    exclusive: string[];
-    innates: Record<string, number>;
-    not_counted_towards_total: boolean;
+    count_towards_talent_total: boolean;
     vaulted: boolean;
+    voi: boolean;
+    additional_info?: string;
+    icon?: string;
+    roll2able?: boolean;
 }
 
 export interface Weapon {
     name: string;
-    type: string;
-    damage_type: string;
+    type: WeaponType;
+    rarity: ItemRarity;
+    damage: number | null;
+    posture_damage: number | null;
+    range: number | null;
     reqs: string;
+    enchantable: boolean;
+    equip_motifs: boolean;
+    voi: boolean;
+    desc: string;
+    damage_types?: string[];
+    range_type?: RangeType;
+    attack_duration?: number;
+    endlag?: number | null;
+    swing_speed?: number;
+    scaling?: Record<string, number>;
+    bleed_damage?: number;
+    chip_damage?: number;
+    penetration?: number;
+    posture_max?: number;
+    posture_restoration?: number;
+}
+
+export interface MantraDamageLevel {
+    level: string;
     damage: number;
-    pen: number;
-    chip: number;
-    weight: number;
-    range: number;
-    speed: number;
-    endlag: number;
-    scaling: Record<string, number>;
+    posture_damage: number | null;
+}
+
+export interface MantraDamageVariant {
+    variant: string | null;
+    levels: MantraDamageLevel[];
 }
 
 export interface Mantra {
@@ -35,22 +63,32 @@ export interface Mantra {
     desc: string;
     stars: number;
     category: string;
-    type: string;
+    type: MantraType;
     attributes: string[];
     reqs: string;
     vaulted: boolean;
+    voi: boolean;
+    damage?: MantraDamageVariant[];
+    scaling?: Record<string, number>;
+    modifiers?: string[];
+    related_talents?: string[];
+    shared_cooldowns?: string[];
 }
 
 export interface Outfit {
     name: string;
-    category: string;
-    durability: number;
-    resistances: Record<string, number>;
-    extra_percents: Record<string, number>;
-    talent: string | null;
+    equippable: boolean;
+    type: EquipmentSlot;
+    rarity: ItemRarity;
+    set: string | null;
+    variants: string[];
+    talents: string[];
+    innates: Record<string, StatValue>;
+    pips: Record<string, number>;
     reqs: string;
-    mats: Record<string, number>;
-    notes: number;
+    media: string | null;
+    voi: boolean;
+    desc: string;
 }
 
 export interface AspectVariantInfo {

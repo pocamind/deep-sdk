@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::Stat;
 use crate::error::{DeepError, Result};
+use crate::model::enums::{EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType};
 use crate::model::req::Requirement;
 use crate::util::name_to_identifier;
 
@@ -27,48 +28,99 @@ pub struct Aspect {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct StatValue {
+    pub value: f64,
+    pub percentage: bool,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Outfit {
     pub name: String,
-    pub category: String,
-    pub durability: i64,
-    pub resistances: HashMap<String, f64>,
-    pub extra_percents: HashMap<String, i64>,
-    pub talent: Option<String>,
+    pub equippable: bool,
+    #[serde(rename = "type")]
+    pub outfit_type: EquipmentSlot,
+    pub rarity: ItemRarity,
+    pub set: Option<String>,
+    #[serde(default)]
+    pub variants: Vec<String>,
+    #[serde(default)]
+    pub talents: Vec<String>,
+    #[serde(default)]
+    pub innates: HashMap<String, StatValue>,
+    #[serde(default)]
+    pub pips: HashMap<String, i64>,
     pub reqs: Requirement,
-    pub mats: HashMap<String, i64>,
-    pub notes: i64,
+    pub voi: bool,
+    pub desc: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Talent {
     pub name: String,
     pub desc: String,
-    pub rarity: String,
+    pub rarity: TalentRarity,
     pub category: String,
     pub reqs: Requirement,
-    pub exclusive: Vec<String>,
-    pub innates: HashMap<String, i64>,
-    pub not_counted_towards_total: bool,
+    pub count_towards_talent_total: bool,
     pub vaulted: bool,
+    pub voi: bool,
+    #[serde(default)]
+    pub additional_info: Option<String>,
+    #[serde(default)]
+    pub icon: Option<String>,
+    #[serde(default)]
+    pub roll2able: Option<bool>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Weapon {
     pub name: String,
     #[serde(rename = "type")]
-    pub weapon_type: String,
-    pub damage_type: String,
+    pub weapon_type: WeaponType,
+    pub rarity: ItemRarity,
+    pub damage: Option<f64>,
+    pub posture_damage: Option<f64>,
+    pub range: Option<f64>,
     pub reqs: Requirement,
-    pub damage: f64,
-    pub pen: f64,
-    pub chip: f64,
-    pub weight: f64,
-    pub range: f64,
-    pub speed: f64,
-    pub endlag: f64,
-    /// Can contain stats as keys, can also contain
-    /// pseudo-stats like 'Mind'
+    pub enchantable: bool,
+    pub equip_motifs: bool,
+    pub voi: bool,
+    pub desc: String,
+    #[serde(default)]
+    pub damage_types: Vec<String>,
+    #[serde(default)]
+    pub range_type: Option<RangeType>,
+    #[serde(default)]
+    pub attack_duration: Option<f64>,
+    #[serde(default)]
+    pub endlag: Option<f64>,
+    #[serde(default)]
+    pub swing_speed: Option<f64>,
+    #[serde(default)]
     pub scaling: HashMap<String, f64>,
+    #[serde(default)]
+    pub bleed_damage: Option<f64>,
+    #[serde(default)]
+    pub chip_damage: Option<f64>,
+    #[serde(default)]
+    pub penetration: Option<f64>,
+    #[serde(default)]
+    pub posture_max: Option<f64>,
+    #[serde(default)]
+    pub posture_restoration: Option<f64>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct MantraDamageLevel {
+    pub level: String,
+    pub damage: f64,
+    pub posture_damage: Option<f64>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct MantraDamageVariant {
+    pub variant: Option<String>,
+    pub levels: Vec<MantraDamageLevel>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -78,10 +130,21 @@ pub struct Mantra {
     pub stars: i64,
     pub category: String,
     #[serde(rename = "type")]
-    pub mantra_type: String,
+    pub mantra_type: MantraType,
     pub attributes: Vec<String>,
     pub reqs: Requirement,
     pub vaulted: bool,
+    pub voi: bool,
+    #[serde(default)]
+    pub damage: Vec<MantraDamageVariant>,
+    #[serde(default)]
+    pub scaling: HashMap<String, f64>,
+    #[serde(default)]
+    pub modifiers: Vec<String>,
+    #[serde(default)]
+    pub related_talents: Vec<String>,
+    #[serde(default)]
+    pub shared_cooldowns: Vec<String>,
 }
 
 /// A struct mirroring the structure of the 'all.json'

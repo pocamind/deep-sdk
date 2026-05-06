@@ -1,5 +1,5 @@
-export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS } from './types.js';
-export type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
+export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
+export type { Aspect, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, RangeType, Stat, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
 import type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
