@@ -1,6 +1,6 @@
 {
     "name": "deepwoken",
-    "version": "0.2.91",
+    "version": "0.3.0",
     "type": "module",
     "main": "index.ts",
     "types": "index.ts",

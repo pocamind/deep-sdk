@@ -17,6 +17,8 @@ export interface Talent {
     count_towards_talent_total: boolean;
     vaulted: boolean;
     voi: boolean;
+    exclusive?: string[];
+    stats?: Record<string, number>;
     additional_info?: string;
     icon?: string;
     roll2able?: boolean;
@@ -45,6 +47,7 @@ export interface Weapon {
     penetration?: number;
     posture_max?: number;
     posture_restoration?: number;
+    talents?: string[];
 }
 
 export interface MantraDamageLevel {
@@ -71,11 +74,29 @@ export interface Mantra {
     damage?: MantraDamageVariant[];
     scaling?: Record<string, number>;
     modifiers?: string[];
+    sparks?: string[];
     related_talents?: string[];
     shared_cooldowns?: string[];
+    miscellaneous?: string;
 }
 
 export interface Outfit {
+    name: string;
+    pants_id: string | null;
+    shirt_id: string | null;
+    category: string;
+    durability: number;
+    resistances: Record<string, number>;
+    extra_percents: Record<string, number>;
+    talent: string | null;
+    reqs: string;
+    mats: Record<string, number>;
+    notes: number;
+    voi: boolean;
+    desc: string;
+}
+
+export interface Equipment {
     name: string;
     equippable: boolean;
     type: EquipmentSlot;
@@ -86,7 +107,6 @@ export interface Outfit {
     innates: Record<string, StatValue>;
     pips: Record<string, number>;
     reqs: string;
-    media: string | null;
     voi: boolean;
     desc: string;
 }
@@ -103,4 +123,6 @@ export interface Aspect {
     innate: Partial<Record<Stat, number>>;
     is_pathfinder: boolean;
     variants: Record<string, AspectVariantInfo>;
+    talent?: string[];
+    exclude_cosmetics?: string[];
 }

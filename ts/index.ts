@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { Aspect, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, RangeType, Stat, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
+export type { Aspect, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, RangeType, Stat, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { Aspect, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
+import type { Aspect, Equipment, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 const wasm = await import('./pkg/deepwoken.js');
@@ -45,12 +45,14 @@ export class DeepData {
     getMantra(name: string): Mantra | null { return this._wasm.getMantra(name); }
     getWeapon(name: string): Weapon | null { return this._wasm.getWeapon(name); }
     getOutfit(name: string): Outfit | null { return this._wasm.getOutfit(name); }
+    getEquipment(name: string): Equipment | null { return this._wasm.getEquipment(name); }
     getAspect(name: string): Aspect | null { return this._wasm.getAspect(name); }
 
     talents(): Talent[] { return this._wasm.talents(); }
     mantras(): Mantra[] { return this._wasm.mantras(); }
     weapons(): Weapon[] { return this._wasm.weapons(); }
     outfits(): Outfit[] { return this._wasm.outfits(); }
+    equipment(): Equipment[] { return this._wasm.equipment(); }
     aspects(): Aspect[] { return this._wasm.aspects(); }
 }
 

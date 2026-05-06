@@ -67,6 +67,11 @@ impl JsDeepData {
         to_js(&self.inner.get_outfit(name))
     }
 
+    #[wasm_bindgen(js_name = "getEquipment")]
+    pub fn get_equipment(&self, name: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.get_equipment(name))
+    }
+
     #[wasm_bindgen(js_name = "getAspect")]
     pub fn get_aspect(&self, name: &str) -> Result<JsValue, JsError> {
         to_js(&self.inner.get_aspect(name))
@@ -86,6 +91,10 @@ impl JsDeepData {
 
     pub fn outfits(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.outfits().collect::<Vec<_>>())
+    }
+
+    pub fn equipment(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.equipment().collect::<Vec<_>>())
     }
 
     pub fn aspects(&self) -> Result<JsValue, JsError> {

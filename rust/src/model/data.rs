@@ -25,6 +25,10 @@ pub struct Aspect {
     pub innate: HashMap<Stat, i64>,
     pub is_pathfinder: bool,
     pub variants: HashMap<String, AspectVariantInfo>,
+    #[serde(default)]
+    pub talent: Vec<String>,
+    #[serde(default)]
+    pub exclude_cosmetics: Vec<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -36,9 +40,29 @@ pub struct StatValue {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Outfit {
     pub name: String,
+    #[serde(default)]
+    pub pants_id: Option<String>,
+    #[serde(default)]
+    pub shirt_id: Option<String>,
+    pub category: String,
+    pub durability: i64,
+    pub resistances: HashMap<String, f64>,
+    pub extra_percents: HashMap<String, i64>,
+    pub talent: Option<String>,
+    pub reqs: Requirement,
+    pub mats: HashMap<String, i64>,
+    pub notes: i64,
+    #[serde(default)]
+    pub voi: bool,
+    pub desc: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Equipment {
+    pub name: String,
     pub equippable: bool,
     #[serde(rename = "type")]
-    pub outfit_type: EquipmentSlot,
+    pub equipment_type: EquipmentSlot,
     pub rarity: ItemRarity,
     pub set: Option<String>,
     #[serde(default)]
@@ -64,6 +88,10 @@ pub struct Talent {
     pub count_towards_talent_total: bool,
     pub vaulted: bool,
     pub voi: bool,
+    #[serde(default)]
+    pub exclusive: Vec<String>,
+    #[serde(default)]
+    pub stats: HashMap<String, f64>,
     #[serde(default)]
     pub additional_info: Option<String>,
     #[serde(default)]
@@ -108,6 +136,8 @@ pub struct Weapon {
     pub posture_max: Option<f64>,
     #[serde(default)]
     pub posture_restoration: Option<f64>,
+    #[serde(default)]
+    pub talents: Vec<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -142,9 +172,13 @@ pub struct Mantra {
     #[serde(default)]
     pub modifiers: Vec<String>,
     #[serde(default)]
+    pub sparks: Vec<String>,
+    #[serde(default)]
     pub related_talents: Vec<String>,
     #[serde(default)]
     pub shared_cooldowns: Vec<String>,
+    #[serde(default)]
+    pub miscellaneous: Option<String>,
 }
 
 /// A struct mirroring the structure of the 'all.json'
@@ -157,6 +191,7 @@ pub struct DeepData {
     mantras: HashMap<String, Mantra>,
     weapons: HashMap<String, Weapon>,
     outfits: HashMap<String, Outfit>,
+    equipment: HashMap<String, Equipment>,
 
     /// The raw json payload used to construct the object, which may be more up-to-date.
     /// The shape is guarenteed to have at least the fields that `DeepData` has.
@@ -218,6 +253,15 @@ impl DeepData {
         self.outfits.get(&name_to_identifier(name))
     }
 
+    /// Retrieve an equipment piece by it's name.
+    ///
+    /// The passed in name can be it's in-game name, or the
+    /// internal map key
+    #[must_use]
+    pub fn get_equipment(&self, name: &str) -> Option<&Equipment> {
+        self.equipment.get(&name_to_identifier(name))
+    }
+
     /// Retrieve an aspect by it's name.
     ///
     /// The passed in name can be it's in-game name, or the
@@ -242,12 +286,17 @@ impl DeepData {
         self.weapons.values()
     }
 
-    /// Retrieve an iterator of talents
+    /// Retrieve an iterator of outfits
     pub fn outfits(&self) -> impl Iterator<Item = &Outfit> {
         self.outfits.values()
     }
 
-    /// Retrieve an iterator of talents
+    /// Retrieve an iterator of equipment
+    pub fn equipment(&self) -> impl Iterator<Item = &Equipment> {
+        self.equipment.values()
+    }
+
+    /// Retrieve an iterator of aspects
     pub fn aspects(&self) -> impl Iterator<Item = &Aspect> {
         self.aspects.values()
     }
