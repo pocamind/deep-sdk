@@ -126,3 +126,11 @@ export interface Aspect {
     talent?: string[];
     exclude_cosmetics?: string[];
 }
+
+export interface Enchant {
+    name: string;
+    category: string;
+    info: string;
+    in_game_desc?: string;
+    obtainable_in?: string;
+}

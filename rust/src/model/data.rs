@@ -181,6 +181,17 @@ pub struct Mantra {
     pub miscellaneous: Option<String>,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Enchant {
+    pub name: String,
+    pub category: String,
+    pub info: String,
+    #[serde(default)]
+    pub in_game_desc: Option<String>,
+    #[serde(default)]
+    pub obtainable_in: Option<String>,
+}
+
 /// A struct mirroring the structure of the 'all.json'
 /// bundle found on [pocamind/data releases](https://github.com/pocamind/data/releases).
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -192,6 +203,7 @@ pub struct DeepData {
     weapons: HashMap<String, Weapon>,
     outfits: HashMap<String, Outfit>,
     equipment: HashMap<String, Equipment>,
+    enchants: HashMap<String, Enchant>,
 
     /// The raw json payload used to construct the object, which may be more up-to-date.
     /// The shape is guarenteed to have at least the fields that `DeepData` has.
@@ -271,6 +283,15 @@ impl DeepData {
         self.aspects.get(&name_to_identifier(name))
     }
 
+    /// Retrieve an enchant by it's name.
+    ///
+    /// The passed in name can be it's in-game name, or the
+    /// internal map key
+    #[must_use]
+    pub fn get_enchant(&self, name: &str) -> Option<&Enchant> {
+        self.enchants.get(&name_to_identifier(name))
+    }
+
     /// Retrieve an iterator of talents
     pub fn talents(&self) -> impl Iterator<Item = &Talent> {
         self.talents.values()
@@ -299,5 +320,10 @@ impl DeepData {
     /// Retrieve an iterator of aspects
     pub fn aspects(&self) -> impl Iterator<Item = &Aspect> {
         self.aspects.values()
+    }
+
+    /// Retrieve an iterator of enchants
+    pub fn enchants(&self) -> impl Iterator<Item = &Enchant> {
+        self.enchants.values()
     }
 }
