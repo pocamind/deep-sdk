@@ -1,6 +1,7 @@
 use std::collections::{BTreeSet, HashSet};
 
 use super::reqfile::{gen_reqfile, parse_reqfile_str};
+use crate::Stat;
 
 #[test]
 fn reqfile_prereqs() {
@@ -592,4 +593,115 @@ fn invalid_annotations_on_deps() {
 
     let result = parse_reqfile_str(content);
     assert!(result.is_err());
+}
+
+// === Range directive tests ===
+
+#[test]
+fn range_specifier_basic_parsing() {
+    let content = r"
+        Post:
+        5 <= INT <= 20
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+
+    assert_eq!(payload.post_ranges.len(), 1);
+    let range = &payload.post_ranges[0];
+    assert_eq!(range.stat, Stat::Intelligence);
+    // '<=' on both ends is inclusive; stored as the half-open 5..21
+    assert_eq!(range.range, 5..21);
+}
+
+#[test]
+fn range_specifier_operator_semantics() {
+    // '<=' is inclusive, '<' is exclusive, normalized into a half-open range
+    let cases = [
+        ("5 <= INT <= 20", Stat::Intelligence, 5..21),
+        ("5 < STR < 20", Stat::Strength, 6..20),
+        ("10 <= AGL < 30", Stat::Agility, 10..30),
+        ("10 < FTD <= 30", Stat::Fortitude, 11..31),
+    ];
+
+    for (line, stat, expected) in cases {
+        let content = format!("Post:\n{line}");
+        let payload = parse_reqfile_str(&content).unwrap_or_else(|_| panic!("failed to parse: {line}"));
+        assert_eq!(payload.post_ranges.len(), 1, "{line}");
+        assert_eq!(payload.post_ranges[0].stat, stat, "{line}");
+        assert_eq!(payload.post_ranges[0].range, expected, "{line}");
+    }
+}
+
+#[test]
+fn range_specifier_only_post() {
+    // range directives are not allowed in the Free stage (for now)
+    let content = r"
+        Free:
+        5 <= INT <= 20
+        ";
+
+    let result = parse_reqfile_str(content);
+    assert!(result.is_err());
+}
+
+#[test]
+fn range_specifier_duplicate_stat_errors() {
+    // the same stat may only be constrained once per stage
+    let content = r"
+        Post:
+        5 <= INT <= 20
+        8 <= INT <= 40
+        ";
+
+    let result = parse_reqfile_str(content);
+    assert!(result.is_err());
+}
+
+#[test]
+fn range_specifier_distinct_stats_ok() {
+    let content = r"
+        Post:
+        5 <= INT <= 20
+        3 <= STR <= 10
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+    assert_eq!(payload.post_ranges.len(), 2);
+}
+
+#[test]
+fn range_specifier_inverted_errors() {
+    // lower bound must be below the upper bound
+    let content = r"
+        Post:
+        20 <= INT <= 5
+        ";
+    assert!(parse_reqfile_str(content).is_err());
+
+    // '<' on both ends of adjacent numbers is empty
+    let content = r"
+        Post:
+        5 < INT < 6
+        ";
+    assert!(parse_reqfile_str(content).is_err());
+}
+
+#[test]
+fn range_specifier_coexists_with_reqs() {
+    // range directives live alongside regular Post requirements
+    let content = r"
+        Free:
+        crystal := 40 ice
+
+        Post:
+        75r hvy
+        5 <= INT <= 20
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+
+    assert_eq!(payload.general.len(), 1);
+    assert_eq!(payload.post.len(), 1);
+    assert_eq!(payload.post_ranges.len(), 1);
+    assert_eq!(payload.post_ranges[0].stat, Stat::Intelligence);
 }

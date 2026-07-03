@@ -4,13 +4,15 @@ use serde::{Deserialize, Deserializer, de};
 
 use std::path::Path;
 
-use crate::{error, model::opt::OptionalGroup, model::req::Requirement};
+use crate::{error, model::opt::OptionalGroup, model::req::Requirement, model::stat::StatRange};
 
 /// The parsed representation of a reqfile
+/// TODO! make preshrine timing points sometimes
 #[derive(Clone, Debug)]
 pub struct Reqfile {
     pub general: Vec<Requirement>,
     pub post: Vec<Requirement>,
+    pub post_ranges: Vec<StatRange>,
 
     pub optional: Vec<OptionalGroup>,
 }
@@ -22,6 +24,7 @@ impl Add for Reqfile {
         Self {
             general: self.general.iter().chain(rhs.general.iter()).cloned().collect(),
             post: self.post.iter().chain(rhs.post.iter()).cloned().collect(),
+            post_ranges: self.post_ranges.iter().chain(rhs.post_ranges.iter()).cloned().collect(),
             optional: self.optional.iter().chain(rhs.optional.iter()).cloned().collect(),
         }
     }
@@ -31,6 +34,7 @@ impl AddAssign for Reqfile {
     fn add_assign(&mut self, rhs: Self) {
         self.general.extend(rhs.general);
         self.post.extend(rhs.post);
+        self.post_ranges.extend(rhs.post_ranges);
         self.optional.extend(rhs.optional);
     }
 }
