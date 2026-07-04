@@ -225,6 +225,13 @@ impl DeepData {
         Ok(ret)
     }
 
+    /// Retrieve Deepwoken data that was bundled with this release. This may be severely out of date and should not be relied on for up-to-date info, prefer DeepData::latest_release + from_release instead.
+    #[cfg(feature = "static")]
+    pub fn bundled() -> DeepData {
+        DeepData::from_json(include_str!("../../assets/all.json"))
+            .expect("bundled all.json failed to parse")
+    }
+
     /// Retrieve the raw JSON used to construct the data schema. 
     /// 
     /// We expose this functionality because the data schema may be

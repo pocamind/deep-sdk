@@ -8,7 +8,7 @@ use serde::{Deserialize, Deserializer, de};
 
 use std::path::Path;
 
-use crate::{error, model::opt::OptionalGroup, model::req::Requirement};
+use crate::{error, model::data::DeepData, model::opt::OptionalGroup, model::req::Requirement};
 
 /// The parsed representation of a reqfile
 #[derive(Clone, Debug)]
@@ -57,6 +57,14 @@ impl AddAssign for Reqfile {
 impl Reqfile {
     pub fn parse_str(content: &str) -> error::Result<Self> {
         crate::parse::reqfile::parse_reqfile_str(content)
+    }
+
+    pub fn resolve_implicit(&mut self, data: &DeepData) {
+        for talent in data.talents().filter(|t| t.implicit) {
+            if let Some(name) = talent.reqs.name.clone() {
+                self.implicit.insert(name, talent.reqs.clone());
+            }
+        }
     }
 
     pub fn from_file(path: &Path) -> error::Result<Self> {
