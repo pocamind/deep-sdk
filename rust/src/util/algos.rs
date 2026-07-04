@@ -166,6 +166,7 @@ pub struct BuildConfig {
     pub talents: Vec<String>,
     pub mantras: Vec<String>,
     pub weapons: Vec<String>,
+    pub equipment: Vec<String>,
     pub outfit: Option<String>,
     pub required_postshrine: Option<StatMap>,
     pub required_mantra_levels: Option<StatMap>,
@@ -269,6 +270,16 @@ impl BuildConfig {
                     .reqs
                     .clone(),
             );
+        }
+
+        for name in &self.equipment {
+            let equipment = data
+                .get_equipment(name)
+                .ok_or(DeepError::ReqfileBuild(format!(
+                    "Equipment {name} not found in database"
+                )))?;
+
+            ret.general.push(equipment.reqs.clone());
         }
 
         if let Some(required_post) = &self.required_postshrine {
