@@ -7,7 +7,7 @@ use crate::model::stat::StatRange;
 use crate::util::reqtree::ReqTree;
 use crate::util::traits::ReqVecExt;
 use std::collections::{HashMap, HashSet};
-use std::ops::Range;
+use std::ops::RangeInclusive;
 use std::path::Path;
 use winnow::ascii::{digit1, multispace0};
 use winnow::combinator::{alt, eof, separated};
@@ -35,9 +35,13 @@ enum ReqfileLine {
     /// and assigns n as the weight. Recursively marks all prereqs as optional and ties their obtainment
     /// to each other.  
     Optional { base: BaseReqfileLine, weight: i64 },
-    /// A line of the form 'n [OP] STAT [OP] m', where [OP] can be one of '<' or '<='.
-    /// Used to specify a range of stats for post-shrine stat stages (OINLY POST FOR NOW)
-    RangeSpecifier { stat: Stat, range: Range<u32> }
+    /// A line of the form 'n <= STAT <= m'
+    /// Used to specify a range of stats for the final stat stage (OINLY FINAL SUPPORTED FOR NOW,
+    /// maybe preshrine soon)
+    RangeSpecifier {
+        stat: Stat,
+        range: RangeInclusive<u32>,
+    },
 }
 
 impl ReqfileLine {
@@ -101,21 +105,18 @@ fn force_required_line(input: &mut &str) -> ModalResult<ReqfileLine> {
     Ok(ReqfileLine::ForceRequired(base))
 }
 
-// range_specifier = number range_op stat range_op number eof
-// range_op = '<=' | '<'
-// '<=' is inclusive and '<' is exclusive; both ends are normalized into the
-// half-open Range<u32> [start, end).
+// range_specifier = number "<=" stat "<=" number eof
 fn range_specifier(input: &mut &str) -> ModalResult<ReqfileLine> {
     let lower = range_bound.parse_next(input)?;
 
     let _ = multispace0.parse_next(input)?;
-    let lower_inclusive = range_op.parse_next(input)?;
+    let _ = "<=".parse_next(input)?;
     let _ = multispace0.parse_next(input)?;
 
     let s = stat.parse_next(input)?;
 
     let _ = multispace0.parse_next(input)?;
-    let upper_inclusive = range_op.parse_next(input)?;
+    let _ = "<=".parse_next(input)?;
     let _ = multispace0.parse_next(input)?;
 
     let upper = range_bound.parse_next(input)?;
@@ -123,18 +124,10 @@ fn range_specifier(input: &mut &str) -> ModalResult<ReqfileLine> {
     let _ = multispace0.parse_next(input)?;
     eof.parse_next(input)?;
 
-    let start = if lower_inclusive { lower } else { lower + 1 };
-    let end = if upper_inclusive { upper + 1 } else { upper };
-
     Ok(ReqfileLine::RangeSpecifier {
         stat: s,
-        range: start..end,
+        range: lower..=upper,
     })
-}
-
-// range_op = '<=' | '<', returns true when inclusive ('<=')
-fn range_op(input: &mut &str) -> ModalResult<bool> {
-    alt(("<=".map(|_| true), "<".map(|_| false))).parse_next(input)
 }
 
 fn range_bound(input: &mut &str) -> ModalResult<u32> {
@@ -250,17 +243,20 @@ fn validate_no_ambiguous_anonymous(lines: &[ParsedLine]) -> Result<()> {
                 continue;
             }
 
-            let other_anon = lines.iter().filter_map(|line| line.rf_line.base()).find(|other| {
-                if let BaseReqfileLine::Requirement(other_req) = other {
-                    other_req.name.is_none()
+            let other_anon = lines
+                .iter()
+                .filter_map(|line| line.rf_line.base())
+                .find(|other| {
+                    if let BaseReqfileLine::Requirement(other_req) = other {
+                        other_req.name.is_none()
                     && other_req.name_or_default() == req.name_or_default()
                     // if any one of them has prereqs, we want to raise this err
                     && (!other_req.prereqs.is_empty() || !req.prereqs.is_empty())
                     && other_req != req
-                } else {
-                    false
-                }
-            });
+                    } else {
+                        false
+                    }
+                });
 
             if other_anon.is_some() {
                 return Err(DeepError::Reqfile {
@@ -481,12 +477,12 @@ fn build_post_ranges(lines: &[ParsedLine]) -> Result<Vec<StatRange>> {
                 });
             }
 
-            if range.start >= range.end {
+            if range.start() > range.end() {
                 return Err(DeepError::Reqfile {
                     line: line.line_num,
                     message: format!(
-                        "Range directive for '{}' is empty. The lower bound must be \
-                        less than the upper bound.",
+                        "Range directive for '{}' is inverted. The lower bound must not \
+                        exceed the upper bound.",
                         stat.name()
                     ),
                 });
@@ -495,7 +491,10 @@ fn build_post_ranges(lines: &[ParsedLine]) -> Result<Vec<StatRange>> {
             if !seen.insert(*stat) {
                 return Err(DeepError::Reqfile {
                     line: line.line_num,
-                    message: format!("'{}' already has a range directive in this stage.", stat.name()),
+                    message: format!(
+                        "'{}' already has a range directive in this stage.",
+                        stat.name()
+                    ),
                 });
             }
 

@@ -609,27 +609,29 @@ fn range_specifier_basic_parsing() {
     assert_eq!(payload.post_ranges.len(), 1);
     let range = &payload.post_ranges[0];
     assert_eq!(range.stat, Stat::Intelligence);
-    // '<=' on both ends is inclusive; stored as the half-open 5..21
-    assert_eq!(range.range, 5..21);
+    // both bounds are inclusive, stored verbatim
+    assert_eq!(range.range, 5..=20);
 }
 
 #[test]
-fn range_specifier_operator_semantics() {
-    // '<=' is inclusive, '<' is exclusive, normalized into a half-open range
+fn range_specifier_inclusive_bounds() {
     let cases = [
-        ("5 <= INT <= 20", Stat::Intelligence, 5..21),
-        ("5 < STR < 20", Stat::Strength, 6..20),
-        ("10 <= AGL < 30", Stat::Agility, 10..30),
-        ("10 < FTD <= 30", Stat::Fortitude, 11..31),
+        ("5 <= INT <= 20", Stat::Intelligence, 5..=20),
+        ("10 <= AGL <= 30", Stat::Agility, 10..=30),
+        ("42 <= FTD <= 42", Stat::Fortitude, 42..=42),
     ];
 
     for (line, stat, expected) in cases {
         let content = format!("Post:\n{line}");
-        let payload = parse_reqfile_str(&content).unwrap_or_else(|_| panic!("failed to parse: {line}"));
+        let payload =
+            parse_reqfile_str(&content).unwrap_or_else(|_| panic!("failed to parse: {line}"));
         assert_eq!(payload.post_ranges.len(), 1, "{line}");
         assert_eq!(payload.post_ranges[0].stat, stat, "{line}");
         assert_eq!(payload.post_ranges[0].range, expected, "{line}");
     }
+
+    // exclusive '<' operator is not supported haha
+    assert!(parse_reqfile_str("Post:\n5 < INT < 20").is_err());
 }
 
 #[test]
@@ -671,17 +673,10 @@ fn range_specifier_distinct_stats_ok() {
 
 #[test]
 fn range_specifier_inverted_errors() {
-    // lower bound must be below the upper bound
+    // the lower bound must not exceed the upper bound
     let content = r"
         Post:
         20 <= INT <= 5
-        ";
-    assert!(parse_reqfile_str(content).is_err());
-
-    // '<' on both ends of adjacent numbers is empty
-    let content = r"
-        Post:
-        5 < INT < 6
         ";
     assert!(parse_reqfile_str(content).is_err());
 }

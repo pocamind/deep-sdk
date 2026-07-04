@@ -1,4 +1,4 @@
-use std::{fmt, ops::Range};
+use std::{fmt, ops::RangeInclusive};
 use std::str::FromStr;
 
 use serde::{Deserialize, Deserializer, Serialize, de};
@@ -291,5 +291,6 @@ impl Serialize for Stat {
 #[derive(Clone, Debug)]
 pub struct StatRange {
     pub stat: Stat,
-    pub range: Range<u32>
+    /// Inclusive on both ends: the stat's post value must lie within `[start, end]`.
+    pub range: RangeInclusive<u32>
 }

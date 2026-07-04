@@ -10,7 +10,7 @@ use crate::{
     util::statmap::StatMap,
 };
 
-use std::{collections::{BTreeSet, HashMap, HashSet}, ops::Range};
+use std::{collections::{BTreeSet, HashMap, HashSet}, ops::RangeInclusive};
 
 #[must_use]
 #[allow(
@@ -178,7 +178,7 @@ pub struct BuildConfig {
     pub required_mantra_levels: Option<StatMap>,
     pub race: Option<String>,
 
-    pub post_ranges: HashMap<Stat, Range<u32>>,
+    pub post_ranges: HashMap<Stat, RangeInclusive<u32>>,
 
     /// Use optional reqfiles (don't expose the optional req api yet)
     pub use_presets: Vec<Reqfile>,
