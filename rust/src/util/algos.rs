@@ -174,7 +174,6 @@ pub struct BuildConfig {
     pub weapons: Vec<String>,
     pub equipment: Vec<String>,
     pub outfit: Option<String>,
-    pub required_postshrine: Option<StatMap>,
     pub required_mantra_levels: Option<StatMap>,
     pub race: Option<String>,
 
@@ -303,23 +302,6 @@ impl BuildConfig {
                 )))?;
 
             ret.general.push(equipment.reqs.clone());
-        }
-
-        if let Some(required_post) = &self.required_postshrine {
-            let mut clause = Clause::new(ClauseType::And);
-            for (stat, val) in &required_post.0 {
-                if *val == 0 {
-                    continue;
-                }
-
-                clause.add_atom(Atom::strict().stat(*stat).value(*val));
-            }
-
-            let mut req = Requirement::from(clause);
-
-            req.name = Some("postshrine_stats".into());
-
-            ret.post.push(req);
         }
 
         if let Some(mantra_levels) = &self.required_mantra_levels {
