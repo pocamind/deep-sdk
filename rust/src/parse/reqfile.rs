@@ -240,15 +240,9 @@ fn resolve_dependencies(lines: &mut [ParsedLine], index: &ReqfileIndex) -> Resul
     for (prereqs, name, line_num) in &index.dependency_statements {
         match index.named.get(name) {
             Some(vec_idx) => {
-                for prereq in prereqs {
-                    if !index.named.contains_key(prereq) {
-                        return Err(DeepError::Reqfile {
-                            line: *line_num as usize,
-                            message: format!("Prerequisite: no variable named '{name}'."),
-                        });
-                    }
-                }
-
+                // prereqs that don't resolve to an in-file req aren't a parse error since they may be
+                // implicit talents (resolved from game data), which parsing is deliberately unaware of. actual
+                // missing prereq errors are caught at solve-time.
                 let line = &mut lines[*vec_idx];
 
                 let base: &mut BaseReqfileLine = line.rf_line.base_mut();
@@ -449,6 +443,7 @@ fn validate_and_transform(mut lines: Vec<ParsedLine>) -> Result<Reqfile> {
         general,
         post,
         optional,
+        implicit: HashMap::new(),
     })
 }
 

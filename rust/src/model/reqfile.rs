@@ -1,4 +1,8 @@
-use std::{ops::{Add, AddAssign}, str::FromStr};
+use std::{
+    collections::HashMap,
+    ops::{Add, AddAssign},
+    str::FromStr,
+};
 
 use serde::{Deserialize, Deserializer, de};
 
@@ -13,6 +17,9 @@ pub struct Reqfile {
     pub post: Vec<Requirement>,
 
     pub optional: Vec<OptionalGroup>,
+
+    /// Implicit talent reqs, keyed by identifier.
+    pub implicit: HashMap<String, Requirement>,
 }
 
 impl Add for Reqfile {
@@ -20,9 +27,20 @@ impl Add for Reqfile {
 
     fn add(self, rhs: Self) -> Self::Output {
         Self {
-            general: self.general.iter().chain(rhs.general.iter()).cloned().collect(),
+            general: self
+                .general
+                .iter()
+                .chain(rhs.general.iter())
+                .cloned()
+                .collect(),
             post: self.post.iter().chain(rhs.post.iter()).cloned().collect(),
-            optional: self.optional.iter().chain(rhs.optional.iter()).cloned().collect(),
+            optional: self
+                .optional
+                .iter()
+                .chain(rhs.optional.iter())
+                .cloned()
+                .collect(),
+            implicit: self.implicit.into_iter().chain(rhs.implicit).collect(),
         }
     }
 }
@@ -32,6 +50,7 @@ impl AddAssign for Reqfile {
         self.general.extend(rhs.general);
         self.post.extend(rhs.post);
         self.optional.extend(rhs.optional);
+        self.implicit.extend(rhs.implicit);
     }
 }
 

@@ -7,6 +7,7 @@ use crate::{
     model::reqfile::Reqfile,
     req::{Atom, Clause, ClauseType, Reducability, Requirement},
     util::statmap::StatMap,
+    util::traits::ReqIterExt,
 };
 
 use std::collections::{BTreeSet, HashMap, HashSet};
@@ -181,6 +182,7 @@ impl BuildConfig {
             general: vec![],
             post: vec![],
             optional: vec![],
+            implicit: HashMap::new(),
         };
 
         for name in &self.talents {
@@ -189,6 +191,12 @@ impl BuildConfig {
                 .ok_or(DeepError::ReqfileBuild(format!(
                     "Talent {name} not found in database"
                 )))?;
+
+            // implicit talents (attunement milestones) are derived, not chosen; they ride in
+            // ret.implicit instead of being pushed as normal reqs
+            if talent.implicit {
+                continue;
+            }
 
             ret.general.push(talent.reqs.clone());
         }
@@ -305,6 +313,30 @@ impl BuildConfig {
         for preset in self.use_presets.clone() {
             ret += preset;
         }
+
+        let mut implicit: HashMap<String, Requirement> = HashMap::new();
+
+        for talent in ret.req_iter().max_map().implicit_talents(data) {
+            if let Some(name) = talent.reqs.name.clone() {
+                implicit.insert(name, talent.reqs.clone());
+            }
+        }
+
+        let prereqs: Vec<String> = ret
+            .req_iter()
+            .flat_map(|r| r.prereqs.iter().cloned())
+            .collect();
+
+        for prereq in &prereqs {
+            if let Some(talent) = data.get_talent(prereq)
+                && talent.implicit
+                && let Some(name) = talent.reqs.name.clone()
+            {
+                implicit.insert(name, talent.reqs.clone());
+            }
+        }
+
+        ret.implicit.extend(implicit);
 
         Ok(ret)
     }

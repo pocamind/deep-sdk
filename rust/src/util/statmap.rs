@@ -5,7 +5,13 @@ use std::{
 
 use serde::{Deserialize, Serialize};
 
-use crate::{Stat, model::stat::MAX_TOTAL, req::Requirement, util::algos};
+use crate::{
+    Stat,
+    model::data::{DeepData, Talent},
+    model::stat::MAX_TOTAL,
+    req::Requirement,
+    util::algos,
+};
 
 /// Wrapper around a `HashMap` of stats to their values
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -57,6 +63,20 @@ impl StatMap {
     #[must_use]
     pub fn satisfies(&self, req: Requirement) -> bool {
         req.satisfied_by(&self)
+    }
+
+    /// Returns the implicit talents granted by this stat map.
+    ///
+    /// Implicit talents are flagged `implicit` in the source data. They are granted automatically
+    /// when meeting some requirement, removed when using the SoO to go below the stat reqs, and
+    /// they gate usage of the SoM.
+    #[must_use]
+    pub fn implicit_talents(&self, data: &DeepData) -> Vec<Talent> {
+        data.talents()
+            .filter(|t| t.implicit)
+            .filter(|t| t.reqs.satisfied_by(self))
+            .cloned()
+            .collect()
     }
 }
 

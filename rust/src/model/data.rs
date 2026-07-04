@@ -88,6 +88,11 @@ pub struct Talent {
     pub count_towards_talent_total: bool,
     pub vaulted: bool,
     pub voi: bool,
+    /// Whether this talent is implicitly granted as a byproduct of meeting its
+    /// stat requirements (e.g. attunement milestones like Adept/Master), rather
+    /// than chosen. Absent in the data unless true.
+    #[serde(default)]
+    pub implicit: bool,
     #[serde(default)]
     pub exclusive: Vec<String>,
     #[serde(default)]

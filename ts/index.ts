@@ -23,7 +23,8 @@ const WasmRequirement = wasm.Requirement;
 const wasmNameToIdentifier = wasm.nameToIdentifier;
 
 export class DeepData {
-    private _wasm: any;
+    /** @internal */
+    _wasm: any;
 
     private constructor(wasm: any) {
         this._wasm = wasm;
@@ -86,6 +87,9 @@ export class StatMap {
         return result;
     }
     toJSON(): Partial<Record<Stat, number>> { return this._wasm.toJSON(); }
+
+    /** The implicit talents (attunement milestones for now) granted by this stat map */
+    implicitTalents(data: DeepData): Talent[] { return this._wasm.implicitTalents(data._wasm); }
 }
 
 export class Requirement {

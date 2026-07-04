@@ -1,7 +1,7 @@
-export type { Stat, ItemRarity, TalentRarity, WeaponType, EquipmentSlot, RangeType, MantraType } from './generated.js';
-export { CORE_STATS, WEAPON_STATS, ATTUNEMENT_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './generated.js';
+export { ATTUNEMENT_STATS, CORE_STATS, EQUIPMENT_SLOTS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_STATS, WEAPON_TYPES } from './generated.js';
+export type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
-import type { Stat, ItemRarity, TalentRarity, WeaponType, EquipmentSlot, RangeType, MantraType } from './generated.js';
+import type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
 export interface StatValue {
     value: number;
@@ -17,6 +17,7 @@ export interface Talent {
     count_towards_talent_total: boolean;
     vaulted: boolean;
     voi: boolean;
+    implicit?: boolean;
     exclusive?: string[];
     stats?: Record<string, number>;
     additional_info?: string;
@@ -112,7 +113,7 @@ export interface Equipment {
 }
 
 export interface AspectVariantInfo {
-	name: string;
+    name: string;
     unlock: string | null;
     colors: Record<string, string>;
 }
