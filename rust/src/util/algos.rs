@@ -5,11 +5,12 @@ use crate::{
     data::DeepData,
     error::{DeepError, Result},
     model::reqfile::Reqfile,
+    model::stat::StatRange,
     req::{Atom, Clause, ClauseType, Reducability, Requirement},
     util::statmap::StatMap,
 };
 
-use std::collections::{BTreeSet, HashMap, HashSet};
+use std::{collections::{BTreeSet, HashMap, HashSet}, ops::Range};
 
 #[must_use]
 #[allow(
@@ -164,6 +165,11 @@ pub struct BuildConfig {
     pub allow_weapons_preshrine: bool,
 
     pub talents: Vec<String>,
+    /// A list of talent names that should be forced into a post-shrine stage. 
+    /// A talent here should be present in the `talents` field too, this is just a marker for talents that should be obtained postshrine
+    /// TODO! should generalize after a unified id/req framework
+    pub post_talents: Vec<String>,
+
     pub mantras: Vec<String>,
     pub weapons: Vec<String>,
     pub equipment: Vec<String>,
@@ -172,18 +178,31 @@ pub struct BuildConfig {
     pub required_mantra_levels: Option<StatMap>,
     pub race: Option<String>,
 
+    pub post_ranges: HashMap<Stat, Range<u32>>,
+
     /// Use optional reqfiles (don't expose the optional req api yet)
     pub use_presets: Vec<Reqfile>,
 }
 
 impl BuildConfig {
+    /// Generates a reqfile from the given data.
     pub fn to_reqfile(&self, data: &DeepData) -> Result<Reqfile> {
         let mut ret = Reqfile {
             general: vec![],
             post: vec![],
+            post_ranges: self
+                .post_ranges
+                .iter()
+                .map(|(stat, range)| StatRange {
+                    stat: *stat,
+                    range: range.clone(),
+                })
+                .collect(),
             optional: vec![],
             implicit: HashMap::new(),
         };
+
+        let post_talents: HashSet<String> = self.post_talents.clone().into_iter().collect();
 
         for name in &self.talents {
             let talent = data
@@ -197,7 +216,11 @@ impl BuildConfig {
                 continue;
             }
 
-            ret.general.push(talent.reqs.clone());
+            if post_talents.contains(name) {
+                ret.post.push(talent.reqs.clone());
+            } else {
+                ret.general.push(talent.reqs.clone());
+            }
         }
 
         for name in &self.mantras {

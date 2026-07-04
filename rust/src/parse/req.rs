@@ -298,7 +298,7 @@ fn number(input: &mut &str) -> ModalResult<i64> {
     digit1.try_map(|s: &str| s.parse::<i64>()).parse_next(input)
 }
 
-fn stat(input: &mut &str) -> ModalResult<Stat> {
+pub(crate) fn stat(input: &mut &str) -> ModalResult<Stat> {
     alpha1
         .verify_map(|s: &str| {
             let upper = s.to_uppercase();

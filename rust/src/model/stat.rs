@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, ops::Range};
 use std::str::FromStr;
 
 use serde::{Deserialize, Deserializer, Serialize, de};
@@ -286,4 +286,10 @@ impl Serialize for Stat {
     {
         serializer.serialize_str(self.name())
     }
+}
+
+#[derive(Clone, Debug)]
+pub struct StatRange {
+    pub stat: Stat,
+    pub range: Range<u32>
 }

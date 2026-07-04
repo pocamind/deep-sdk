@@ -1,16 +1,19 @@
+use crate::Stat;
 use crate::error::{DeepError, Result};
 use crate::model::opt::OptionalGroup;
 use crate::model::req::{Requirement, Timing};
 use crate::model::reqfile::Reqfile;
+use crate::model::stat::StatRange;
 use crate::util::reqtree::ReqTree;
 use crate::util::traits::ReqVecExt;
 use std::collections::{HashMap, HashSet};
+use std::ops::Range;
 use std::path::Path;
 use winnow::ascii::{digit1, multispace0};
 use winnow::combinator::{alt, eof, separated};
 use winnow::prelude::*;
 
-use super::req::{identifier, requirement};
+use super::req::{identifier, requirement, stat};
 
 enum BaseReqfileLine {
     Requirement(Requirement),
@@ -32,22 +35,27 @@ enum ReqfileLine {
     /// and assigns n as the weight. Recursively marks all prereqs as optional and ties their obtainment
     /// to each other.  
     Optional { base: BaseReqfileLine, weight: i64 },
+    /// A line of the form 'n [OP] STAT [OP] m', where [OP] can be one of '<' or '<='.
+    /// Used to specify a range of stats for post-shrine stat stages (OINLY POST FOR NOW)
+    RangeSpecifier { stat: Stat, range: Range<u32> }
 }
 
 impl ReqfileLine {
-    pub fn base(&self) -> &BaseReqfileLine {
+    pub fn base(&self) -> Option<&BaseReqfileLine> {
         match self {
             ReqfileLine::Unspecified(base)
             | ReqfileLine::ForceRequired(base)
-            | ReqfileLine::Optional { base, .. } => base,
+            | ReqfileLine::Optional { base, .. } => Some(base),
+            ReqfileLine::RangeSpecifier { .. } => None,
         }
     }
 
-    pub fn base_mut(&mut self) -> &mut BaseReqfileLine {
+    pub fn base_mut(&mut self) -> Option<&mut BaseReqfileLine> {
         match self {
             ReqfileLine::Unspecified(base)
             | ReqfileLine::ForceRequired(base)
-            | ReqfileLine::Optional { base, .. } => base,
+            | ReqfileLine::Optional { base, .. } => Some(base),
+            ReqfileLine::RangeSpecifier { .. } => None,
         }
     }
 
@@ -68,6 +76,7 @@ fn reqfile_line(input: &mut &str) -> ModalResult<ReqfileLine> {
     alt((
         optional_line,
         force_required_line,
+        range_specifier,
         base_reqfile_line.map(ReqfileLine::Unspecified),
     ))
     .parse_next(input)
@@ -90,6 +99,46 @@ fn force_required_line(input: &mut &str) -> ModalResult<ReqfileLine> {
     let _ = ('+', multispace0).parse_next(input)?;
     let base = base_reqfile_line.parse_next(input)?;
     Ok(ReqfileLine::ForceRequired(base))
+}
+
+// range_specifier = number range_op stat range_op number eof
+// range_op = '<=' | '<'
+// '<=' is inclusive and '<' is exclusive; both ends are normalized into the
+// half-open Range<u32> [start, end).
+fn range_specifier(input: &mut &str) -> ModalResult<ReqfileLine> {
+    let lower = range_bound.parse_next(input)?;
+
+    let _ = multispace0.parse_next(input)?;
+    let lower_inclusive = range_op.parse_next(input)?;
+    let _ = multispace0.parse_next(input)?;
+
+    let s = stat.parse_next(input)?;
+
+    let _ = multispace0.parse_next(input)?;
+    let upper_inclusive = range_op.parse_next(input)?;
+    let _ = multispace0.parse_next(input)?;
+
+    let upper = range_bound.parse_next(input)?;
+
+    let _ = multispace0.parse_next(input)?;
+    eof.parse_next(input)?;
+
+    let start = if lower_inclusive { lower } else { lower + 1 };
+    let end = if upper_inclusive { upper + 1 } else { upper };
+
+    Ok(ReqfileLine::RangeSpecifier {
+        stat: s,
+        range: start..end,
+    })
+}
+
+// range_op = '<=' | '<', returns true when inclusive ('<=')
+fn range_op(input: &mut &str) -> ModalResult<bool> {
+    alt(("<=".map(|_| true), "<".map(|_| false))).parse_next(input)
+}
+
+fn range_bound(input: &mut &str) -> ModalResult<u32> {
+    digit1.try_map(|s: &str| s.parse::<u32>()).parse_next(input)
 }
 
 // base_reqfile_line = dependency_with_identifier | requirement
@@ -137,21 +186,19 @@ fn build_index(lines: &[ParsedLine]) -> Result<ReqfileIndex> {
     let mut named: HashMap<String, usize> = HashMap::new();
     let mut dependency_statements: Vec<(Vec<String>, String, u64)> = vec![];
 
-    #[allow(
-        clippy::match_wildcard_for_single_variants,
-        reason = "this is intentional"
-    )]
     let str_to_idx: HashMap<String, usize> = lines
         .iter()
         .enumerate()
         .filter_map(|(i, l)| match l.rf_line.base() {
-            BaseReqfileLine::Requirement(req) => Some((req.name_or_default(), i)),
+            Some(BaseReqfileLine::Requirement(req)) => Some((req.name_or_default(), i)),
             _ => None,
         })
         .collect();
 
     for (vec_idx, line) in lines.iter().enumerate() {
-        let base = line.rf_line.base();
+        let Some(base) = line.rf_line.base() else {
+            continue;
+        };
 
         match base {
             BaseReqfileLine::DependencyWithIdentifier { prereqs, dependent } => {
@@ -197,15 +244,13 @@ fn build_index(lines: &[ParsedLine]) -> Result<ReqfileIndex> {
 
 fn validate_no_ambiguous_anonymous(lines: &[ParsedLine]) -> Result<()> {
     for line in lines {
-        let base = line.rf_line.base();
-
-        if let BaseReqfileLine::Requirement(req) = base {
+        if let Some(BaseReqfileLine::Requirement(req)) = line.rf_line.base() {
             // only lf anon reqs
             if req.name.is_some() {
                 continue;
             }
 
-            let other_anon = lines.iter().map(|line| line.rf_line.base()).find(|other| {
+            let other_anon = lines.iter().filter_map(|line| line.rf_line.base()).find(|other| {
                 if let BaseReqfileLine::Requirement(other_req) = other {
                     other_req.name.is_none()
                     && other_req.name_or_default() == req.name_or_default()
@@ -245,9 +290,7 @@ fn resolve_dependencies(lines: &mut [ParsedLine], index: &ReqfileIndex) -> Resul
                 // missing prereq errors are caught at solve-time.
                 let line = &mut lines[*vec_idx];
 
-                let base: &mut BaseReqfileLine = line.rf_line.base_mut();
-
-                if let BaseReqfileLine::Requirement(req) = base {
+                if let Some(BaseReqfileLine::Requirement(req)) = line.rf_line.base_mut() {
                     if !req.prereqs.is_empty() {
                         return Err(DeepError::Reqfile {
                             line: *line_num as usize,
@@ -274,7 +317,7 @@ fn build_req_tree(lines: &[ParsedLine]) -> ReqTree {
     let mut tree = ReqTree::new();
 
     for line in lines {
-        if let BaseReqfileLine::Requirement(req) = line.rf_line.base() {
+        if let Some(BaseReqfileLine::Requirement(req)) = line.rf_line.base() {
             tree.insert(req.clone());
         }
     }
@@ -351,7 +394,7 @@ fn build_optional_groups(
                 let vec_idx = str_to_idx[req];
                 let req_line = &lines[vec_idx];
 
-                if let BaseReqfileLine::Requirement(req) = req_line.rf_line.base() {
+                if let Some(BaseReqfileLine::Requirement(req)) = req_line.rf_line.base() {
                     group.get_set(req_line.timing).insert(req.clone());
                 }
 
@@ -384,7 +427,7 @@ fn apply_force_required(
                 let vec_idx = str_to_idx[req];
                 let req_line = &lines[vec_idx];
 
-                if let BaseReqfileLine::Requirement(req) = req_line.rf_line.base() {
+                if let Some(BaseReqfileLine::Requirement(req)) = req_line.rf_line.base() {
                     for group in optional.iter_mut() {
                         group.get_set(req_line.timing).remove(req);
                     }
@@ -404,8 +447,7 @@ fn collect_required_reqs(
     let mut post: Vec<Requirement> = vec![];
 
     for line in lines {
-        let base = line.rf_line.base();
-        if let BaseReqfileLine::Requirement(req) = base {
+        if let Some(BaseReqfileLine::Requirement(req)) = line.rf_line.base() {
             if marked_opt.contains(&req.name_or_default()) {
                 continue;
             }
@@ -418,6 +460,53 @@ fn collect_required_reqs(
     }
 
     (general, post)
+}
+
+/// Collect the post-shrine stat ranges, validating that range directives only
+/// appear in the Post stage and that each stat is constrained at most once per stage.
+fn build_post_ranges(lines: &[ParsedLine]) -> Result<Vec<StatRange>> {
+    let mut ranges: Vec<StatRange> = vec![];
+    let mut seen: HashSet<Stat> = HashSet::new();
+
+    for line in lines {
+        if let ReqfileLine::RangeSpecifier { stat, range } = &line.rf_line {
+            if !matches!(line.timing, Timing::Post) {
+                return Err(DeepError::Reqfile {
+                    line: line.line_num,
+                    message: format!(
+                        "Range directives are only allowed in the Post stage for now, \
+                        but one was found not in Post: '{}'.",
+                        stat.name()
+                    ),
+                });
+            }
+
+            if range.start >= range.end {
+                return Err(DeepError::Reqfile {
+                    line: line.line_num,
+                    message: format!(
+                        "Range directive for '{}' is empty. The lower bound must be \
+                        less than the upper bound.",
+                        stat.name()
+                    ),
+                });
+            }
+
+            if !seen.insert(*stat) {
+                return Err(DeepError::Reqfile {
+                    line: line.line_num,
+                    message: format!("'{}' already has a range directive in this stage.", stat.name()),
+                });
+            }
+
+            ranges.push(StatRange {
+                stat: *stat,
+                range: range.clone(),
+            });
+        }
+    }
+
+    Ok(ranges)
 }
 
 fn validate_and_transform(mut lines: Vec<ParsedLine>) -> Result<Reqfile> {
@@ -438,10 +527,12 @@ fn validate_and_transform(mut lines: Vec<ParsedLine>) -> Result<Reqfile> {
     );
 
     let (general, post) = collect_required_reqs(&lines, &marked_opt);
+    let post_ranges = build_post_ranges(&lines)?;
 
     Ok(Reqfile {
         general,
         post,
+        post_ranges,
         optional,
         implicit: HashMap::new(),
     })
