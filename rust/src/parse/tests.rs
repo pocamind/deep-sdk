@@ -606,8 +606,8 @@ fn range_specifier_basic_parsing() {
 
     let payload = parse_reqfile_str(content).unwrap();
 
-    assert_eq!(payload.post_ranges.len(), 1);
-    let range = &payload.post_ranges[0];
+    assert_eq!(payload.final_ranges.len(), 1);
+    let range = &payload.final_ranges[0];
     assert_eq!(range.stat, Stat::Intelligence);
     // both bounds are inclusive, stored verbatim
     assert_eq!(range.range, 5..=20);
@@ -625,9 +625,9 @@ fn range_specifier_inclusive_bounds() {
         let content = format!("Post:\n{line}");
         let payload =
             parse_reqfile_str(&content).unwrap_or_else(|_| panic!("failed to parse: {line}"));
-        assert_eq!(payload.post_ranges.len(), 1, "{line}");
-        assert_eq!(payload.post_ranges[0].stat, stat, "{line}");
-        assert_eq!(payload.post_ranges[0].range, expected, "{line}");
+        assert_eq!(payload.final_ranges.len(), 1, "{line}");
+        assert_eq!(payload.final_ranges[0].stat, stat, "{line}");
+        assert_eq!(payload.final_ranges[0].range, expected, "{line}");
     }
 
     // exclusive '<' operator is not supported haha
@@ -668,7 +668,7 @@ fn range_specifier_distinct_stats_ok() {
         ";
 
     let payload = parse_reqfile_str(content).unwrap();
-    assert_eq!(payload.post_ranges.len(), 2);
+    assert_eq!(payload.final_ranges.len(), 2);
 }
 
 #[test]
@@ -697,6 +697,6 @@ fn range_specifier_coexists_with_reqs() {
 
     assert_eq!(payload.general.len(), 1);
     assert_eq!(payload.post.len(), 1);
-    assert_eq!(payload.post_ranges.len(), 1);
-    assert_eq!(payload.post_ranges[0].stat, Stat::Intelligence);
+    assert_eq!(payload.final_ranges.len(), 1);
+    assert_eq!(payload.final_ranges[0].stat, Stat::Intelligence);
 }

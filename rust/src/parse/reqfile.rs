@@ -460,7 +460,7 @@ fn collect_required_reqs(
 
 /// Collect the post-shrine stat ranges, validating that range directives only
 /// appear in the Post stage and that each stat is constrained at most once per stage.
-fn build_post_ranges(lines: &[ParsedLine]) -> Result<Vec<StatRange>> {
+fn build_final_ranges(lines: &[ParsedLine]) -> Result<Vec<StatRange>> {
     let mut ranges: Vec<StatRange> = vec![];
     let mut seen: HashSet<Stat> = HashSet::new();
 
@@ -526,12 +526,12 @@ fn validate_and_transform(mut lines: Vec<ParsedLine>) -> Result<Reqfile> {
     );
 
     let (general, post) = collect_required_reqs(&lines, &marked_opt);
-    let post_ranges = build_post_ranges(&lines)?;
+    let final_ranges = build_final_ranges(&lines)?;
 
     Ok(Reqfile {
         general,
         post,
-        post_ranges,
+        final_ranges,
         optional,
         implicit: HashMap::new(),
     })

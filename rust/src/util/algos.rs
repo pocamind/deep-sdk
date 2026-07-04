@@ -178,7 +178,7 @@ pub struct BuildConfig {
     pub required_mantra_levels: Option<StatMap>,
     pub race: Option<String>,
 
-    pub post_ranges: HashMap<Stat, RangeInclusive<u32>>,
+    pub final_ranges: HashMap<Stat, RangeInclusive<u32>>,
 
     /// Use optional reqfiles (don't expose the optional req api yet)
     pub use_presets: Vec<Reqfile>,
@@ -190,8 +190,8 @@ impl BuildConfig {
         let mut ret = Reqfile {
             general: vec![],
             post: vec![],
-            post_ranges: self
-                .post_ranges
+            final_ranges: self
+                .final_ranges
                 .iter()
                 .map(|(stat, range)| StatRange {
                     stat: *stat,

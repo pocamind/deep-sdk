@@ -19,7 +19,7 @@ use crate::{
 pub struct Reqfile {
     pub general: Vec<Requirement>,
     pub post: Vec<Requirement>,
-    pub post_ranges: Vec<StatRange>,
+    pub final_ranges: Vec<StatRange>,
 
     pub optional: Vec<OptionalGroup>,
 
@@ -39,10 +39,10 @@ impl Add for Reqfile {
                 .cloned()
                 .collect(),
             post: self.post.iter().chain(rhs.post.iter()).cloned().collect(),
-            post_ranges: self
-                .post_ranges
+            final_ranges: self
+                .final_ranges
                 .iter()
-                .chain(rhs.post_ranges.iter())
+                .chain(rhs.final_ranges.iter())
                 .cloned()
                 .collect(),
             optional: self
@@ -60,7 +60,7 @@ impl AddAssign for Reqfile {
     fn add_assign(&mut self, rhs: Self) {
         self.general.extend(rhs.general);
         self.post.extend(rhs.post);
-        self.post_ranges.extend(rhs.post_ranges);
+        self.final_ranges.extend(rhs.final_ranges);
         self.optional.extend(rhs.optional);
         self.implicit.extend(rhs.implicit);
     }
