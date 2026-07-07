@@ -17,6 +17,7 @@ export interface Talent {
     count_towards_talent_total: boolean;
     vaulted: boolean;
     voi: boolean;
+    voi_only: boolean;
     implicit?: boolean;
     exclusive?: string[];
     stats?: Record<string, number>;
@@ -36,6 +37,7 @@ export interface Weapon {
     enchantable: boolean;
     equip_motifs: boolean;
     voi: boolean;
+    voi_only: boolean;
     desc: string;
     damage_types?: string[];
     range_type?: RangeType;
@@ -72,6 +74,7 @@ export interface Mantra {
     reqs: string;
     vaulted: boolean;
     voi: boolean;
+    voi_only: boolean;
     damage?: MantraDamageVariant[];
     scaling?: Record<string, number>;
     modifiers?: string[];
@@ -94,6 +97,7 @@ export interface Outfit {
     mats: Record<string, number>;
     notes: number;
     voi: boolean;
+    voi_only: boolean;
     desc: string;
 }
 
@@ -109,6 +113,7 @@ export interface Equipment {
     pips: Record<string, number>;
     reqs: string;
     voi: boolean;
+    voi_only: boolean;
     desc: string;
 }
 

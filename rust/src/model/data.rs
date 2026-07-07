@@ -54,6 +54,8 @@ pub struct Outfit {
     pub notes: i64,
     #[serde(default)]
     pub voi: bool,
+    #[serde(default)]
+    pub voi_only: bool,
     pub desc: String,
 }
 
@@ -75,6 +77,8 @@ pub struct Equipment {
     pub pips: HashMap<String, i64>,
     pub reqs: Requirement,
     pub voi: bool,
+    #[serde(default)]
+    pub voi_only: bool,
     pub desc: String,
 }
 
@@ -88,6 +92,8 @@ pub struct Talent {
     pub count_towards_talent_total: bool,
     pub vaulted: bool,
     pub voi: bool,
+    #[serde(default)]
+    pub voi_only: bool,
     /// Whether this talent is implicitly granted as a byproduct of meeting its
     /// stat requirements (e.g. attunement milestones like Adept/Master), rather
     /// than chosen. Absent in the data unless true.
@@ -118,6 +124,8 @@ pub struct Weapon {
     pub enchantable: bool,
     pub equip_motifs: bool,
     pub voi: bool,
+    #[serde(default)]
+    pub voi_only: bool,
     pub desc: String,
     #[serde(default)]
     pub damage_types: Vec<String>,
@@ -170,6 +178,8 @@ pub struct Mantra {
     pub reqs: Requirement,
     pub vaulted: bool,
     pub voi: bool,
+    #[serde(default)]
+    pub voi_only: bool,
     #[serde(default)]
     pub damage: Vec<MantraDamageVariant>,
     #[serde(default)]
