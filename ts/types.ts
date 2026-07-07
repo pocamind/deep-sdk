@@ -93,6 +93,7 @@ export interface Outfit {
     resistances: Record<string, number>;
     extra_percents: Record<string, number>;
     talent: string | null;
+    variants: string[];
     reqs: string;
     mats: Record<string, number>;
     notes: number;
