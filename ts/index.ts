@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, RangeType, Stat, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
+export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, Preset, RangeType, Stat, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { Aspect, Enchant, Equipment, Mantra, Outfit, Stat, Talent, Weapon } from './types.js';
+import type { Aspect, Enchant, Equipment, Mantra, Outfit, Preset, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 const wasm = await import('./pkg/deepwoken.js');
@@ -49,6 +49,7 @@ export class DeepData {
     getEquipment(name: string): Equipment | null { return this._wasm.getEquipment(name); }
     getAspect(name: string): Aspect | null { return this._wasm.getAspect(name); }
     getEnchant(name: string): Enchant | null { return this._wasm.getEnchant(name); }
+    getPreset(name: string): Preset | null { return this._wasm.getPreset(name); }
 
     talents(): Talent[] { return this._wasm.talents(); }
     mantras(): Mantra[] { return this._wasm.mantras(); }
@@ -57,6 +58,7 @@ export class DeepData {
     equipment(): Equipment[] { return this._wasm.equipment(); }
     aspects(): Aspect[] { return this._wasm.aspects(); }
     enchants(): Enchant[] { return this._wasm.enchants(); }
+    presets(): Preset[] { return this._wasm.presets(); }
 }
 
 /** Transforms the name of things ingame into a parsable identifier/key used in the database */

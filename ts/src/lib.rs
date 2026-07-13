@@ -86,6 +86,11 @@ impl JsDeepData {
         to_js(&self.inner.get_enchant(name))
     }
 
+    #[wasm_bindgen(js_name = "getPreset")]
+    pub fn get_preset(&self, name: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.get_preset(name))
+    }
+
     pub fn talents(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.talents().collect::<Vec<_>>())
     }
@@ -112,6 +117,10 @@ impl JsDeepData {
 
     pub fn enchants(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.enchants().collect::<Vec<_>>())
+    }
+
+    pub fn presets(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.presets().collect::<Vec<_>>())
     }
 }
 

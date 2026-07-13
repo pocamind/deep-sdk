@@ -141,3 +141,9 @@ export interface Enchant {
     in_game_desc?: string;
     obtainable_in?: string;
 }
+
+export interface Preset {
+    name: string;
+    desc: string;
+    opts: string;
+}

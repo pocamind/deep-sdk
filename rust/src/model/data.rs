@@ -209,6 +209,15 @@ pub struct Enchant {
     pub obtainable_in: Option<String>,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Preset {
+    pub name: String,
+    pub desc: String,
+    /// A reqfile segment, i.e. the `Free:` and `Post:` blocks, applied as an
+    /// optional reqfile when this preset is selected.
+    pub opts: String,
+}
+
 /// A struct mirroring the structure of the 'all.json'
 /// bundle found on [pocamind/data releases](https://github.com/pocamind/data/releases).
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -221,6 +230,7 @@ pub struct DeepData {
     outfits: HashMap<String, Outfit>,
     equipment: HashMap<String, Equipment>,
     enchants: HashMap<String, Enchant>,
+    presets: HashMap<String, Preset>,
 
     /// The raw json payload used to construct the object, which may be more up-to-date.
     /// The shape is guarenteed to have at least the fields that `DeepData` has.
@@ -316,6 +326,15 @@ impl DeepData {
         self.enchants.get(&name_to_identifier(name))
     }
 
+    /// Retrieve a preset by it's name.
+    ///
+    /// The passed in name can be it's in-game name, or the
+    /// internal map key
+    #[must_use]
+    pub fn get_preset(&self, name: &str) -> Option<&Preset> {
+        self.presets.get(&name_to_identifier(name))
+    }
+
     /// Retrieve an iterator of talents
     pub fn talents(&self) -> impl Iterator<Item = &Talent> {
         self.talents.values()
@@ -349,5 +368,10 @@ impl DeepData {
     /// Retrieve an iterator of enchants
     pub fn enchants(&self) -> impl Iterator<Item = &Enchant> {
         self.enchants.values()
+    }
+
+    /// Retrieve an iterator of presets
+    pub fn presets(&self) -> impl Iterator<Item = &Preset> {
+        self.presets.values()
     }
 }
