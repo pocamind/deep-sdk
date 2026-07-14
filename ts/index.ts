@@ -5,22 +5,38 @@ export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 import type { Aspect, Enchant, Equipment, Mantra, Outfit, Preset, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
-const wasm = await import('./pkg/deepwoken.js');
+// a top-level await here breaks older webkit stuff
+let wasm: any = null;
+let initPromise: Promise<void> | null = null;
 
-if (typeof process !== 'undefined' && process.versions?.node) {
-    const { readFile } = await import('node:fs/promises');
-    const { createRequire } = await import('node:module');
-    const require = createRequire(import.meta.url);
-    const wasmPath = require.resolve('deepwoken/pkg/deepwoken_bg.wasm');
-    await wasm.default(await readFile(wasmPath));
-} else {
-    await wasm.default();
+/** Loads and instantiates the wasm module. Await this once before using anything
+ * else in the SDK. Safe to call multiple times, retries after a failed attempt. */
+export function init(): Promise<void> {
+    initPromise ??= (async () => {
+        const mod = await import('./pkg/deepwoken.js');
+
+        if (typeof process !== 'undefined' && process.versions?.node) {
+            const { readFile } = await import('node:fs/promises');
+            const { createRequire } = await import('node:module');
+            const require = createRequire(import.meta.url);
+            const wasmPath = require.resolve('deepwoken/pkg/deepwoken_bg.wasm');
+            await mod.default(await readFile(wasmPath));
+        } else {
+            await mod.default();
+        }
+
+        wasm = mod;
+    })().catch((e) => {
+        initPromise = null;
+        throw e;
+    });
+    return initPromise;
 }
 
-const WasmDeepData = wasm.DeepData;
-const WasmStatMap = wasm.StatMap;
-const WasmRequirement = wasm.Requirement;
-const wasmNameToIdentifier = wasm.nameToIdentifier;
+function w(): any {
+    if (!wasm) throw new Error('deepwoken: not initialized, await init() first');
+    return wasm;
+}
 
 export class DeepData {
     /** @internal */
@@ -31,15 +47,15 @@ export class DeepData {
     }
 
     static async fetchLatest(): Promise<DeepData> {
-        return new DeepData(await WasmDeepData.fetchLatest());
+        return new DeepData(await w().DeepData.fetchLatest());
     }
 
     static async fetchLatestFrom(owner: string, repo: string): Promise<DeepData> {
-        return new DeepData(await WasmDeepData.fetchLatestFrom(owner, repo));
+        return new DeepData(await w().DeepData.fetchLatestFrom(owner, repo));
     }
 
     static fromJson(json: string): DeepData {
-        return new DeepData(WasmDeepData.fromJson(json));
+        return new DeepData(w().DeepData.fromJson(json));
     }
 
     getTalent(name: string): Talent | null { return this._wasm.getTalent(name); }
@@ -63,7 +79,7 @@ export class DeepData {
 
 /** Transforms the name of things ingame into a parsable identifier/key used in the database */
 export function nameToIdentifier(name: string): string {
-    return wasmNameToIdentifier(name);
+    return w().nameToIdentifier(name);
 }
 
 export class StatMap {
@@ -71,7 +87,7 @@ export class StatMap {
     _wasm: any;
 
     constructor(map: Partial<Record<Stat, number>> = {}) {
-        this._wasm = new WasmStatMap(map);
+        this._wasm = new (w().StatMap)(map);
     }
 
     /* The total build cost, accounting for multi-attunement shenanigans */
@@ -98,7 +114,7 @@ export class Requirement {
     private _wasm: any;
 
     constructor(input: string) {
-        this._wasm = new WasmRequirement(input);
+        this._wasm = new (w().Requirement)(input);
     }
 
     satisfiedBy(stats: StatMap): boolean { return this._wasm.satisfiedBy(stats._wasm); }
