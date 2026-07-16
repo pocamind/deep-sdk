@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
 use deepwoken_rs::model::req::Requirement;
+use deepwoken_rs::util::aggregate::{self, BuildSnapshot};
 use deepwoken_rs::util::statmap::StatMap;
 use deepwoken_rs::util::{algos, name_to_identifier};
 use wasm_bindgen::prelude::*;
@@ -121,6 +122,13 @@ impl JsDeepData {
 
     pub fn presets(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.presets().collect::<Vec<_>>())
+    }
+
+    #[wasm_bindgen(js_name = "aggregateStats")]
+    pub fn aggregate_stats(&self, snapshot: JsValue) -> Result<JsValue, JsError> {
+        let snapshot: BuildSnapshot =
+            serde_wasm_bindgen::from_value(snapshot).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&aggregate::aggregate(&self.inner, &snapshot))
     }
 }
 

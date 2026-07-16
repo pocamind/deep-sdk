@@ -1,4 +1,6 @@
+pub mod aggregate;
 pub mod algos;
+pub mod pips;
 pub mod reqtree;
 pub mod statmap;
 pub mod traits;

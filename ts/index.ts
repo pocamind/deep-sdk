@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, Preset, RangeType, Stat, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
+export type { AggregatedStats, Aspect, BuildSnapshot, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, Preset, RangeType, Stat, StatSource, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { Aspect, Enchant, Equipment, Mantra, Outfit, Preset, Stat, Talent, Weapon } from './types.js';
+import type { AggregatedStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Outfit, Preset, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 // a top-level await here breaks older webkit stuff
@@ -75,6 +75,8 @@ export class DeepData {
     aspects(): Aspect[] { return this._wasm.aspects(); }
     enchants(): Enchant[] { return this._wasm.enchants(); }
     presets(): Preset[] { return this._wasm.presets(); }
+
+    aggregateStats(snapshot: BuildSnapshot): AggregatedStats { return this._wasm.aggregateStats(snapshot); }
 }
 
 /** Transforms the name of things ingame into a parsable identifier/key used in the database */

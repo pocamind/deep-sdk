@@ -31,7 +31,7 @@ pub struct Aspect {
     pub exclude_cosmetics: Vec<String>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct StatValue {
     pub value: f64,
     pub percentage: bool,
