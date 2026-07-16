@@ -105,6 +105,131 @@ fn reqfile_gen_no_optional() {
     assert_eq!(a, b);
 }
 
+#[test]
+fn reqfile_gen_with_optional() {
+    let content = r"
+        Free:
+        crystal := 40 ice
+        + shared_prereq := 10 str
+
+        1; opt_a := 20 int
+        2; opt_b := 30 ftd
+
+        shared_prereq => opt_a
+        shared_prereq => opt_b
+
+        Post:
+        75r hvy
+        3; post_opt := 50 wll
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+    let gen_content = gen_reqfile(&payload);
+
+    let user_at = gen_content.find("# USER REQS").expect(&gen_content);
+    let opt_at = gen_content.find("# OPTIONAL PRESETS").expect(&gen_content);
+    assert!(user_at < opt_at);
+
+    let new_payload = parse_reqfile_str(&gen_content).expect(&gen_content);
+
+    let a = payload.general.iter().cloned().collect::<HashSet<_>>();
+    let b = new_payload.general.iter().cloned().collect::<HashSet<_>>();
+    assert_eq!(a, b);
+
+    let a = payload.post.iter().cloned().collect::<HashSet<_>>();
+    let b = new_payload.post.iter().cloned().collect::<HashSet<_>>();
+    assert_eq!(a, b);
+
+    assert_eq!(payload.optional.len(), new_payload.optional.len());
+    for group in &payload.optional {
+        let new_group = new_payload
+            .optional
+            .iter()
+            .find(|g| g.weight == group.weight)
+            .expect(&gen_content);
+        assert_eq!(group.general, new_group.general);
+        assert_eq!(group.post, new_group.post);
+    }
+}
+
+#[test]
+fn reqfile_gen_optional_shared_prereq() {
+    let content = r"
+        Free:
+        shared := 10 str
+
+        1; opt_a := 20 int
+        2; opt_b := 30 ftd
+
+        shared => opt_a
+        shared => opt_b
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+    let gen_content = gen_reqfile(&payload);
+    let new_payload = parse_reqfile_str(&gen_content).expect(&gen_content);
+
+    assert!(new_payload.general.is_empty());
+    assert_eq!(new_payload.optional.len(), 2);
+
+    for group in &payload.optional {
+        let new_group = new_payload
+            .optional
+            .iter()
+            .find(|g| g.weight == group.weight)
+            .expect(&gen_content);
+        assert_eq!(group.general, new_group.general);
+    }
+}
+
+#[test]
+fn reqfile_gen_optional_transitive_timing() {
+    let content = r"
+        Free:
+        root := 5 cha
+        mid := 20 int
+
+        Post:
+        1; leaf := 30 ftd
+
+        root => mid
+        mid => leaf
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+    let gen_content = gen_reqfile(&payload);
+    let new_payload = parse_reqfile_str(&gen_content).expect(&gen_content);
+
+    assert!(new_payload.general.is_empty());
+    assert_eq!(new_payload.optional.len(), 1);
+
+    let group = &payload.optional[0];
+    let new_group = &new_payload.optional[0];
+    assert_eq!(group.weight, new_group.weight);
+    assert_eq!(group.general, new_group.general);
+    assert_eq!(group.post, new_group.post);
+}
+
+#[test]
+fn reqfile_gen_final_ranges() {
+    let content = r"
+        Free:
+        crystal := 40 ice
+
+        Post:
+        75r hvy
+        5 <= INT <= 20
+        ";
+
+    let payload = parse_reqfile_str(content).unwrap();
+    let gen_content = gen_reqfile(&payload);
+    let new_payload = parse_reqfile_str(&gen_content).expect(&gen_content);
+
+    assert_eq!(new_payload.final_ranges.len(), 1);
+    assert_eq!(new_payload.final_ranges[0].stat, Stat::Intelligence);
+    assert_eq!(new_payload.final_ranges[0].range, 5..=20);
+}
+
 // === Tests involving optional reqs and more complex layouts ===
 
 #[test]

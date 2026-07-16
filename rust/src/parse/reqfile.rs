@@ -584,13 +584,13 @@ pub(crate) fn parse_reqfile(path: &Path) -> Result<Reqfile> {
     parse_reqfile_str(&content)
 }
 
-/// Generate a reqfile string from a Reqfile struct. This is outdated and
-/// does not preserve optional groups or forced required annotations.
+/// Generate a reqfile string from a Reqfile struct.
 pub(crate) fn gen_reqfile(payload: &Reqfile) -> String {
+    use std::fmt::Write as _;
+
     let mut output = String::new();
 
     output.push_str("# Auto-generated reqfile\n\n");
-    output.push_str("Free:\n");
 
     // remove spaces from names
     //
@@ -605,61 +605,139 @@ pub(crate) fn gen_reqfile(payload: &Reqfile) -> String {
 
     let mut i = 0;
 
-    let mut general = payload
-        .general
-        .iter()
-        .map(|req: &Requirement| {
-            i += 1;
+    let mut name_anon = |req: &Requirement| {
+        i += 1;
 
-            let mut req = req.clone();
+        let mut req = req.clone();
 
-            req.name = req.name.clone().or_else(|| {
-                if req.prereqs.is_empty() {
-                    None
-                } else {
-                    Some(format!("id_{i}"))
-                }
-            });
+        req.name = req.name.clone().or_else(|| {
+            if req.prereqs.is_empty() {
+                None
+            } else {
+                Some(format!("id_{i}"))
+            }
+        });
 
-            req
-        })
-        .collect::<Vec<_>>();
+        req
+    };
 
-    let mut post = payload
-        .post
-        .iter()
-        .map(|req: &Requirement| {
-            i += 1;
+    let mut general = payload.general.iter().map(&mut name_anon).collect::<Vec<_>>();
+    let mut post = payload.post.iter().map(&mut name_anon).collect::<Vec<_>>();
 
-            let mut req = req.clone();
+    let mut root_weights: HashMap<String, i64> = HashMap::new();
 
-            req.name = req.name.clone().or_else(|| {
-                if req.prereqs.is_empty() {
-                    None
-                } else {
-                    Some(format!("id_{i}"))
-                }
-            });
+    for group in &payload.optional {
+        let members: Vec<&Requirement> = group.general.iter().chain(group.post.iter()).collect();
 
-            req
-        })
-        .collect::<Vec<_>>();
+        let referenced: HashSet<&String> =
+            members.iter().flat_map(|r| r.prereqs.iter()).collect();
 
-    general.map_names(clean_name);
-
-    post.map_names(clean_name);
-
-    for req in &general {
-        use std::fmt::Write as _;
-        let _ = writeln!(output, "{req}");
+        for req in members {
+            if req.name.as_ref().is_none_or(|n| !referenced.contains(n)) {
+                root_weights
+                    .entry(req.name_or_default())
+                    .or_insert(group.weight.clamp(1, 20));
+            }
+        }
     }
 
-    if !post.is_empty() {
+    let mut opt_general: Vec<(Requirement, Option<i64>)> = vec![];
+    let mut opt_post: Vec<(Requirement, Option<i64>)> = vec![];
+    let mut seen: HashSet<String> = HashSet::new();
+    let mut opt_prereq_refs: HashSet<String> = HashSet::new();
+
+    for group in &payload.optional {
+        let members = group
+            .general
+            .iter()
+            .map(|r| (r, Timing::Free))
+            .chain(group.post.iter().map(|r| (r, Timing::Post)));
+
+        for (req, timing) in members {
+            opt_prereq_refs.extend(req.prereqs.iter().cloned());
+
+            let key = req.name_or_default();
+            if !seen.insert(key.clone()) {
+                continue;
+            }
+
+            let line = (name_anon(req), root_weights.get(&key).copied());
+            match timing {
+                Timing::Free => opt_general.push(line),
+                Timing::Post => opt_post.push(line),
+            }
+        }
+    }
+
+    let is_forced =
+        |req: &Requirement| req.name.as_ref().is_some_and(|n| opt_prereq_refs.contains(n));
+    let general_forced = general.iter().map(is_forced).collect::<Vec<_>>();
+    let post_forced = post.iter().map(is_forced).collect::<Vec<_>>();
+
+    general.map_names(clean_name);
+    post.map_names(clean_name);
+
+    for (req, _) in opt_general.iter_mut().chain(opt_post.iter_mut()) {
+        req.name = req.name.take().map(|n| clean_name(&n));
+        req.prereqs = req.prereqs.iter().map(|n| clean_name(n)).collect();
+    }
+
+    output.push_str("# USER REQS\n\n");
+    output.push_str("Free:\n");
+
+    for (req, forced) in general.iter().zip(&general_forced) {
+        let _ = writeln!(output, "{}{req}", if *forced { "+ " } else { "" });
+    }
+
+    if !post.is_empty() || !payload.final_ranges.is_empty() {
         output.push_str("\nPost:\n");
 
-        for req in &post {
-            use std::fmt::Write as _;
-            let _ = writeln!(output, "{req}");
+        for (req, forced) in post.iter().zip(&post_forced) {
+            let _ = writeln!(output, "{}{req}", if *forced { "+ " } else { "" });
+        }
+
+        for r in &payload.final_ranges {
+            let _ = writeln!(
+                output,
+                "{} <= {} <= {}",
+                r.range.start(),
+                r.stat.short_name(),
+                r.range.end()
+            );
+        }
+    }
+
+    if !opt_general.is_empty() || !opt_post.is_empty() {
+        output.push_str("\n# OPTIONAL PRESETS\n");
+
+        if !opt_general.is_empty() {
+            output.push_str("\nFree:\n");
+
+            for (req, weight) in &opt_general {
+                match weight {
+                    Some(w) => {
+                        let _ = writeln!(output, "{w}; {req}");
+                    }
+                    None => {
+                        let _ = writeln!(output, "{req}");
+                    }
+                }
+            }
+        }
+
+        if !opt_post.is_empty() {
+            output.push_str("\nPost:\n");
+
+            for (req, weight) in &opt_post {
+                match weight {
+                    Some(w) => {
+                        let _ = writeln!(output, "{w}; {req}");
+                    }
+                    None => {
+                        let _ = writeln!(output, "{req}");
+                    }
+                }
+            }
         }
     }
 
