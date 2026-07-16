@@ -147,3 +147,29 @@ export interface Preset {
     desc: string;
     opts: string;
 }
+
+export interface StatSource {
+    value: number;
+    source: string;
+}
+
+export interface EquipmentSelection {
+    name: string;
+    pips?: Record<string, string[]>;
+}
+
+export interface BuildSnapshot {
+    stats?: Partial<Record<Stat, number>>;
+    race?: string;
+    talents?: string[];
+    boons?: string[];
+    traits?: Record<string, number>;
+    equipment?: EquipmentSelection[];
+    outfit?: string | null;
+}
+
+export interface AggregatedStats {
+    flat: Record<string, StatSource[]>;
+    percents: Record<string, StatSource[]>;
+    derived: Record<string, number>;
+}
