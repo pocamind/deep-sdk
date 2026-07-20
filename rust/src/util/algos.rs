@@ -10,7 +10,9 @@ use crate::{
     util::statmap::StatMap,
 };
 
+use crate::constants::KHAN_REQ_REDUCTION;
 use std::{collections::{BTreeSet, HashMap, HashSet}, ops::RangeInclusive};
+
 
 #[must_use]
 #[allow(
@@ -18,8 +20,8 @@ use std::{collections::{BTreeSet, HashMap, HashSet}, ops::RangeInclusive};
     reason = "values are not big enough for this to matter"
 )]
 pub fn shrine_order_dwb(pre: &StatMap, racial: &StatMap) -> StatMap {
-    const SHRINE_DIFF_CAP: f64 = 25.0;
-    const STAT_CAP: i64 = 100;
+    use crate::constants::SHRINE_ORDER_MAX_LOSS as SHRINE_DIFF_CAP;
+    use crate::constants::STAT_CAP;
 
     let points_start = pre.cost();
 
@@ -184,6 +186,19 @@ pub struct BuildConfig {
 }
 
 impl BuildConfig {
+    /// Whether the build's race lowers equipment and weapon requirements (Khan's Versatile).
+    fn is_khan(&self, data: &DeepData) -> Result<bool> {
+        let Some(race) = &self.race else {
+            return Ok(false);
+        };
+
+        let race = data
+            .get_aspect(race)
+            .ok_or(DeepError::ReqfileBuild(format!("Race not found: {race}")))?;
+
+        Ok(race.name == "Khan")
+    }
+
     /// Generates a reqfile from the given data.
     pub fn to_reqfile(&self, data: &DeepData) -> Result<Reqfile> {
         let mut ret = Reqfile {
@@ -263,14 +278,8 @@ impl BuildConfig {
                 weapon.reqs.clone()
             };
 
-            if let Some(race) = &self.race {
-                let race = data
-                    .get_aspect(race)
-                    .ok_or(DeepError::ReqfileBuild(format!("Race not found: {race}")))?;
-
-                if race.name == "Khan" {
-                    req.add_to_all(-3);
-                }
+            if self.is_khan(data)? {
+                req.add_to_stat_atoms(-KHAN_REQ_REDUCTION);
             }
 
             {
@@ -301,7 +310,13 @@ impl BuildConfig {
                     "Equipment {name} not found in database"
                 )))?;
 
-            ret.general.push(equipment.reqs.clone());
+            let mut req = equipment.reqs.clone();
+
+            if self.is_khan(data)? {
+                req.add_to_stat_atoms(-KHAN_REQ_REDUCTION);
+            }
+
+            ret.general.push(req);
         }
 
         if let Some(mantra_levels) = &self.required_mantra_levels {

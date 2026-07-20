@@ -16,6 +16,9 @@ pub enum DeepError {
     #[error("Build reqfile error: {0}")]
     ReqfileBuild(String),
 
+    #[error("Stat formula error: {0}")]
+    Formula(String),
+
     #[cfg(feature = "fetch")]
     #[error("Reqwest error: {0}")]
     ReqwestError(#[from] reqwest::Error),

@@ -2,8 +2,9 @@ use std::collections::HashMap;
 
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
+use deepwoken_rs::model::aggregate::{BuildParams, Scenario};
 use deepwoken_rs::model::req::Requirement;
-use deepwoken_rs::util::aggregate::{self, BuildSnapshot};
+use deepwoken_rs::util::aggregate;
 use deepwoken_rs::util::statmap::StatMap;
 use deepwoken_rs::util::{algos, name_to_identifier};
 use wasm_bindgen::prelude::*;
@@ -125,10 +126,19 @@ impl JsDeepData {
     }
 
     #[wasm_bindgen(js_name = "aggregateStats")]
-    pub fn aggregate_stats(&self, snapshot: JsValue) -> Result<JsValue, JsError> {
-        let snapshot: BuildSnapshot =
+    pub fn aggregate_stats(
+        &self,
+        snapshot: JsValue,
+        scenario: JsValue,
+    ) -> Result<JsValue, JsError> {
+        let snapshot: BuildParams =
             serde_wasm_bindgen::from_value(snapshot).map_err(|e| JsError::new(&e.to_string()))?;
-        to_js(&aggregate::aggregate(&self.inner, &snapshot))
+        let scenario: Scenario = if scenario.is_undefined() || scenario.is_null() {
+            Scenario::default()
+        } else {
+            serde_wasm_bindgen::from_value(scenario).map_err(|e| JsError::new(&e.to_string()))?
+        };
+        to_js(&aggregate::aggregate(&self.inner, &snapshot, scenario))
     }
 }
 
@@ -156,8 +166,8 @@ impl JsStatMap {
         self.inner.remaining() as i32
     }
 
-    pub fn level(&self) -> i32 {
-        self.inner.level() as i32
+    pub fn level(&self, max_level: Option<u32>) -> i32 {
+        self.inner.level(max_level) as i32
     }
 
     pub fn get(&self, stat: &str) -> Result<i32, JsError> {
@@ -224,6 +234,11 @@ impl JsRequirement {
     #[wasm_bindgen(js_name = "isEmpty")]
     pub fn is_empty(&self) -> bool {
         self.inner.is_empty()
+    }
+
+    #[wasm_bindgen(js_name = "addToStatAtoms")]
+    pub fn add_to_stat_atoms(&mut self, val: i32) {
+        self.inner.add_to_stat_atoms(i64::from(val));
     }
 
     #[wasm_bindgen(js_name = "usedStats")]

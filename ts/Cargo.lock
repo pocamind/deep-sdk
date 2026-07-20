@@ -123,7 +123,7 @@ checksum = "b05b61dc5112cbb17e4b6cd61790d9845d13888356391624cbe7e41efeac1e75"
 name = "deepwoken"
 version = "0.1.2"
 dependencies = [
- "deepwoken 0.2.61",
+ "deepwoken 0.3.1",
  "serde",
  "serde-wasm-bindgen",
  "wasm-bindgen",
@@ -132,9 +132,10 @@ dependencies = [
 
 [[package]]
 name = "deepwoken"
-version = "0.2.61"
+version = "0.3.1"
 dependencies = [
  "env_logger",
+ "evalexpr",
  "log",
  "reqwest",
  "serde",
@@ -176,6 +177,12 @@ dependencies = [
  "jiff",
  "log",
 ]
+
+[[package]]
+name = "evalexpr"
+version = "13.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25929004897f2bbab309121a60400d36992f6d911d09baa6c172f6cc55706601"
 
 [[package]]
 name = "find-msvc-tools"

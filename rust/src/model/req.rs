@@ -304,6 +304,16 @@ impl Requirement {
     }
 
     pub fn add_to_all(&mut self, val: i64) -> &mut Self {
+        self.add_to_atoms(val, |_| true)
+    }
+
+    /// Adds `val` to every atom that does not gate on [`Stat::Total`], leaving power level
+    /// gates untouched.
+    pub fn add_to_stat_atoms(&mut self, val: i64) -> &mut Self {
+        self.add_to_atoms(val, |atom| !atom.stats.contains(&Stat::Total))
+    }
+
+    fn add_to_atoms(&mut self, val: i64, predicate: impl Fn(&Atom) -> bool) -> &mut Self {
         let mut new_clauses: BTreeSet<Clause> = BTreeSet::new();
         // construct new atoms
         for clause in self.clauses.iter().cloned() {
@@ -313,6 +323,10 @@ impl Requirement {
                     .atoms
                     .iter()
                     .map(|atom| {
+                        if !predicate(atom) {
+                            return atom.clone();
+                        }
+
                         let mut new_atom = atom.clone();
                         new_atom.value += val;
                         new_atom.value = new_atom.value.clamp(0, 100);
@@ -444,4 +458,39 @@ impl Serialize for Requirement {
 pub enum Timing {
     Free,
     Post,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn khan_lowers_stat_reqs_but_not_power_gates() {
+        // crypt blade is equippable at 72 SDW / 37 HVY as a Khan
+        let mut req: Requirement = "crypt_blade := 40r HVY, 75r SDW".parse().unwrap();
+        req.add_to_stat_atoms(-3);
+        assert_eq!(req.to_string(), "crypt_blade := 37r HVY, 72r SDW");
+
+        // TTL models a power level, which Versatile does not lower
+        let mut req: Requirement = "abyss_wanderers_boots := 165r TTL".parse().unwrap();
+        req.add_to_stat_atoms(-3);
+        assert_eq!(req.to_string(), "abyss_wanderers_boots := 165r TTL");
+
+        // a mixed req keeps its power gate and lowers only the stat
+        let mut req: Requirement = "11th_legion_plate := 90r TTL, 10r FTD".parse().unwrap();
+        req.add_to_stat_atoms(-3);
+        assert_eq!(req.to_string(), "11th_legion_plate := 7r FTD, 90r TTL");
+
+        // an OR clause lowers each of its atoms
+        let mut req: Requirement = "kindred_edict := 50r MED, 30r STR OR 30r FTD".parse().unwrap();
+        req.add_to_stat_atoms(-3);
+        assert_eq!(req.to_string(), "kindred_edict := 47r MED, 27r STR OR 27r FTD");
+    }
+
+    #[test]
+    fn khan_clamps_at_zero() {
+        let mut req: Requirement = "thing := 2r STR".parse().unwrap();
+        req.add_to_stat_atoms(-3);
+        assert_eq!(req.to_string(), "thing := 0r STR");
+    }
 }

@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 use crate::Stat;
 use crate::error::{DeepError, Result};
 use crate::model::enums::{EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType};
+use crate::model::formula::{StatContributions, StatFormula};
 use crate::model::req::Requirement;
 use crate::util::name_to_identifier;
 
@@ -33,7 +34,7 @@ pub struct Aspect {
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct StatValue {
-    pub value: f64,
+    pub value: StatFormula,
     pub percentage: bool,
 }
 
@@ -103,8 +104,8 @@ pub struct Talent {
     pub implicit: bool,
     #[serde(default)]
     pub exclusive: Vec<String>,
-    #[serde(default)]
-    pub stats: HashMap<String, f64>,
+    #[serde(flatten)]
+    pub contributions: StatContributions,
     #[serde(default)]
     pub additional_info: Option<String>,
     #[serde(default)]
@@ -186,6 +187,8 @@ pub struct Mantra {
     pub damage: Vec<MantraDamageVariant>,
     #[serde(default)]
     pub scaling: HashMap<String, f64>,
+    #[serde(flatten)]
+    pub contributions: StatContributions,
     #[serde(default)]
     pub modifiers: Vec<String>,
     #[serde(default)]
@@ -207,6 +210,8 @@ pub struct Enchant {
     pub in_game_desc: Option<String>,
     #[serde(default)]
     pub obtainable_in: Option<String>,
+    #[serde(flatten)]
+    pub contributions: StatContributions,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -243,8 +248,40 @@ impl DeepData {
         let mut ret: DeepData = serde_json::from_str(json).map_err(DeepError::from)?;
 
         ret.raw = json.to_string();
+        ret.validate_formulas()?;
 
         Ok(ret)
+    }
+
+    fn validate_formulas(&self) -> Result<()> {
+        let named = |item: &str, stat: &str, e: DeepError| {
+            DeepError::Formula(format!("{item} / {stat}: {e}"))
+        };
+
+        let named_sources = self
+            .talents
+            .values()
+            .map(|t| (&t.name, &t.contributions))
+            .chain(self.mantras.values().map(|m| (&m.name, &m.contributions)));
+
+        for (item, contributions) in named_sources {
+            for map in contributions.all() {
+                for (stat, formula) in map {
+                    formula.validate().map_err(|e| named(item, stat, e))?;
+                }
+            }
+        }
+
+        for equip in self.equipment.values() {
+            for (stat, innate) in &equip.innates {
+                innate
+                    .value
+                    .validate()
+                    .map_err(|e| named(&equip.name, stat, e))?;
+            }
+        }
+
+        Ok(())
     }
 
     /// Retrieve Deepwoken data that was bundled with this release. This may be severely out of date and should not be relied on for up-to-date info, prefer DeepData::latest_release + from_release instead.

@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 use crate::{
     Stat,
     model::data::{DeepData, Talent},
-    model::stat::MAX_TOTAL,
+    constants::{MAX_LEVEL, MAX_TOTAL},
     req::Requirement,
     util::algos,
 };
@@ -46,8 +46,8 @@ impl StatMap {
     }
 
     #[must_use]
-    pub fn level(&self) -> i64 {
-        ((self.cost() - 15) / 15).max(0)
+    pub fn level(&self, max_level: Option<u32>) -> i64 {
+        ((self.cost() - 15) / 15).clamp(0, i64::from(max_level.unwrap_or(MAX_LEVEL)))
     }
 
     #[must_use]

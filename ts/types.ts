@@ -134,12 +134,19 @@ export interface Aspect {
     exclude_cosmetics?: string[];
 }
 
+/** A stat contribution: a constant, or an expression over stat short-names (see docs/stat_expressions.md). */
+export type StatFormula = number | string;
+
 export interface Enchant {
     name: string;
     category: string;
     info: string;
     in_game_desc?: string;
     obtainable_in?: string;
+    stats?: Record<string, StatFormula>;
+    conditional_stats?: Record<string, StatFormula>;
+    multiplicative_percents?: Record<string, StatFormula>;
+    conditional_multiplicative_percents?: Record<string, StatFormula>;
 }
 
 export interface Preset {
@@ -156,6 +163,27 @@ export interface StatSource {
 export interface EquipmentSelection {
     name: string;
     pips?: Record<string, string[]>;
+    /** Quality stars, 0 to 3. */
+    stars?: number;
+    enchant?: string;
+}
+
+export interface WeaponSelection {
+    name: string;
+    /** Quality stars, 0 to 3. */
+    stars?: number;
+    /** The star buff, or '' for none. */
+    starBuff?: 'DMG%' | 'PEN%' | 'WGT%' | '';
+    enchant?: string;
+}
+
+export interface MantraSelection {
+    name: string;
+    /** 1 to 5. */
+    level?: number;
+    gem?: string;
+    sparks?: string[];
+    modifiers?: Record<string, number>;
 }
 
 export interface BuildSnapshot {
@@ -166,10 +194,25 @@ export interface BuildSnapshot {
     traits?: Record<string, number>;
     equipment?: EquipmentSelection[];
     outfit?: string | null;
+    weapon?: WeaponSelection | null;
+    mantras?: MantraSelection[];
 }
 
-export interface AggregatedStats {
+export interface BuildTotalStats {
     flat: Record<string, StatSource[]>;
     percents: Record<string, StatSource[]>;
     derived: Record<string, number>;
+}
+
+export type CombatState = 'OutOfCombat' | 'Pve' | 'Pvp';
+export type AggregateMode = 'Base' | 'Optimistic';
+
+/** The conditions a build's total stats is evaluated under */
+export interface Scenario {
+    mode?: AggregateMode;
+    combatState?: CombatState;
+    /** Attacker penetration percent for our own EHP calcs. */
+    enemyPen?: number;
+    /** Target resistance percent for damage-output related stat derivations. */
+    enemyResistance?: number;
 }

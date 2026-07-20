@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { AggregatedStats, Aspect, BuildSnapshot, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraType, Outfit, Preset, RangeType, Stat, StatSource, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
+export type { AggregateMode, BuildTotalStats, Aspect, BuildSnapshot, CombatState, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Outfit, Preset, RangeType, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { AggregatedStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Outfit, Preset, Stat, Talent, Weapon } from './types.js';
+import type { BuildTotalStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Outfit, Preset, Scenario, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 // a top-level await here breaks older webkit stuff
@@ -76,7 +76,9 @@ export class DeepData {
     enchants(): Enchant[] { return this._wasm.enchants(); }
     presets(): Preset[] { return this._wasm.presets(); }
 
-    aggregateStats(snapshot: BuildSnapshot): AggregatedStats { return this._wasm.aggregateStats(snapshot); }
+    aggregateStats(snapshot: BuildSnapshot, scenario?: Scenario): BuildTotalStats {
+        return this._wasm.aggregateStats(snapshot, scenario);
+    }
 }
 
 /** Transforms the name of things ingame into a parsable identifier/key used in the database */
@@ -97,7 +99,7 @@ export class StatMap {
     /* The points remaining available to invest */
     remaining(): number { return this._wasm.remaining(); }
     /* The level the character is at */
-    level(): number { return this._wasm.level(); }
+    level(maxLevel?: number): number { return this._wasm.level(maxLevel); }
 
     get(stat: Stat): number { return this._wasm.get(stat); }
     set(stat: Stat, value: number) { this._wasm.set(stat, value); }
@@ -125,5 +127,6 @@ export class Requirement {
     name(): string | null { return this._wasm.name(); }
     prereqs(): string[] { return this._wasm.prereqs(); }
     clauses(): Clause[] { return this._wasm.clauses(); }
+    addToStatAtoms(val: number): void { this._wasm.addToStatAtoms(val); }
     toString(): string { return this._wasm.toString(); }
 }

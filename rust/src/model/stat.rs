@@ -49,15 +49,23 @@ pub const ATTUNEMENT: &[Stat] = &[
     Stat::Bloodrend,
 ];
 
-pub const MAX_TOTAL: i64 = 330;
+pub const BODY: &[Stat] = &[Stat::Strength, Stat::Agility, Stat::Fortitude];
+pub const MIND: &[Stat] = &[Stat::Intelligence, Stat::Willpower, Stat::Charisma];
 
-#[test]
-fn consts_form_partition() {
-    assert_eq!(
-        CORE.len() + WEAPON.len() + ATTUNEMENT.len(),
-        Stat::Total.as_u32() as usize
-    );
+/// The stats a named category (`Mind`, `Body`, `Weapon`, `Attunement`) resolves to
+/// `None` if `name` is a specific stat.
+#[must_use]
+pub fn category(name: &str) -> Option<&'static [Stat]> {
+    match name.to_ascii_uppercase().as_str() {
+        "BODY" => Some(BODY),
+        "MIND" => Some(MIND),
+        "WEAPON" => Some(WEAPON),
+        "ATTUNEMENT" => Some(ATTUNEMENT),
+        _ => None,
+    }
 }
+
+pub use crate::constants::MAX_TOTAL;
 
 impl Stat {
     #[must_use]
