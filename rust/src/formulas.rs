@@ -21,7 +21,8 @@ use crate::model::stat;
 use crate::util::statmap::StatMap;
 
 /// Resistance from any one source is clamped to 99% before it is applied
-fn clamp_resist(percent: f64) -> f64 {
+#[must_use]
+pub fn clamp_resist(percent: f64) -> f64 {
     percent.clamp(0.0, MAX_SINGLE_RESIST) / 100.0
 }
 
@@ -376,7 +377,6 @@ pub fn weapon_damage(
     build: &BuildParams,
     talents: &[String],
     percent: &HashMap<String, f64>,
-    combat_state: CombatState,
 ) -> Option<(f64, Option<f64>)> {
     let selection = build.weapon.as_ref()?;
     let weapon = data.get_weapon(&selection.name)?;
@@ -395,8 +395,8 @@ pub fn weapon_damage(
     let proficiency = build.traits.get("Proficiency").copied().unwrap_or(0).min(TRAIT_CAP);
     let scaled = scaled_damage(base, &scaling, &[], proficiency);
 
-    let raw_modifier = percent.get("Damage").copied().unwrap_or(0.0) / 100.0;
-    let modifier = damage_modifier(raw_modifier, combat_state);
+    // Damage% is already soft/hard capped during aggregation
+    let modifier = percent.get("Damage").copied().unwrap_or(0.0) / 100.0;
 
     let innate_bleed = weapon
         .damage_types
@@ -432,6 +432,7 @@ mod tests {
                 value: *value,
                 source: String::new(),
                 origin: *origin,
+                display_value: String::new(),
             });
         }
         map

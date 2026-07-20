@@ -28,6 +28,9 @@ pub struct StatSource {
     pub source: String,
     #[serde(default = "base_origin")]
     pub origin: StatOrigin,
+    /// Most likely a pre-formatted string for the UI, e.g. `+15%`, `×10%`, or a custom label
+    #[serde(default)]
+    pub display_value: String,
 }
 
 fn base_origin() -> StatOrigin {
@@ -117,6 +120,33 @@ impl DamageType {
         DamageType::Metal,
         DamageType::Blood,
     ];
+
+    pub const ALL: &'static [DamageType] = &[
+        DamageType::Blunt,
+        DamageType::Slash,
+        DamageType::Flame,
+        DamageType::Ice,
+        DamageType::Thunder,
+        DamageType::Wind,
+        DamageType::Shadow,
+        DamageType::Metal,
+        DamageType::Blood,
+    ];
+
+    #[must_use]
+    pub fn name(&self) -> &'static str {
+        match self {
+            DamageType::Blunt => "Blunt",
+            DamageType::Slash => "Slash",
+            DamageType::Flame => "Flame",
+            DamageType::Ice => "Ice",
+            DamageType::Thunder => "Thunder",
+            DamageType::Wind => "Wind",
+            DamageType::Shadow => "Shadow",
+            DamageType::Metal => "Metal",
+            DamageType::Blood => "Blood",
+        }
+    }
 
     #[must_use]
     pub fn group(self) -> DamageGroup {

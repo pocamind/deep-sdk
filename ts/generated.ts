@@ -22,3 +22,6 @@ export type RangeType = "Sweep" | "Lunge";
 
 export type MantraType = "Normal" | "Oath" | "Origin" | "Event" | "Monster";
 
+export type DamageType = "Blunt" | "Slash" | "Flame" | "Ice" | "Thunder" | "Wind" | "Shadow" | "Metal" | "Blood";
+export const DAMAGE_TYPES: DamageType[] = ["Blunt", "Slash", "Flame", "Ice", "Thunder", "Wind", "Shadow", "Metal", "Blood"];
+

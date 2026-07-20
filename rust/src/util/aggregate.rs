@@ -44,6 +44,21 @@ pub fn is_percent_stat(stat: &str) -> bool {
     PERCENT_STATS.contains(&stat) || stat.ends_with(" Armor") || stat.ends_with(" Resistance")
 }
 
+fn fmt_num(value: f64) -> String {
+    if value.fract().abs() < 1e-9 {
+        format!("{}", value.round() as i64)
+    } else {
+        format!("{value:.1}")
+    }
+}
+
+/// The default `+15%` / `-5%` / `+220` display for an additive source
+fn additive_display(value: f64, percent: bool) -> String {
+    let sign = if value < 0.0 { "-" } else { "+" };
+    let suffix = if percent { "%" } else { "" };
+    format!("{sign}{}{suffix}", fmt_num(value.abs()))
+}
+
 /// Every talent the build actually (should) have, deduplicated.
 /// Adds racial innates, outfit, equipment talents, etc. The ones granted
 /// by granted_talents
@@ -113,6 +128,18 @@ pub fn aggregate(data: &DeepData, build: &BuildParams, scenario: Scenario) -> Bu
         source: &str,
         origin: StatOrigin,
     ) {
+        let display_value = additive_display(value, is_percent_stat(stat));
+        add_display(map, stat, value, source, origin, display_value);
+    }
+
+    fn add_display(
+        map: &mut HashMap<String, Vec<StatSource>>,
+        stat: &str,
+        value: f64,
+        source: &str,
+        origin: StatOrigin,
+        display_value: String,
+    ) {
         if value == 0.0 {
             return;
         }
@@ -120,6 +147,7 @@ pub fn aggregate(data: &DeepData, build: &BuildParams, scenario: Scenario) -> Bu
             value,
             source: source.to_string(),
             origin,
+            display_value,
         });
     }
 
@@ -341,17 +369,48 @@ pub fn aggregate(data: &DeepData, build: &BuildParams, scenario: Scenario) -> Bu
         }
     }
 
-    // Resolve multiplicative stat entries (cheap shot and some enchants afaik) 
-    // into the main count
+    // Coalesce additive sources by source and sort, before multiplicative sources
+    for (map, percent) in [(&mut flat, false), (&mut percents, true)] {
+        for entries in map.values_mut() {
+            let mut by_source: Vec<(String, f64, StatOrigin)> = Vec::new();
+            for entry in entries.drain(..) {
+                match by_source.iter_mut().find(|(s, _, _)| *s == entry.source) {
+                    Some((_, v, _)) => *v += entry.value,
+                    None => by_source.push((entry.source, entry.value, entry.origin)),
+                }
+            }
+            *entries = by_source
+                .into_iter()
+                .map(|(source, value, origin)| StatSource {
+                    value,
+                    source,
+                    origin,
+                    display_value: additive_display(value, percent),
+                })
+                .collect();
+            entries.sort_by(|a, b| b.value.total_cmp(&a.value));
+        }
+    }
+
+    // Resolve multiplicative stat entries (cheap shot and some enchants afaik) into the count.
+    // The stored value is the additive-equivalent delta
     for (stat, entries) in std::mem::take(&mut multiplicative_percents) {
-        let base = if is_percent_stat(&stat) {
+        let percent = is_percent_stat(&stat);
+        let base = if percent {
             sum_of(&percents, &stat, false)
         } else {
             sum_of(&flat, &stat, false)
         };
-        let target = if is_percent_stat(&stat) { &mut percents } else { &mut flat };
+        let target = if percent { &mut percents } else { &mut flat };
         for entry in entries {
-            add(target, &stat, base * entry.value / 100.0, &entry.source, entry.origin);
+            add_display(
+                target,
+                &stat,
+                base * entry.value / 100.0,
+                &entry.source,
+                entry.origin,
+                format!("×{}%", fmt_num(entry.value)),
+            );
         }
     }
 
@@ -365,22 +424,74 @@ pub fn aggregate(data: &DeepData, build: &BuildParams, scenario: Scenario) -> Bu
         }
     }
 
-    // resolve source list
-    for map in [&mut flat, &mut percents] {
-        for entries in map.values_mut() {
-            let mut by_source: Vec<(String, f64, StatOrigin)> = Vec::new();
-            for entry in entries.drain(..) {
-                match by_source.iter_mut().find(|(s, _, _)| *s == entry.source) {
-                    Some((_, v, _)) => *v += entry.value,
-                    None => by_source.push((entry.source, entry.value, entry.origin)),
+    // Fold the Damage soft and hard caps into the breakdown as their own contributions (LIKE PEN)
+    let (soft, _) = combat_state.damage_caps();
+    let soft_cap = soft * 100.0;
+    let raw_damage = sum_of(&percents, "Damage", false);
+    if raw_damage > soft_cap {
+        let softened = soft_cap + (raw_damage - soft_cap) / 2.0;
+        let capped = formulas::damage_modifier(raw_damage / 100.0, combat_state) * 100.0;
+        add(&mut percents, "Damage", -(raw_damage - soft_cap) / 2.0, "Soft cap", StatOrigin::Base);
+        add(&mut percents, "Damage", capped - softened, "Hard cap", StatOrigin::Base);
+    }
+
+    // Fold each damage group's combined resistance into individual damagekind percents, keeping the individual sources
+    let kinds = [DamageGroup::Physical, DamageGroup::Elemental]
+        .into_iter()
+        .flat_map(|group| {
+            std::iter::once(DamageKind::from(group))
+                .chain(group.types().iter().copied().map(DamageKind::from))
+        });
+    let mut resist_finals: Vec<(String, Vec<StatSource>)> = Vec::new();
+    for kind in kinds {
+        let (group_key, subtype_key) = kind.keys();
+        let key = subtype_key.unwrap_or(group_key);
+
+        let mut equipment: Vec<StatSource> = Vec::new();
+        let mut factors: Vec<StatSource> = Vec::new();
+        for k in [Some(group_key), subtype_key].into_iter().flatten() {
+            for entry in percents.get(k).into_iter().flatten() {
+                if entry.origin == StatOrigin::Equipment {
+                    equipment.push(entry.clone());
+                } else {
+                    factors.push(entry.clone());
                 }
             }
-            *entries = by_source
-                .into_iter()
-                .map(|(source, value, origin)| StatSource { value, source, origin })
-                .collect();
-            entries.sort_by(|a, b| b.value.total_cmp(&a.value));
         }
+
+        let mut out: Vec<StatSource> = Vec::new();
+        let mut remaining = 1.0_f64;
+
+        let equipment_raw: f64 = equipment.iter().map(|e| e.value).sum();
+        if equipment_raw != 0.0 {
+            let contribution = remaining * formulas::clamp_resist(equipment_raw);
+            for entry in &equipment {
+                out.push(StatSource {
+                    value: contribution * 100.0 * entry.value / equipment_raw,
+                    source: entry.source.clone(),
+                    origin: entry.origin,
+                    display_value: additive_display(entry.value, true),
+                });
+            }
+            remaining *= 1.0 - formulas::clamp_resist(equipment_raw);
+        }
+        for entry in &factors {
+            let frac = formulas::clamp_resist(entry.value);
+            out.push(StatSource {
+                value: remaining * frac * 100.0,
+                source: entry.source.clone(),
+                origin: entry.origin,
+                display_value: format!("×{}%", fmt_num(entry.value)),
+            });
+            remaining *= 1.0 - frac;
+        }
+
+        if !out.is_empty() {
+            resist_finals.push((key.to_string(), out));
+        }
+    }
+    for (key, sources) in resist_finals {
+        percents.insert(key, sources);
     }
 
     let mut result = BuildTotalStats {
@@ -415,7 +526,7 @@ fn get_derived(
     let enemy_resistance = scenario.enemy_resistance / 100.0;
 
     if let Some((m1, dps)) =
-        formulas::weapon_damage(data, build, talents, &percent, scenario.combat_state)
+        formulas::weapon_damage(data, build, talents, &percent)
     {
         derived.insert("M1 Damage".to_string(), m1);
         if let Some(dps) = dps {
@@ -437,8 +548,7 @@ fn get_derived(
 
     for kind in kinds {
         let key = kind.keys().1.unwrap_or_else(|| kind.keys().0);
-        let reduction = formulas::damage_reduction(&stats.percents, kind);
-        derived.insert(key.to_string(), reduction * 100.0);
+        let reduction = percent.get(key).copied().unwrap_or(0.0) / 100.0;
         derived.insert(
             format!("{} EHP", key.replace(" Resistance", "")),
             formulas::effective_health(health, reduction * (1.0 - faced_pen)),
@@ -628,5 +738,25 @@ mod tests {
         // 50% enemy pen against 40% pen resist gives faced pen 0.3, effective reduction 0.35.
         let vs_pen = aggregate(&data, &build, Scenario { enemy_pen: 50.0, ..Default::default() });
         assert!((vs_pen.derived["Physical EHP"] - 220.0 / 0.65).abs() < 1e-6);
+    }
+
+    /// Damage% folds the soft and hard caps in as their own contributions, so the total is the
+    /// modifier weapon_damage applies. In PvP (soft 25%, hard 50%) a raw +100% lands at 50%:
+    /// soft loses half of the 75 above the knee (-37.5), then the hard cap trims the rest (-12.5).
+    #[test]
+    fn damage_soft_and_hard_caps_fold_into_the_breakdown() {
+        let data = DeepData::from_json(
+            r#"{"enchants":{"rage":{"name":"Rage","category":"Weapon","info":"",
+                "stats":{"Damage":100}}}}"#,
+        )
+        .unwrap();
+        let mut build = BuildParams::default();
+        build.weapon = Some(WeaponSelection { enchant: Some("Rage".to_string()), ..Default::default() });
+
+        let result = aggregate(&data, &build, Scenario::default());
+        let damage = &result.percents["Damage"];
+        assert!(damage.iter().any(|e| e.source == "Soft cap" && (e.value + 37.5).abs() < 1e-9));
+        assert!(damage.iter().any(|e| e.source == "Hard cap" && (e.value + 12.5).abs() < 1e-9));
+        assert!((result.percent_totals()["Damage"] - 50.0).abs() < 1e-9);
     }
 }

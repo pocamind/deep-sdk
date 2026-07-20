@@ -1,5 +1,5 @@
-export { ATTUNEMENT_STATS, CORE_STATS, EQUIPMENT_SLOTS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_STATS, WEAPON_TYPES } from './generated.js';
-export type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
+export { ATTUNEMENT_STATS, CORE_STATS, DAMAGE_TYPES, EQUIPMENT_SLOTS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_STATS, WEAPON_TYPES } from './generated.js';
+export type { DamageType, EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
 import type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
@@ -158,6 +158,8 @@ export interface Preset {
 export interface StatSource {
     value: number;
     source: string;
+    /** Pre-formatted display string, e.g. `+15%`, `×10%`, or a custom label. */
+    display_value: string;
 }
 
 export interface EquipmentSelection {

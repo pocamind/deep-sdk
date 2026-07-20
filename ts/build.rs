@@ -2,6 +2,7 @@ use std::fmt::Write;
 use std::path::Path;
 
 use deepwoken_rs::Stat;
+use deepwoken_rs::model::aggregate::DamageType;
 use deepwoken_rs::model::stat;
 use deepwoken_rs::model::enums::{
     EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType,
@@ -66,10 +67,16 @@ fn main() {
     write_union(&mut out, "MantraType", MantraType::ALL, MantraType::name);
     writeln!(out).unwrap();
 
+    // DamageType
+    write_union(&mut out, "DamageType", DamageType::ALL, DamageType::name);
+    write_const_array(&mut out, "DAMAGE_TYPES", "DamageType", DamageType::ALL, DamageType::name);
+    writeln!(out).unwrap();
+
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     let dest = Path::new(&manifest_dir).join("generated.ts");
     std::fs::write(&dest, out).unwrap();
 
     println!("cargo::rerun-if-changed=../rust/src/model/stat.rs");
     println!("cargo::rerun-if-changed=../rust/src/model/enums.rs");
+    println!("cargo::rerun-if-changed=../rust/src/model/aggregate.rs");
 }

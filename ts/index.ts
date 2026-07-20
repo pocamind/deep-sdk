@@ -1,5 +1,5 @@
-export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { AggregateMode, BuildTotalStats, Aspect, BuildSnapshot, CombatState, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Outfit, Preset, RangeType, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
+export { ATTUNEMENT_STATS, CORE_STATS, DAMAGE_TYPES, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
+export type { AggregateMode, BuildTotalStats, Aspect, BuildSnapshot, CombatState, DamageType, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Outfit, Preset, RangeType, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
 import type { BuildTotalStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Outfit, Preset, Scenario, Stat, Talent, Weapon } from './types.js';
