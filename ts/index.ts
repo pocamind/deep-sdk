@@ -17,7 +17,10 @@ export function init(): Promise<void> {
 
         if (typeof process !== 'undefined' && process.versions?.node) {
             const { readFile } = await import('node:fs/promises');
-            await mod.default(await readFile(new URL('./pkg/deepwoken_bg.wasm', import.meta.url)));
+            const { createRequire } = await import('node:module');
+            const require = createRequire(import.meta.url);
+            const wasmPath = require.resolve('deepwoken/pkg/deepwoken_bg.wasm');
+            await mod.default(await readFile(wasmPath));
         } else {
             await mod.default();
         }
