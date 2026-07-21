@@ -1,6 +1,6 @@
 use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
 
-use crate::req::Requirement;
+use crate::req::{PrereqGroup, Requirement};
 
 pub struct ReqTree {
     // Keyed by name
@@ -22,7 +22,7 @@ impl ReqTree {
     pub fn insert(&mut self, req: Requirement) {
         let name = req.name_or_default();
 
-        for prereq in &req.prereqs {
+        for prereq in req.prereqs.iter().flat_map(PrereqGroup::alternatives) {
             self.dependents
                 .entry(prereq.clone())
                 .or_default()
@@ -38,8 +38,8 @@ impl ReqTree {
     }
 
     #[must_use]
-    /// Retrieve direct prereqs as names
-    pub fn prereqs(&self, name: &str) -> Option<&BTreeSet<String>> {
+    /// Retrieve direct prereqs as groups
+    pub fn prereqs(&self, name: &str) -> Option<&BTreeSet<PrereqGroup>> {
         self.reqs.get(name).map(|r| &r.prereqs)
     }
 
@@ -56,14 +56,14 @@ impl ReqTree {
         let mut queue = VecDeque::new();
 
         if let Some(req) = self.reqs.get(name) {
-            queue.extend(req.prereqs.iter().cloned());
+            queue.extend(req.prereqs.iter().flat_map(|g| g.alternatives().cloned()));
         }
 
         while let Some(current) = queue.pop_front() {
             if visited.insert(current.clone())
                 && let Some(req) = self.reqs.get(&current)
             {
-                queue.extend(req.prereqs.iter().cloned());
+                queue.extend(req.prereqs.iter().flat_map(|g| g.alternatives().cloned()));
             }
         }
 
@@ -127,7 +127,7 @@ impl ReqTree {
         path.push(name.to_string());
 
         if let Some(req) = self.reqs.get(name) {
-            for prereq in &req.prereqs {
+            for prereq in req.prereqs.iter().flat_map(PrereqGroup::alternatives) {
                 if let Some(cycle) = self.cycle_visit(prereq, visited, stack, path) {
                     return Some(cycle);
                 }

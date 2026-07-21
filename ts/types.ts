@@ -218,3 +218,26 @@ export interface Scenario {
     /** Target resistance percent for damage-output related stat derivations. */
     enemyResistance?: number;
 }
+
+export interface Origin {
+    name: string;
+    desc: string;
+    outfit: string;
+    spawns: string[];
+    talents: string[];
+    faction?: string;
+}
+
+export interface Resonance {
+    name: string;
+    desc: string;
+    rarity: string;
+}
+
+export interface Objective {
+    name: string;
+    desc: string;
+    accountWideUnlock: boolean;
+    reqs: string;
+    prereqs: string[];
+}

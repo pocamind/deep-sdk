@@ -1,7 +1,7 @@
 use crate::Stat;
 use crate::error::{DeepError, Result};
 use crate::model::opt::OptionalGroup;
-use crate::model::req::{Requirement, Timing};
+use crate::model::req::{PrereqGroup, Requirement, Timing};
 use crate::model::reqfile::Reqfile;
 use crate::model::stat::StatRange;
 use crate::util::reqtree::ReqTree;
@@ -13,12 +13,12 @@ use winnow::ascii::{digit1, multispace0};
 use winnow::combinator::{alt, eof, separated};
 use winnow::prelude::*;
 
-use super::req::{identifier, requirement, stat};
+use super::req::{identifier, prereq_group, requirement, stat};
 
 enum BaseReqfileLine {
     Requirement(Requirement),
     DependencyWithIdentifier {
-        prereqs: Vec<String>,
+        prereqs: Vec<PrereqGroup>,
         dependent: String,
     },
 }
@@ -145,11 +145,11 @@ fn base_reqfile_line(input: &mut &str) -> ModalResult<BaseReqfileLine> {
     .parse_next(input)
 }
 
-// dependency_with_identifier = identifier (',' identifier)* '=>' identifier eof
+// dependency_with_identifier = prereq_group (',' prereq_group)* '=>' identifier eof
 // links prereqs to an existing named requirement (no inline definition)
 fn dependency_with_identifier(input: &mut &str) -> ModalResult<BaseReqfileLine> {
-    let prereqs: Vec<String> =
-        separated(1.., identifier, (multispace0, ',', multispace0)).parse_next(input)?;
+    let prereqs: Vec<PrereqGroup> =
+        separated(1.., prereq_group, (multispace0, ',', multispace0)).parse_next(input)?;
 
     let _ = multispace0.parse_next(input)?;
     let _ = "=>".parse_next(input)?;
@@ -172,12 +172,12 @@ struct ParsedLine {
 struct ReqfileIndex {
     named: HashMap<String, usize>,
     str_to_idx: HashMap<String, usize>,
-    dependency_statements: Vec<(Vec<String>, String, u64)>,
+    dependency_statements: Vec<(Vec<PrereqGroup>, String, u64)>,
 }
 
 fn build_index(lines: &[ParsedLine]) -> Result<ReqfileIndex> {
     let mut named: HashMap<String, usize> = HashMap::new();
-    let mut dependency_statements: Vec<(Vec<String>, String, u64)> = vec![];
+    let mut dependency_statements: Vec<(Vec<PrereqGroup>, String, u64)> = vec![];
 
     let str_to_idx: HashMap<String, usize> = lines
         .iter()
@@ -600,7 +600,7 @@ pub(crate) fn gen_reqfile(payload: &Reqfile) -> String {
 
     let clean_name = |name: &str| {
         name.replace(' ', "_")
-            .replace(['[', ']', '\'', ':', '(', ')'], "")
+            .replace(['[', ']', '\'', '(', ')'], "")
     };
 
     let mut i = 0;
@@ -629,8 +629,10 @@ pub(crate) fn gen_reqfile(payload: &Reqfile) -> String {
     for group in &payload.optional {
         let members: Vec<&Requirement> = group.general.iter().chain(group.post.iter()).collect();
 
-        let referenced: HashSet<&String> =
-            members.iter().flat_map(|r| r.prereqs.iter()).collect();
+        let referenced: HashSet<&String> = members
+            .iter()
+            .flat_map(|r| r.prereqs.iter().flat_map(|g| g.alternatives()))
+            .collect();
 
         for req in members {
             if req.name.as_ref().is_none_or(|n| !referenced.contains(n)) {
@@ -654,7 +656,7 @@ pub(crate) fn gen_reqfile(payload: &Reqfile) -> String {
             .chain(group.post.iter().map(|r| (r, Timing::Post)));
 
         for (req, timing) in members {
-            opt_prereq_refs.extend(req.prereqs.iter().cloned());
+            opt_prereq_refs.extend(req.prereqs.iter().flat_map(|g| g.alternatives().cloned()));
 
             let key = req.name_or_default();
             if !seen.insert(key.clone()) {
@@ -679,7 +681,11 @@ pub(crate) fn gen_reqfile(payload: &Reqfile) -> String {
 
     for (req, _) in opt_general.iter_mut().chain(opt_post.iter_mut()) {
         req.name = req.name.take().map(|n| clean_name(&n));
-        req.prereqs = req.prereqs.iter().map(|n| clean_name(n)).collect();
+        req.prereqs = req
+            .prereqs
+            .iter()
+            .map(|g| PrereqGroup::any(g.alternatives().map(|n| clean_name(n))))
+            .collect();
     }
 
     output.push_str("# USER REQS\n\n");

@@ -72,11 +72,7 @@ impl Reqfile {
     }
 
     pub fn resolve_implicit(&mut self, data: &DeepData) {
-        for talent in data.talents().filter(|t| t.implicit) {
-            if let Some(name) = talent.reqs.name.clone() {
-                self.implicit.insert(name, talent.reqs.clone());
-            }
-        }
+        self.implicit.extend(data.implicit_requirements());
     }
 
     pub fn from_file(path: &Path) -> error::Result<Self> {

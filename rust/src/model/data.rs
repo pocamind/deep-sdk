@@ -8,8 +8,28 @@ use crate::Stat;
 use crate::error::{DeepError, Result};
 use crate::model::enums::{EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType};
 use crate::model::formula::{StatContributions, StatFormula};
-use crate::model::req::Requirement;
+use crate::model::req::{PrereqGroup, Requirement};
+use crate::util::graph::PrereqGraph;
 use crate::util::name_to_identifier;
+
+fn build_requirement(
+    namespace: &str,
+    key: &str,
+    reqs: &Requirement,
+    prereqs: &[PrereqGroup],
+) -> Requirement {
+    let mut req = Requirement::new();
+    req.name = Some(format!("{namespace}:{key}"));
+    req.clauses = reqs.clauses.clone();
+    req.prereqs = prereqs.iter().cloned().collect();
+    req
+}
+
+fn reqless_requirement(qualified_id: &str) -> Requirement {
+    let mut req = Requirement::new();
+    req.name = Some(qualified_id.to_string());
+    req
+}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AspectVariantInfo {
@@ -30,6 +50,10 @@ pub struct Aspect {
     pub talent: Vec<String>,
     #[serde(default)]
     pub exclude_cosmetics: Vec<String>,
+}
+
+impl Aspect {
+    pub const NAMESPACE: &'static str = "aspect";
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -53,6 +77,8 @@ pub struct Outfit {
     #[serde(default)]
     pub variants: Vec<String>,
     pub reqs: Requirement,
+    #[serde(default)]
+    pub prereqs: Vec<PrereqGroup>,
     pub mats: HashMap<String, i64>,
     pub notes: i64,
     #[serde(default)]
@@ -60,6 +86,15 @@ pub struct Outfit {
     #[serde(default)]
     pub voi_only: bool,
     pub desc: String,
+}
+
+impl Outfit {
+    pub const NAMESPACE: &'static str = "outfit";
+
+    #[must_use]
+    pub fn requirement(&self, key: &str) -> Requirement {
+        build_requirement(Self::NAMESPACE, key, &self.reqs, &self.prereqs)
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -79,10 +114,21 @@ pub struct Equipment {
     #[serde(default)]
     pub pips: HashMap<String, i64>,
     pub reqs: Requirement,
+    #[serde(default)]
+    pub prereqs: Vec<PrereqGroup>,
     pub voi: bool,
     #[serde(default)]
     pub voi_only: bool,
     pub desc: String,
+}
+
+impl Equipment {
+    pub const NAMESPACE: &'static str = "equipment";
+
+    #[must_use]
+    pub fn requirement(&self, key: &str) -> Requirement {
+        build_requirement(Self::NAMESPACE, key, &self.reqs, &self.prereqs)
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -92,6 +138,8 @@ pub struct Talent {
     pub rarity: TalentRarity,
     pub category: String,
     pub reqs: Requirement,
+    #[serde(default)]
+    pub prereqs: Vec<PrereqGroup>,
     pub count_towards_talent_total: bool,
     pub vaulted: bool,
     pub voi: bool,
@@ -114,6 +162,15 @@ pub struct Talent {
     pub roll2able: Option<bool>,
 }
 
+impl Talent {
+    pub const NAMESPACE: &'static str = "talent";
+
+    #[must_use]
+    pub fn requirement(&self, key: &str) -> Requirement {
+        build_requirement(Self::NAMESPACE, key, &self.reqs, &self.prereqs)
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Weapon {
     pub name: String,
@@ -124,6 +181,8 @@ pub struct Weapon {
     pub posture_damage: Option<f64>,
     pub range: Option<f64>,
     pub reqs: Requirement,
+    #[serde(default)]
+    pub prereqs: Vec<PrereqGroup>,
     pub enchantable: bool,
     pub equip_motifs: bool,
     pub voi: bool,
@@ -156,6 +215,15 @@ pub struct Weapon {
     pub talents: Vec<String>,
 }
 
+impl Weapon {
+    pub const NAMESPACE: &'static str = "weapon";
+
+    #[must_use]
+    pub fn requirement(&self, key: &str) -> Requirement {
+        build_requirement(Self::NAMESPACE, key, &self.reqs, &self.prereqs)
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct MantraDamageLevel {
     pub level: String,
@@ -179,6 +247,8 @@ pub struct Mantra {
     pub mantra_type: MantraType,
     pub attributes: Vec<String>,
     pub reqs: Requirement,
+    #[serde(default)]
+    pub prereqs: Vec<PrereqGroup>,
     pub vaulted: bool,
     pub voi: bool,
     #[serde(default)]
@@ -199,6 +269,15 @@ pub struct Mantra {
     pub shared_cooldowns: Vec<String>,
     #[serde(default)]
     pub miscellaneous: Option<String>,
+}
+
+impl Mantra {
+    pub const NAMESPACE: &'static str = "mantra";
+
+    #[must_use]
+    pub fn requirement(&self, key: &str) -> Requirement {
+        build_requirement(Self::NAMESPACE, key, &self.reqs, &self.prereqs)
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -223,6 +302,59 @@ pub struct Preset {
     pub opts: String,
 }
 
+impl Enchant {
+    pub const NAMESPACE: &'static str = "enchant";
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Origin {
+    pub name: String,
+    pub desc: String,
+    pub outfit: String,
+    #[serde(default)]
+    pub spawns: Vec<String>,
+    #[serde(default)]
+    pub talents: Vec<String>,
+    #[serde(default)]
+    pub faction: Option<String>,
+}
+
+impl Origin {
+    pub const NAMESPACE: &'static str = "origin";
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Resonance {
+    pub name: String,
+    pub desc: String,
+    pub rarity: String,
+}
+
+impl Resonance {
+    pub const NAMESPACE: &'static str = "resonance";
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Objective {
+    pub name: String,
+    pub desc: String,
+    #[serde(default, rename = "accountWideUnlock")]
+    pub account_wide_unlock: bool,
+    #[serde(default)]
+    pub reqs: Requirement,
+    #[serde(default)]
+    pub prereqs: Vec<PrereqGroup>,
+}
+
+impl Objective {
+    pub const NAMESPACE: &'static str = "objective";
+
+    #[must_use]
+    pub fn requirement(&self, key: &str) -> Requirement {
+        build_requirement(Self::NAMESPACE, key, &self.reqs, &self.prereqs)
+    }
+}
+
 /// A struct mirroring the structure of the 'all.json'
 /// bundle found on [pocamind/data releases](https://github.com/pocamind/data/releases).
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -235,6 +367,9 @@ pub struct DeepData {
     outfits: HashMap<String, Outfit>,
     equipment: HashMap<String, Equipment>,
     enchants: HashMap<String, Enchant>,
+    origins: HashMap<String, Origin>,
+    resonances: HashMap<String, Resonance>,
+    objectives: HashMap<String, Objective>,
     presets: HashMap<String, Preset>,
 
     /// The raw json payload used to construct the object, which may be more up-to-date.
@@ -372,6 +507,94 @@ impl DeepData {
         self.presets.get(&name_to_identifier(name))
     }
 
+    #[must_use]
+    pub fn get_origin(&self, name: &str) -> Option<&Origin> {
+        self.origins.get(&name_to_identifier(name))
+    }
+
+    #[must_use]
+    pub fn get_resonance(&self, name: &str) -> Option<&Resonance> {
+        self.resonances.get(&name_to_identifier(name))
+    }
+
+    #[must_use]
+    pub fn get_objective(&self, name: &str) -> Option<&Objective> {
+        self.objectives.get(&name_to_identifier(name))
+    }
+
+    #[must_use]
+    pub fn requirement(&self, qualified_id: &str) -> Option<Requirement> {
+        let (namespace, key) = qualified_id.split_once(':')?;
+
+        match namespace {
+            Talent::NAMESPACE => self.talents.get(key).map(|t| t.requirement(key)),
+            Mantra::NAMESPACE => self.mantras.get(key).map(|m| m.requirement(key)),
+            Weapon::NAMESPACE => self.weapons.get(key).map(|w| w.requirement(key)),
+            Outfit::NAMESPACE => self.outfits.get(key).map(|o| o.requirement(key)),
+            Equipment::NAMESPACE => self.equipment.get(key).map(|e| e.requirement(key)),
+            Objective::NAMESPACE => self.objectives.get(key).map(|o| o.requirement(key)),
+            Aspect::NAMESPACE => self.aspects.get(key).map(|_| reqless_requirement(qualified_id)),
+            Origin::NAMESPACE => self.origins.get(key).map(|_| reqless_requirement(qualified_id)),
+            Resonance::NAMESPACE => self
+                .resonances
+                .get(key)
+                .map(|_| reqless_requirement(qualified_id)),
+            Enchant::NAMESPACE => self
+                .enchants
+                .get(key)
+                .map(|_| reqless_requirement(qualified_id)),
+            _ => None,
+        }
+    }
+
+    #[must_use]
+    pub fn implicit_requirements(&self) -> HashMap<String, Requirement> {
+        self.talents
+            .iter()
+            .filter(|(_, talent)| talent.implicit)
+            .map(|(key, talent)| (format!("{}:{key}", Talent::NAMESPACE), talent.requirement(key)))
+            .collect()
+    }
+
+    #[must_use]
+    pub fn prereq_graph(&self) -> PrereqGraph {
+        let mut graph = PrereqGraph::new();
+
+        for (key, talent) in &self.talents {
+            graph.insert(talent.requirement(key));
+        }
+        for (key, mantra) in &self.mantras {
+            graph.insert(mantra.requirement(key));
+        }
+        for (key, weapon) in &self.weapons {
+            graph.insert(weapon.requirement(key));
+        }
+        for (key, outfit) in &self.outfits {
+            graph.insert(outfit.requirement(key));
+        }
+        for (key, equipment) in &self.equipment {
+            graph.insert(equipment.requirement(key));
+        }
+        for (key, objective) in &self.objectives {
+            graph.insert(objective.requirement(key));
+        }
+
+        for key in self.aspects.keys() {
+            graph.insert_node(format!("{}:{key}", Aspect::NAMESPACE));
+        }
+        for key in self.origins.keys() {
+            graph.insert_node(format!("{}:{key}", Origin::NAMESPACE));
+        }
+        for key in self.resonances.keys() {
+            graph.insert_node(format!("{}:{key}", Resonance::NAMESPACE));
+        }
+        for key in self.enchants.keys() {
+            graph.insert_node(format!("{}:{key}", Enchant::NAMESPACE));
+        }
+
+        graph
+    }
+
     /// Retrieve an iterator of talents
     pub fn talents(&self) -> impl Iterator<Item = &Talent> {
         self.talents.values()
@@ -410,5 +633,73 @@ impl DeepData {
     /// Retrieve an iterator of presets
     pub fn presets(&self) -> impl Iterator<Item = &Preset> {
         self.presets.values()
+    }
+
+    pub fn origins(&self) -> impl Iterator<Item = &Origin> {
+        self.origins.values()
+    }
+
+    pub fn resonances(&self) -> impl Iterator<Item = &Resonance> {
+        self.resonances.values()
+    }
+
+    pub fn objectives(&self) -> impl Iterator<Item = &Objective> {
+        self.objectives.values()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::req::PrereqGroup;
+
+    const NEW_FORMAT: &str = r#"{
+        "talents": {
+            "a_world_without_song": {
+                "name": "A World Without Song",
+                "desc": "",
+                "rarity": "Advanced",
+                "category": "Silencer",
+                "reqs": "75s WND",
+                "prereqs": ["talent:silencers_blade"],
+                "count_towards_talent_total": true,
+                "vaulted": false,
+                "voi": false
+            }
+        },
+        "objectives": {
+            "justicar": {
+                "name": "Justicar",
+                "desc": "",
+                "accountWideUnlock": true
+            }
+        }
+    }"#;
+
+    #[test]
+    fn new_format_requirement() {
+        let data = DeepData::from_json(NEW_FORMAT).unwrap();
+        let talent = data.get_talent("a_world_without_song").unwrap();
+
+        let req = talent.requirement("a_world_without_song");
+        assert_eq!(req.name, Some("talent:a_world_without_song".to_string()));
+        assert_eq!(
+            req.prereqs,
+            std::collections::BTreeSet::from([PrereqGroup::single("talent:silencers_blade")])
+        );
+        assert_eq!(req.clauses.len(), 1);
+    }
+
+    #[test]
+    fn objectives_table_loads() {
+        let data = DeepData::from_json(NEW_FORMAT).unwrap();
+        let objective = data.get_objective("justicar").unwrap();
+
+        assert_eq!(objective.name, "Justicar");
+        assert!(objective.account_wide_unlock);
+
+        let req = data.requirement("objective:justicar").unwrap();
+        assert_eq!(req.name, Some("objective:justicar".to_string()));
+        assert!(req.is_empty());
     }
 }

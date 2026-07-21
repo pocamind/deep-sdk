@@ -237,11 +237,90 @@ impl fmt::Display for Clause {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct PrereqGroup {
+    pub alternatives: BTreeSet<String>,
+}
+
+impl PrereqGroup {
+    #[must_use]
+    pub fn single(name: &str) -> Self {
+        Self {
+            alternatives: BTreeSet::from([name.to_string()]),
+        }
+    }
+
+    #[must_use]
+    pub fn any<I, S>(names: I) -> Self
+    where
+        I: IntoIterator<Item = S>,
+        S: Into<String>,
+    {
+        Self {
+            alternatives: names.into_iter().map(Into::into).collect(),
+        }
+    }
+
+    #[must_use]
+    pub fn is_single(&self) -> bool {
+        self.alternatives.len() == 1
+    }
+
+    pub fn alternatives(&self) -> impl Iterator<Item = &String> {
+        self.alternatives.iter()
+    }
+
+    pub fn parse(input: &str) -> error::Result<Self> {
+        crate::parse::req::parse_prereq_group(input)
+    }
+}
+
+impl fmt::Display for PrereqGroup {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.alternatives
+                .iter()
+                .cloned()
+                .collect::<Vec<String>>()
+                .join(" | ")
+        )
+    }
+}
+
+impl FromStr for PrereqGroup {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        crate::parse::req::parse_prereq_group(s).map_err(|e| format!("Failed to parse prereq: {e}"))
+    }
+}
+
+impl<'de> Deserialize<'de> for PrereqGroup {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        s.parse().map_err(de::Error::custom)
+    }
+}
+
+impl Serialize for PrereqGroup {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(&self.to_string())
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Requirement {
     // optional name for the req for referencing elsewhere
     pub name: Option<String>,
     // DIRECT prerequisites (does not include transitive)
-    pub prereqs: BTreeSet<String>,
+    pub prereqs: BTreeSet<PrereqGroup>,
 
     pub clauses: BTreeSet<Clause>,
 }
@@ -266,7 +345,7 @@ impl Requirement {
     }
 
     pub fn add_prereq(&mut self, prereq: &str) -> &mut Self {
-        self.prereqs.insert(prereq.to_string());
+        self.prereqs.insert(PrereqGroup::single(prereq));
         self
     }
 
@@ -400,11 +479,11 @@ impl fmt::Display for Requirement {
                 self.prereqs
                     .iter()
                     .enumerate()
-                    .fold(String::new(), |mut acc, (i, val)| {
+                    .fold(String::new(), |mut acc, (i, group)| {
                         if i > 0 {
                             acc.push_str(", ");
                         }
-                        acc.push_str(val);
+                        acc.push_str(&group.to_string());
                         acc
                     })
             )?;

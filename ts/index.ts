@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, DAMAGE_TYPES, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { AggregateMode, BuildTotalStats, Aspect, BuildSnapshot, CombatState, DamageType, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Outfit, Preset, RangeType, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
+export type { AggregateMode, BuildTotalStats, Aspect, BuildSnapshot, CombatState, DamageType, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Objective, Origin, Outfit, Preset, RangeType, Resonance, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { BuildTotalStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Outfit, Preset, Scenario, Stat, Talent, Weapon } from './types.js';
+import type { BuildTotalStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Preset, Resonance, Scenario, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 // a top-level await here breaks older webkit stuff
@@ -17,10 +17,7 @@ export function init(): Promise<void> {
 
         if (typeof process !== 'undefined' && process.versions?.node) {
             const { readFile } = await import('node:fs/promises');
-            const { createRequire } = await import('node:module');
-            const require = createRequire(import.meta.url);
-            const wasmPath = require.resolve('deepwoken/pkg/deepwoken_bg.wasm');
-            await mod.default(await readFile(wasmPath));
+            await mod.default(await readFile(new URL('./pkg/deepwoken_bg.wasm', import.meta.url)));
         } else {
             await mod.default();
         }
@@ -66,6 +63,21 @@ export class DeepData {
     getAspect(name: string): Aspect | null { return this._wasm.getAspect(name); }
     getEnchant(name: string): Enchant | null { return this._wasm.getEnchant(name); }
     getPreset(name: string): Preset | null { return this._wasm.getPreset(name); }
+    getOrigin(name: string): Origin | null { return this._wasm.getOrigin(name); }
+    getResonance(name: string): Resonance | null { return this._wasm.getResonance(name); }
+    getObjective(name: string): Objective | null { return this._wasm.getObjective(name); }
+
+    requirement(id: string): Requirement | null {
+        const wasm = this._wasm.requirement(id);
+        if (wasm == null) return null;
+        const req = new Requirement("()");
+        req._wasm = wasm;
+        return req;
+    }
+
+    prereqGraph(): PrereqGraph {
+        return new PrereqGraph(this._wasm.prereqGraph());
+    }
 
     talents(): Talent[] { return this._wasm.talents(); }
     mantras(): Mantra[] { return this._wasm.mantras(); }
@@ -75,10 +87,35 @@ export class DeepData {
     aspects(): Aspect[] { return this._wasm.aspects(); }
     enchants(): Enchant[] { return this._wasm.enchants(); }
     presets(): Preset[] { return this._wasm.presets(); }
+    origins(): Origin[] { return this._wasm.origins(); }
+    resonances(): Resonance[] { return this._wasm.resonances(); }
+    objectives(): Objective[] { return this._wasm.objectives(); }
 
     aggregateStats(snapshot: BuildSnapshot, scenario?: Scenario): BuildTotalStats {
         return this._wasm.aggregateStats(snapshot, scenario);
     }
+
+    grantedTalents(snapshot: BuildSnapshot): string[] {
+        return this._wasm.grantedTalents(snapshot);
+    }
+}
+
+export class PrereqGraph {
+    /** @internal */
+    _wasm: any;
+
+    /** @internal */
+    constructor(wasm: any) {
+        this._wasm = wasm;
+    }
+
+    contains(id: string): boolean { return this._wasm.contains(id); }
+    nodes(): string[] { return this._wasm.nodes(); }
+    prereqs(id: string): string[][] | null { return this._wasm.prereqs(id) ?? null; }
+    dependents(id: string): string[] | null { return this._wasm.dependents(id) ?? null; }
+    allPrereqs(id: string): string[] { return this._wasm.allPrereqs(id); }
+    allDependents(id: string): string[] { return this._wasm.allDependents(id); }
+    findCycle(): string[] | null { return this._wasm.findCycle() ?? null; }
 }
 
 /** Transforms the name of things ingame into a parsable identifier/key used in the database */
@@ -115,7 +152,8 @@ export class StatMap {
 }
 
 export class Requirement {
-    private _wasm: any;
+    /** @internal */
+    _wasm: any;
 
     constructor(input: string) {
         this._wasm = new (w().Requirement)(input);
@@ -125,7 +163,7 @@ export class Requirement {
     isEmpty(): boolean { return this._wasm.isEmpty(); }
     usedStats(): Stat[] { return this._wasm.usedStats(); }
     name(): string | null { return this._wasm.name(); }
-    prereqs(): string[] { return this._wasm.prereqs(); }
+    prereqs(): string[][] { return this._wasm.prereqs(); }
     clauses(): Clause[] { return this._wasm.clauses(); }
     addToStatAtoms(val: number): void { this._wasm.addToStatAtoms(val); }
     toString(): string { return this._wasm.toString(); }

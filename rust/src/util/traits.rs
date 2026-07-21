@@ -1,6 +1,10 @@
 use std::borrow::Borrow;
 
-use crate::{Stat, req::Requirement, util::statmap::StatMap};
+use crate::{
+    Stat,
+    req::{PrereqGroup, Requirement},
+    util::statmap::StatMap,
+};
 
 // Utility for dealing with a group of reqs
 pub trait ReqVecExt {
@@ -17,7 +21,11 @@ impl ReqVecExt for Vec<Requirement> {
         for req in self.iter_mut() {
             req.name = req.name.as_ref().map(|name| f(name));
 
-            req.prereqs = req.prereqs.iter().map(|name| f(name)).collect();
+            req.prereqs = req
+                .prereqs
+                .iter()
+                .map(|group| PrereqGroup::any(group.alternatives().map(|name| f(name))))
+                .collect();
         }
     }
 }

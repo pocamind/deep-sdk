@@ -2,10 +2,10 @@ use std::collections::BTreeSet;
 
 use crate::Stat;
 use crate::error::{DeepError, Result};
-use crate::model::req::{Atom, Clause, Reducability, Requirement};
+use crate::model::req::{Atom, Clause, PrereqGroup, Reducability, Requirement};
 use log::warn;
 use winnow::ascii::{Caseless, alpha1, digit1, multispace0};
-use winnow::combinator::{alt, delimited, opt, preceded, repeat, separated};
+use winnow::combinator::{alt, delimited, not, opt, preceded, repeat, separated};
 use winnow::prelude::*;
 use winnow::token::one_of;
 
@@ -52,10 +52,10 @@ pub(crate) fn requirement(input: &mut &str) -> ModalResult<Requirement> {
     Ok(req)
 }
 
-// prereq_prefix = identifier (',' identifier)* '=>' (identifier ':=')?
-fn prereq_prefix(input: &mut &str) -> ModalResult<(Vec<String>, Option<String>)> {
-    let prereqs: Vec<String> =
-        separated(1.., identifier, (multispace0, ',', multispace0)).parse_next(input)?;
+// prereq_prefix = prereq_group (',' prereq_group)* '=>' (identifier ':=')?
+fn prereq_prefix(input: &mut &str) -> ModalResult<(Vec<PrereqGroup>, Option<String>)> {
+    let prereqs: Vec<PrereqGroup> =
+        separated(1.., prereq_group, (multispace0, ',', multispace0)).parse_next(input)?;
 
     let _ = multispace0.parse_next(input)?;
     let _ = "=>".parse_next(input)?;
@@ -67,7 +67,7 @@ fn prereq_prefix(input: &mut &str) -> ModalResult<(Vec<String>, Option<String>)>
 }
 
 // name_prefix = identifier ':='
-fn name_prefix(input: &mut &str) -> ModalResult<(Vec<String>, Option<String>)> {
+fn name_prefix(input: &mut &str) -> ModalResult<(Vec<PrereqGroup>, Option<String>)> {
     let name = identifier.parse_next(input)?;
     let _ = multispace0.parse_next(input)?;
     let _ = ":=".parse_next(input)?;
@@ -76,11 +76,50 @@ fn name_prefix(input: &mut &str) -> ModalResult<(Vec<String>, Option<String>)> {
     Ok((Vec::new(), Some(name)))
 }
 
-// identifier = (alpha | digit | '_')+
+pub(crate) fn parse_prereq_group(input: &str) -> Result<PrereqGroup> {
+    let input = input.trim();
+    prereq_group_full
+        .parse(input)
+        .map_err(|e| DeepError::Req(e.to_string()))
+}
+
+fn prereq_group_full(input: &mut &str) -> ModalResult<PrereqGroup> {
+    let _ = multispace0.parse_next(input)?;
+    let group = prereq_group.parse_next(input)?;
+    let _ = multispace0.parse_next(input)?;
+    Ok(group)
+}
+
+pub(crate) fn prereq_group(input: &mut &str) -> ModalResult<PrereqGroup> {
+    let alts: Vec<String> =
+        separated(1.., identifier, (multispace0, '|', multispace0)).parse_next(input)?;
+    Ok(PrereqGroup::any(alts))
+}
+
 pub(crate) fn identifier(input: &mut &str) -> ModalResult<String> {
+    let first = segment.parse_next(input)?;
+    let rest: Vec<String> = repeat(0.., ns_segment).parse_next(input)?;
+
+    if rest.is_empty() {
+        Ok(first)
+    } else {
+        let mut out = first;
+        for seg in rest {
+            out.push(':');
+            out.push_str(&seg);
+        }
+        Ok(out)
+    }
+}
+
+fn segment(input: &mut &str) -> ModalResult<String> {
     let id: String =
         repeat(1.., one_of(('A'..='Z', 'a'..='z', '0'..='9', '_'))).parse_next(input)?;
     Ok(id)
+}
+
+fn ns_segment(input: &mut &str) -> ModalResult<String> {
+    preceded((':', not('=')), segment).parse_next(input)
 }
 
 // requirement = '(' ')' | clause (',' clause)*
@@ -430,21 +469,80 @@ mod tests {
         let req = parse_req("base, armor => reinforced := 90 FTD").unwrap();
         assert_eq!(
             req.prereqs,
-            BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+            BTreeSet::from([PrereqGroup::single("base"), PrereqGroup::single("armor")])
         );
         assert_eq!(req.name, Some("reinforced".to_string()));
         assert_eq!(req.clauses.len(), 1);
 
         let req = parse_req("base => 90 FTD").unwrap();
-        assert_eq!(req.prereqs, BTreeSet::from(["base".to_owned()]));
+        assert_eq!(req.prereqs, BTreeSet::from([PrereqGroup::single("base")]));
         assert!(req.name.is_none());
 
         let req = parse_req("base, armor => 50 INT, 25 STR OR 25 AGL").unwrap();
         assert_eq!(
             req.prereqs,
-            BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+            BTreeSet::from([PrereqGroup::single("base"), PrereqGroup::single("armor")])
         );
         assert_eq!(req.clauses.len(), 2);
+    }
+
+    #[test]
+    fn qualified_identifiers() {
+        let req = parse_req("origin:castaway => talent:voidwalker_contract := 90 FTD").unwrap();
+        assert_eq!(
+            req.prereqs,
+            BTreeSet::from([PrereqGroup::single("origin:castaway")])
+        );
+        assert_eq!(req.name, Some("talent:voidwalker_contract".to_string()));
+        assert_eq!(req.clauses.len(), 1);
+
+        let req = parse_req("mantra:arc_beam := ()").unwrap();
+        assert_eq!(req.name, Some("mantra:arc_beam".to_string()));
+        assert!(req.is_empty());
+
+        let req = parse_req("aspect:khan, origin:voidwalker => 25 STR").unwrap();
+        assert_eq!(
+            req.prereqs,
+            BTreeSet::from([
+                PrereqGroup::single("aspect:khan"),
+                PrereqGroup::single("origin:voidwalker")
+            ])
+        );
+    }
+
+    #[test]
+    fn assign_disambiguation() {
+        let req = parse_req("foo:= 90 FTD").unwrap();
+        assert_eq!(req.name, Some("foo".to_string()));
+
+        let req = parse_req("talent:foo:= 90 FTD").unwrap();
+        assert_eq!(req.name, Some("talent:foo".to_string()));
+
+        let req = parse_req("origin:castaway=>talent:foo:=90 FTD").unwrap();
+        assert_eq!(
+            req.prereqs,
+            BTreeSet::from([PrereqGroup::single("origin:castaway")])
+        );
+        assert_eq!(req.name, Some("talent:foo".to_string()));
+    }
+
+    #[test]
+    fn or_group_round_trip() {
+        let req =
+            parse_req("origin:castaway | origin:lone_warrior => talent:stranded := 25 STR").unwrap();
+
+        let group = req.prereqs.iter().next().unwrap();
+        assert!(!group.is_single());
+        assert_eq!(req.prereqs.len(), 1);
+
+        let rendered = req.to_string();
+        let reparsed = parse_req(&rendered).unwrap();
+        assert_eq!(req, reparsed);
+
+        let req = parse_req("a:x | a:y, b:z => 40 INT").unwrap();
+        assert_eq!(req.prereqs.len(), 2);
+        let reparsed = parse_req(&req.to_string()).unwrap();
+        assert_eq!(req, reparsed);
     }
 
     #[test]

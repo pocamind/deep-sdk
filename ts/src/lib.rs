@@ -5,6 +5,7 @@ use deepwoken_rs::data::DeepData;
 use deepwoken_rs::model::aggregate::{BuildParams, Scenario};
 use deepwoken_rs::model::req::Requirement;
 use deepwoken_rs::util::aggregate;
+use deepwoken_rs::util::graph::PrereqGraph;
 use deepwoken_rs::util::statmap::StatMap;
 use deepwoken_rs::util::{algos, name_to_identifier};
 use wasm_bindgen::prelude::*;
@@ -93,6 +94,32 @@ impl JsDeepData {
         to_js(&self.inner.get_preset(name))
     }
 
+    #[wasm_bindgen(js_name = "getOrigin")]
+    pub fn get_origin(&self, name: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.get_origin(name))
+    }
+
+    #[wasm_bindgen(js_name = "getResonance")]
+    pub fn get_resonance(&self, name: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.get_resonance(name))
+    }
+
+    #[wasm_bindgen(js_name = "getObjective")]
+    pub fn get_objective(&self, name: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.get_objective(name))
+    }
+
+    pub fn requirement(&self, id: &str) -> Option<JsRequirement> {
+        self.inner.requirement(id).map(|inner| JsRequirement { inner })
+    }
+
+    #[wasm_bindgen(js_name = "prereqGraph")]
+    pub fn prereq_graph(&self) -> JsPrereqGraph {
+        JsPrereqGraph {
+            inner: self.inner.prereq_graph(),
+        }
+    }
+
     pub fn talents(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.talents().collect::<Vec<_>>())
     }
@@ -121,6 +148,18 @@ impl JsDeepData {
         to_js(&self.inner.enchants().collect::<Vec<_>>())
     }
 
+    pub fn origins(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.origins().collect::<Vec<_>>())
+    }
+
+    pub fn resonances(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.resonances().collect::<Vec<_>>())
+    }
+
+    pub fn objectives(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.objectives().collect::<Vec<_>>())
+    }
+
     pub fn presets(&self) -> Result<JsValue, JsError> {
         to_js(&self.inner.presets().collect::<Vec<_>>())
     }
@@ -139,6 +178,58 @@ impl JsDeepData {
             serde_wasm_bindgen::from_value(scenario).map_err(|e| JsError::new(&e.to_string()))?
         };
         to_js(&aggregate::aggregate(&self.inner, &snapshot, scenario))
+    }
+
+    #[wasm_bindgen(js_name = "grantedTalents")]
+    pub fn granted_talents(&self, snapshot: JsValue) -> Result<JsValue, JsError> {
+        let snapshot: BuildParams =
+            serde_wasm_bindgen::from_value(snapshot).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&aggregate::granted_talents(&self.inner, &snapshot))
+    }
+}
+
+#[wasm_bindgen(js_name = "PrereqGraph")]
+pub struct JsPrereqGraph {
+    inner: PrereqGraph,
+}
+
+#[wasm_bindgen(js_class = "PrereqGraph")]
+impl JsPrereqGraph {
+    pub fn contains(&self, id: &str) -> bool {
+        self.inner.contains(id)
+    }
+
+    pub fn nodes(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.nodes().collect::<Vec<_>>())
+    }
+
+    pub fn prereqs(&self, id: &str) -> Result<JsValue, JsError> {
+        let groups: Option<Vec<Vec<String>>> = self.inner.prereqs(id).map(|gs| {
+            gs.iter()
+                .map(|g| g.alternatives().cloned().collect())
+                .collect()
+        });
+        to_js(&groups)
+    }
+
+    pub fn dependents(&self, id: &str) -> Result<JsValue, JsError> {
+        let deps: Option<Vec<&String>> = self.inner.dependents(id).map(|d| d.iter().collect());
+        to_js(&deps)
+    }
+
+    #[wasm_bindgen(js_name = "allPrereqs")]
+    pub fn all_prereqs(&self, id: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.all_prereqs(id).into_iter().collect::<Vec<_>>())
+    }
+
+    #[wasm_bindgen(js_name = "allDependents")]
+    pub fn all_dependents(&self, id: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.all_dependents(id).into_iter().collect::<Vec<_>>())
+    }
+
+    #[wasm_bindgen(js_name = "findCycle")]
+    pub fn find_cycle(&self) -> Result<JsValue, JsError> {
+        to_js(&self.inner.find_cycle())
     }
 }
 
@@ -252,8 +343,13 @@ impl JsRequirement {
     }
 
     pub fn prereqs(&self) -> Result<JsValue, JsError> {
-        let prereqs: Vec<&str> = self.inner.prereqs.iter().map(String::as_str).collect();
-        to_js(&prereqs)
+        let groups: Vec<Vec<String>> = self
+            .inner
+            .prereqs
+            .iter()
+            .map(|g| g.alternatives().cloned().collect())
+            .collect();
+        to_js(&groups)
     }
 
     pub fn clauses(&self) -> Result<JsValue, JsError> {

@@ -2,6 +2,7 @@ use std::collections::{BTreeSet, HashSet};
 
 use super::reqfile::{gen_reqfile, parse_reqfile_str};
 use crate::Stat;
+use crate::model::req::PrereqGroup;
 
 #[test]
 fn reqfile_prereqs() {
@@ -45,7 +46,10 @@ fn reqfile_prereqs() {
         .iter()
         .find(|r| r.name == Some("advanced".to_string()))
         .unwrap();
-    assert_eq!(advanced.prereqs, BTreeSet::from(["base".to_owned()]));
+    assert_eq!(
+        advanced.prereqs,
+        BTreeSet::from([PrereqGroup::single("base")])
+    );
     let upgraded = payload
         .general
         .iter()
@@ -53,13 +57,13 @@ fn reqfile_prereqs() {
         .unwrap();
     assert_eq!(
         upgraded.prereqs,
-        BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+        BTreeSet::from([PrereqGroup::single("base"), PrereqGroup::single("armor")])
     );
 
     let anon = payload.general.iter().find(|r| r.name.is_none()).unwrap();
     assert_eq!(
         anon.prereqs,
-        BTreeSet::from(["base".to_owned(), "armor".to_owned()])
+        BTreeSet::from([PrereqGroup::single("base"), PrereqGroup::single("armor")])
     );
 }
 

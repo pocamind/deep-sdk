@@ -78,7 +78,7 @@ pub fn all_talents(data: &DeepData, build: &BuildParams) -> Vec<String> {
 /// aspect, or implicitly by meeting stat requirements
 #[must_use]
 pub fn granted_talents(data: &DeepData, build: &BuildParams) -> Vec<String> {
-    let mut seen: HashSet<String> = build.talents.iter().cloned().collect();
+    let mut seen: HashSet<String> = HashSet::new();
     let mut granted = Vec::new();
 
     let mut push = |name: &str| {
