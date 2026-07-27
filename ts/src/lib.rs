@@ -1,3 +1,4 @@
+use std::cell::RefCell;
 use std::collections::HashMap;
 
 use deepwoken_rs::Stat;
@@ -5,6 +6,7 @@ use deepwoken_rs::data::DeepData;
 use deepwoken_rs::model::aggregate::{BuildParams, Scenario};
 use deepwoken_rs::model::req::Requirement;
 use deepwoken_rs::util::aggregate;
+use deepwoken_rs::util::facts::{self, FactsParams};
 use deepwoken_rs::util::graph::PrereqGraph;
 use deepwoken_rs::util::statmap::StatMap;
 use deepwoken_rs::util::{algos, name_to_identifier};
@@ -13,12 +15,26 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen(js_name = "DeepData")]
 pub struct JsDeepData {
     inner: DeepData,
+    tables: RefCell<HashMap<&'static str, JsValue>>,
 }
 
 fn to_js<T: serde::Serialize>(value: &T) -> Result<JsValue, JsError> {
     value
         .serialize(&serde_wasm_bindgen::Serializer::new().serialize_maps_as_objects(true))
         .map_err(|e| JsError::new(&e.to_string()))
+}
+
+fn cached(
+    tables: &RefCell<HashMap<&'static str, JsValue>>,
+    key: &'static str,
+    build: impl FnOnce() -> Result<JsValue, JsError>,
+) -> Result<JsValue, JsError> {
+    if let Some(value) = tables.borrow().get(key) {
+        return Ok(value.clone());
+    }
+    let value = build()?;
+    tables.borrow_mut().insert(key, value.clone());
+    Ok(value)
 }
 
 #[wasm_bindgen(js_class = "DeepData")]
@@ -32,7 +48,7 @@ impl JsDeepData {
         let data = DeepData::from_release(&release)
             .await
             .map_err(|e| JsError::new(&e.to_string()))?;
-        Ok(JsDeepData { inner: data })
+        Ok(JsDeepData { inner: data, tables: RefCell::new(HashMap::new()) })
     }
 
     /// Fetch the latest data bundle from a fork
@@ -44,14 +60,14 @@ impl JsDeepData {
         let data = DeepData::from_release(&release)
             .await
             .map_err(|e| JsError::new(&e.to_string()))?;
-        Ok(JsDeepData { inner: data })
+        Ok(JsDeepData { inner: data, tables: RefCell::new(HashMap::new()) })
     }
 
     /// Parse data from a JSON string
     #[wasm_bindgen(js_name = "fromJson")]
     pub fn from_json(json: &str) -> Result<JsDeepData, JsError> {
         let data = DeepData::from_json(json).map_err(|e| JsError::new(&e.to_string()))?;
-        Ok(JsDeepData { inner: data })
+        Ok(JsDeepData { inner: data, tables: RefCell::new(HashMap::new()) })
     }
 
     #[wasm_bindgen(js_name = "getTalent")]
@@ -121,47 +137,69 @@ impl JsDeepData {
     }
 
     pub fn talents(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.talents().collect::<Vec<_>>())
+        cached(&self.tables, "talents", || {
+            to_js(&self.inner.talents().collect::<Vec<_>>())
+        })
     }
 
     pub fn mantras(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.mantras().collect::<Vec<_>>())
+        cached(&self.tables, "mantras", || {
+            to_js(&self.inner.mantras().collect::<Vec<_>>())
+        })
     }
 
     pub fn weapons(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.weapons().collect::<Vec<_>>())
+        cached(&self.tables, "weapons", || {
+            to_js(&self.inner.weapons().collect::<Vec<_>>())
+        })
     }
 
     pub fn outfits(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.outfits().collect::<Vec<_>>())
+        cached(&self.tables, "outfits", || {
+            to_js(&self.inner.outfits().collect::<Vec<_>>())
+        })
     }
 
     pub fn equipment(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.equipment().collect::<Vec<_>>())
+        cached(&self.tables, "equipment", || {
+            to_js(&self.inner.equipment().collect::<Vec<_>>())
+        })
     }
 
     pub fn aspects(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.aspects().collect::<Vec<_>>())
+        cached(&self.tables, "aspects", || {
+            to_js(&self.inner.aspects().collect::<Vec<_>>())
+        })
     }
 
     pub fn enchants(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.enchants().collect::<Vec<_>>())
+        cached(&self.tables, "enchants", || {
+            to_js(&self.inner.enchants().collect::<Vec<_>>())
+        })
     }
 
     pub fn origins(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.origins().collect::<Vec<_>>())
+        cached(&self.tables, "origins", || {
+            to_js(&self.inner.origins().collect::<Vec<_>>())
+        })
     }
 
     pub fn resonances(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.resonances().collect::<Vec<_>>())
+        cached(&self.tables, "resonances", || {
+            to_js(&self.inner.resonances().collect::<Vec<_>>())
+        })
     }
 
     pub fn objectives(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.objectives().collect::<Vec<_>>())
+        cached(&self.tables, "objectives", || {
+            to_js(&self.inner.objectives().collect::<Vec<_>>())
+        })
     }
 
     pub fn presets(&self) -> Result<JsValue, JsError> {
-        to_js(&self.inner.presets().collect::<Vec<_>>())
+        cached(&self.tables, "presets", || {
+            to_js(&self.inner.presets().collect::<Vec<_>>())
+        })
     }
 
     #[wasm_bindgen(js_name = "aggregateStats")]
@@ -185,6 +223,13 @@ impl JsDeepData {
         let snapshot: BuildParams =
             serde_wasm_bindgen::from_value(snapshot).map_err(|e| JsError::new(&e.to_string()))?;
         to_js(&aggregate::granted_talents(&self.inner, &snapshot))
+    }
+
+    #[wasm_bindgen(js_name = "buildFacts")]
+    pub fn build_facts(&self, params: JsValue) -> Result<JsValue, JsError> {
+        let params: FactsParams =
+            serde_wasm_bindgen::from_value(params).map_err(|e| JsError::new(&e.to_string()))?;
+        to_js(&facts::build_facts(&self.inner, &params))
     }
 }
 

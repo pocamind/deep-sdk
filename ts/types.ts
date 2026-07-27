@@ -200,6 +200,36 @@ export interface BuildSnapshot {
     mantras?: MantraSelection[];
 }
 
+export interface FactsParams {
+    race?: string;
+    origin?: string | null;
+    oath?: string | null;
+    talents?: string[];
+    equipment?: EquipmentSelection[];
+    outfit?: string | null;
+    /** One stat map per progression stage, in order. */
+    stages?: Partial<Record<Stat, number>>[];
+}
+
+/** Everything obtainment needs to know about a build that is not the requirement rows themselves.
+ *
+ * `given` (origin, aspect, oath, outfit) satisfy prereqs and are permanent. `granted` (from worn
+ * equipment, the outfit and the aspect) have vacuous reqs of their own but do NOT satisfy prereqs,
+ * so anything depending on one still has to earn its own copy. `implicitStages` are attunement
+ * milestones: they do satisfy prereqs, but they are impermanent, so they carry the stage indices
+ * where the stats actually reach them rather than a flat set. The three are not interchangeable. */
+export interface BuildFacts {
+    /** Talent names the user explicitly chose. */
+    picked: string[];
+    /** Qualified ids, e.g. `origin:castaway`, `aspect:etrean`, `talent:oath_oathless`. */
+    given: string[];
+    /** Qualified talent ids. */
+    granted: string[];
+    /** Qualified talent id to the stage indices where the milestone is present. */
+    implicitStages: Record<string, number[]>;
+    khan: boolean;
+}
+
 export interface BuildTotalStats {
     flat: Record<string, StatSource[]>;
     percents: Record<string, StatSource[]>;

@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, DAMAGE_TYPES, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { AggregateMode, BuildTotalStats, Aspect, BuildSnapshot, CombatState, DamageType, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Objective, Origin, Outfit, Preset, RangeType, Resonance, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
+export type { AggregateMode, BuildFacts, BuildTotalStats, Aspect, BuildSnapshot, CombatState, FactsParams, DamageType, Enchant, Equipment, EquipmentSelection, EquipmentSlot, ItemRarity, Mantra, MantraSelection, MantraType, Objective, Origin, Outfit, Preset, RangeType, Resonance, Scenario, Stat, StatFormula, StatSource, Talent, TalentRarity, Weapon, WeaponSelection, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { BuildTotalStats, Aspect, BuildSnapshot, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Preset, Resonance, Scenario, Stat, Talent, Weapon } from './types.js';
+import type { BuildFacts, BuildTotalStats, Aspect, BuildSnapshot, Enchant, FactsParams, Equipment, Mantra, Objective, Origin, Outfit, Preset, Resonance, Scenario, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 // a top-level await here breaks older webkit stuff
@@ -100,6 +100,10 @@ export class DeepData {
 
     grantedTalents(snapshot: BuildSnapshot): string[] {
         return this._wasm.grantedTalents(snapshot);
+    }
+
+    buildFacts(params: FactsParams): BuildFacts {
+        return this._wasm.buildFacts(params);
     }
 }
 
