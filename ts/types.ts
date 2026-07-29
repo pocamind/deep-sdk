@@ -86,14 +86,12 @@ export interface Mantra {
 
 export interface Outfit {
     name: string;
-    pants_id: string | null;
-    shirt_id: string | null;
+    variants: string[];
     category: string;
     durability: number;
     resistances: Record<string, number>;
     extra_percents: Record<string, number>;
     talent: string | null;
-    variants: string[];
     reqs: string;
     mats: Record<string, number>;
     notes: number;

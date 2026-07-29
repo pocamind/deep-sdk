@@ -66,16 +66,12 @@ pub struct StatValue {
 pub struct Outfit {
     pub name: String,
     #[serde(default)]
-    pub pants_id: Option<String>,
-    #[serde(default)]
-    pub shirt_id: Option<String>,
+    pub variants: Vec<String>,
     pub category: String,
     pub durability: i64,
     pub resistances: HashMap<String, f64>,
     pub extra_percents: HashMap<String, i64>,
     pub talent: Option<String>,
-    #[serde(default)]
-    pub variants: Vec<String>,
     pub reqs: Requirement,
     #[serde(default)]
     pub prereqs: Vec<PrereqGroup>,
