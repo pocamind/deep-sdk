@@ -2024,7 +2024,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "An otherworldly set of faux horns. Faint scratches on the back spell something like 'Aazel', though the writing is weathered almost beyond recognition. Whoever wore these must have long since drowned. Strangely, they're warm to the touch.",
+      "desc": "An otherwordly set of faux horns. Faint scratches on the back spell something like 'Aazel', though the writing is weathered almost beyond recognition. Whoever wore these must have long since drowned. Strangely, they're warm to the touch.",
       "voi_only": false
     },
     "abyss_wanderers_boots": {
@@ -2081,7 +2081,13 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Ash",
+        "Pink",
+        "Rural",
+        "Sable",
+        "Tawny"
+      ],
       "talents": [
         "Unwavering Resolve"
       ],
@@ -2122,10 +2128,20 @@
       "type": "Torso",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Black",
+        "Classic",
+        "Crimson",
+        "Dawn",
+        "Desert",
+        "Dusk",
+        "Forest",
+        "Tundra",
+        "White"
+      ],
       "talents": [],
       "innates": {
-        "Wind Resistance": {
+        "Elemental Armor": {
           "value": 3,
           "percentage": true
         }
@@ -2189,7 +2205,10 @@
       "type": "Head",
       "rarity": "Uncommon",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Leather",
+        "Quatrefoil"
+      ],
       "talents": [
         "Apothecary"
       ],
@@ -2217,7 +2236,7 @@
         "Rare": 2,
         "Legendary": 1
       },
-      "reqs": "90r TTL",
+      "reqs": "()",
       "voi": true,
       "desc": "...",
       "voi_only": true
@@ -2272,7 +2291,7 @@
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "A golden pendant in the likeness of the Kyrsan Suncross, known to them as Ameda. In the ruins of Old Kyrsa, the Amedan Temple is said to still stand, though there are no longer free souls to make pilgrimage to it, or to receives its impression.",
+      "desc": "A golden pendant in the likeness of the Kyrsan Suncross, known to them as Ameda. In the ruins of Old Kyrsa, the Amedan Temple is said to still stand, though there are no longer free souls to make pilgrimage to it, or to receive its impression.",
       "voi_only": false
     },
     "amethyst_pendant_earrings": {
@@ -2300,9 +2319,9 @@
       "rarity": "Uncommon",
       "set": "Aristocrat",
       "variants": [
+        "Beige",
         "Burgundy",
-        "Slate",
-        "Beige"
+        "Slate"
       ],
       "talents": [
         "Art of the Deal"
@@ -2314,7 +2333,8 @@
         }
       },
       "pips": {
-        "Rare": 2
+        "Rare": 2,
+        "Legendary": 1
       },
       "reqs": "165r TTL",
       "voi": false,
@@ -2379,13 +2399,17 @@
       "desc": "Ring imbued with self-fortifying Ironsing. Reduces Armor loss by 25%.",
       "voi_only": false
     },
-    "ascended_outlaw_boots": {
-      "name": "Ascended Outlaw Boots",
+    "ascended_outlaw_breeches": {
+      "name": "Ascended Outlaw Breeches",
       "equippable": true,
       "type": "Legs",
       "rarity": "Common",
       "set": "Ascended Outlaw",
-      "variants": [],
+      "variants": [
+        "Mountain",
+        "Tundra",
+        "Valley"
+      ],
       "talents": [
         "Stronger Under Pressure"
       ],
@@ -2415,8 +2439,12 @@
       "rarity": "Common",
       "set": "Ascended Outlaw",
       "variants": [
-        "Western",
-        "Ascended"
+        "Farmland",
+        "Fog",
+        "Mountain",
+        "Peaks",
+        "Tundra",
+        "Valley"
       ],
       "talents": [
         "Mass Effect"
@@ -2442,7 +2470,11 @@
       "type": "Face",
       "rarity": "Common",
       "set": "Ascended Outlaw",
-      "variants": [],
+      "variants": [
+        "Mountain",
+        "Tundra",
+        "Valley"
+      ],
       "talents": [
         "Destructive Yell"
       ],
@@ -2461,7 +2493,11 @@
       "type": "Arms",
       "rarity": "Common",
       "set": "Ascended Outlaw",
-      "variants": [],
+      "variants": [
+        "Mountain",
+        "Tundra",
+        "Valley"
+      ],
       "talents": [
         "Ether Pinpoint"
       ],
@@ -2488,9 +2524,9 @@
       "set": null,
       "variants": [
         "Carmine",
-        "Saphire",
         "Emerald",
-        "Gold"
+        "Gold",
+        "Sapphire"
       ],
       "talents": [],
       "innates": {},
@@ -2568,10 +2604,10 @@
       "rarity": "Rare",
       "set": "Assassin",
       "variants": [
+        "Crimson",
         "Gold",
-        "Pale",
         "Mist",
-        "Crimson"
+        "Pale"
       ],
       "talents": [
         "Deep Wound"
@@ -2601,7 +2637,7 @@
         "Bronze",
         "Gold",
         "Haze",
-        "Royal",
+        "Royale",
         "Ruby",
         "Stygian",
         "Verdant"
@@ -2616,7 +2652,7 @@
       "pips": {
         "Rare": 2
       },
-      "reqs": "195r TTL",
+      "reqs": "165r TTL",
       "voi": false,
       "wiki": "",
       "desc": "...",
@@ -2628,7 +2664,11 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized",
+        "Tarnished"
+      ],
       "talents": [
         "Strong Hold"
       ],
@@ -2677,7 +2717,7 @@
       "innates": {
         "Thunder Resistance": {
           "value": 3,
-          "percentage": false
+          "percentage": true
         }
       },
       "pips": {
@@ -2703,9 +2743,9 @@
         }
       },
       "pips": {
-        "Rare": 1
+        "Rare": 2
       },
-      "reqs": "()",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -2741,41 +2781,8 @@
       },
       "reqs": "()",
       "voi": true,
-      "desc": "Mantras cast immediately after you parry an attack an attack do 20% more damage",
+      "desc": "Mantras cast immediately after you parry an attack do 20% more damage.",
       "voi_only": true
-    },
-    "azure_royal_guard": {
-      "name": "Azure Royal Guard",
-      "equippable": true,
-      "type": "Arms",
-      "rarity": "Common",
-      "set": "Azure Royal Guard",
-      "variants": [],
-      "talents": [],
-      "innates": {},
-      "pips": {
-        "Rare": 2,
-        "Legendary": 1
-      },
-      "reqs": "135 ttl",
-      "voi": false,
-      "desc": "..."
-    },
-    "azure_royal_guard_boots": {
-      "name": "Azure Royal Guard Boots",
-      "equippable": true,
-      "type": "Legs",
-      "rarity": "Rare",
-      "set": "Azure Royal Guard",
-      "variants": [],
-      "talents": [],
-      "innates": {},
-      "pips": {
-        "Rare": 2
-      },
-      "reqs": "75 ttl",
-      "voi": false,
-      "desc": "..."
     },
     "azure_sentinel_boots": {
       "name": "Azure Sentinel Boots",
@@ -2783,7 +2790,10 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Azure Sentinel",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -2800,7 +2810,10 @@
       "type": "Arms",
       "rarity": "Common",
       "set": "Azure Sentinel",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -2820,8 +2833,15 @@
       "set": null,
       "variants": [],
       "talents": [],
-      "innates": {},
-      "pips": {},
+      "innates": {
+        "Health": {
+          "value": 5,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Uncommon": 1
+      },
       "reqs": "()",
       "voi": false,
       "desc": "A sturdy helmet shaped like a barrel.",
@@ -2912,7 +2932,10 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Leather",
+        "Quatrefoil"
+      ],
       "talents": [
         "Apothecary"
       ],
@@ -2931,10 +2954,13 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Leather",
+        "Quatrefoil"
+      ],
       "talents": [
-        "Herbivore",
-        "Iron Gut"
+        "Iron Gut",
+        "Herbivore"
       ],
       "innates": {},
       "pips": {
@@ -2945,71 +2971,58 @@
       "desc": "...",
       "voi_only": false
     },
-    "black_cape": {
-      "name": "Black Cape",
+    "blackalloy_helm": {
+      "name": "Blackalloy Helm",
       "equippable": true,
-      "type": "Torso",
-      "rarity": "Uncommon",
-      "set": null,
+      "type": "Head",
+      "rarity": "Rare",
+      "set": "Blackalloy",
       "variants": [],
-      "talents": [],
+      "talents": [
+        "Sloped Plate"
+      ],
       "innates": {
-        "Physical Armor": {
-          "value": 3,
-          "percentage": true
+        "Health": {
+          "value": 10,
+          "percentage": false
         }
       },
       "pips": {
-        "Legendary": 1
+        "Uncommon": 1,
+        "Rare": 1
       },
-      "reqs": "90 ttl",
-      "voi": false,
-      "desc": "..."
+      "reqs": "10r FTD",
+      "voi": true,
+      "desc": "An imposing helmet made from blackened steel.",
+      "voi_only": true
     },
-    "black_hood": {
-      "name": "Black Hood",
+    "blackalloy_pauldrons": {
+      "name": "Blackalloy Pauldrons",
       "equippable": true,
-      "type": "Head",
-      "rarity": "Uncommon",
-      "set": null,
+      "type": "Arms",
+      "rarity": "Rare",
+      "set": "Blackalloy",
       "variants": [],
-      "talents": [],
+      "talents": [
+        "Laminated Armor"
+      ],
       "innates": {
-        "Stealth": {
-          "value": 4,
-          "percentage": true
+        "Health": {
+          "value": 3,
+          "percentage": false
         },
         "Posture": {
           "value": 1,
           "percentage": false
         }
       },
-      "pips": {},
-      "reqs": "()",
-      "voi": false,
-      "desc": "A sleek black hood."
-    },
-    "black_scarf": {
-      "name": "Black Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Uncommon",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Shadow Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
       "pips": {
-        "Rare": 1,
-        "Legendary": 1
+        "Rare": 1
       },
-      "reqs": "90 ttl",
-      "voi": false,
-      "desc": "..."
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "blackleaf_helm": {
       "name": "Blackleaf Helm",
@@ -3083,7 +3096,7 @@
       "pips": {
         "Rare": 1
       },
-      "reqs": "()",
+      "reqs": "135r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -3094,20 +3107,24 @@
       "type": "Arms",
       "rarity": "Legendary",
       "set": "Blademaster",
-      "variants": [],
+      "variants": [
+        "Dark (Ronin)",
+        "Dark (Saint)",
+        "Light (Ronin)",
+        "Light (Saint)",
+        "Red (Ronin)",
+        "Red (Saint)",
+        "Seafoam (Ronin)",
+        "Seafoam (Saint)"
+      ],
       "talents": [
         "Swift Blade"
       ],
-      "innates": {
-        "Health": {
-          "value": 6,
-          "percentage": false
-        }
-      },
+      "innates": {},
       "pips": {
         "Rare": 3
       },
-      "reqs": "()",
+      "reqs": "195r TTL",
       "voi": false,
       "desc": "Often worn by those who seek to perfect their martial skill with the blade, these robes trace their origins to ancient Etrean tradition, offering their wearer both comfort and mobility. Fragmented historical records suggest that this style of robe was highly preferred by Etrean nobility. It is also said that the old Maestros - leaders of the Vigil of Winds, - would wear similar robes during ceremonial occasions, and displays of their martial mastery.",
       "voi_only": false
@@ -3143,9 +3160,9 @@
       "rarity": "Rare",
       "set": null,
       "variants": [
-        "White",
         "Black",
-        "Crimson"
+        "Crimson",
+        "White"
       ],
       "talents": [
         "Blinded"
@@ -3178,7 +3195,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "Increase all healing you receive by 33%. Reduce all damage you deal by 15%.",
+      "desc": "Increase all healing you receive by 20-33%. Reduce all damage you deal by 15%.",
       "voi_only": false
     },
     "blizzard_ring": {
@@ -3193,7 +3210,7 @@
       "pips": {},
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "Apply a very light slow on your opponent when landing a light attack and suffocate opponents when flourishing them. Gain extra ether when landing Galebreathe or Frostdraw attacks.",
+      "desc": "Apply a very light slow on your opponent when landing a light attack and suffocate opponents when flourishing them. Gain extra ether when landing Galebreath or Frostdraw attacks.",
       "voi_only": false
     },
     "bloodcurdle_cowl": {
@@ -3204,6 +3221,7 @@
       "set": "Bloodcurdle",
       "variants": [],
       "talents": [
+        "Bloodletter",
         "Blood Siphon"
       ],
       "innates": {
@@ -3229,7 +3247,7 @@
       "equippable": true,
       "type": "Face",
       "rarity": "Rare",
-      "set": "Bloodfeather",
+      "set": "Bloodcurdle",
       "variants": [],
       "talents": [
         "Blood Plague"
@@ -3315,7 +3333,7 @@
         }
       },
       "pips": {
-        "Rare": 2,
+        "Rare": 1,
         "Legendary": 1
       },
       "reqs": "165r TTL",
@@ -3340,7 +3358,7 @@
       "pips": {},
       "reqs": "()",
       "voi": false,
-      "desc": "A strange creature lurks within. When the life of another is taken, their blood is reconstituted into your armor.",
+      "desc": "A strange creature lurks within. When the life of another is taken, their blood is reconstituted into your armour.",
       "voi_only": false
     },
     "bluesteel_boots": {
@@ -3447,17 +3465,43 @@
       "pips": {
         "Uncommon": 1
       },
-      "reqs": "()",
+      "reqs": "240r TTL",
       "voi": false,
       "desc": "A ring made purely of dense bone. Improve all bone related attacks you do.",
       "voi_only": false
+    },
+    "bounty_hunters_boots": {
+      "name": "Bounty Hunter's Boots",
+      "equippable": true,
+      "type": "Legs",
+      "rarity": "Rare",
+      "set": "Bounty Hunter",
+      "variants": [],
+      "talents": [
+        "Endurance Runner",
+        "Gunslinger's Fury"
+      ],
+      "innates": {
+        "Health": {
+          "value": 2,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 2,
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "bounty_hunters_garb": {
       "name": "Bounty Hunter's Garb",
       "equippable": true,
       "type": "Arms",
       "rarity": "Rare",
-      "set": null,
+      "set": "Bounty Hunter",
       "variants": [],
       "talents": [
         "Piercing Shot",
@@ -3484,8 +3528,14 @@
       "type": "Head",
       "rarity": "Uncommon",
       "set": "Brigand",
-      "variants": [],
-      "talents": [],
+      "variants": [
+        "Fabric",
+        "Leather"
+      ],
+      "talents": [
+        "Spare Nails",
+        "Emergency Repairs"
+      ],
       "innates": {
         "Health": {
           "value": 3,
@@ -3506,7 +3556,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Brigand",
-      "variants": [],
+      "variants": [
+        "Fabric",
+        "Leather"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -3517,7 +3570,7 @@
       "pips": {
         "Rare": 2
       },
-      "reqs": "90r TTL",
+      "reqs": "()",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -3528,7 +3581,10 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Brilliant",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Rough"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -3545,7 +3601,18 @@
       "type": "Torso",
       "rarity": "Uncommon",
       "set": "Brilliant",
-      "variants": [],
+      "variants": [
+        "Adretian Hero",
+        "Antihero",
+        "Beastslayer",
+        "Default",
+        "Kingmaker",
+        "Lightbringer",
+        "Northerner",
+        "Paladin",
+        "Snowbringer",
+        "Ranger"
+      ],
       "talents": [],
       "innates": {
         "Elemental Armor": {
@@ -3561,13 +3628,18 @@
       "desc": "...",
       "voi_only": false
     },
-    "brilliant_pauldron": {
-      "name": "Brilliant Pauldron",
+    "brilliant_pauldrons": {
+      "name": "Brilliant Pauldrons",
       "equippable": true,
       "type": "Arms",
       "rarity": "Rare",
       "set": "Brilliant",
-      "variants": [],
+      "variants": [
+        "Debonair (Brushed)",
+        "Debonair (Rough)",
+        "Warlike (Brushed)",
+        "Warlike (Rough)"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -3579,9 +3651,34 @@
         "Rare": 2,
         "Legendary": 1
       },
-      "reqs": "165 ttl",
+      "reqs": "()",
       "voi": false,
       "desc": "..."
+    },
+    "broodplate_cuirass": {
+      "name": "Broodplate Cuirass",
+      "equippable": true,
+      "type": "Arms",
+      "rarity": "Rare",
+      "set": "Broodplate",
+      "variants": [],
+      "talents": [
+        "Rotten Regeneration"
+      ],
+      "innates": {
+        "Posture": {
+          "value": 2,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1,
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": false,
+      "desc": "",
+      "voi_only": false
     },
     "broodplate_helmet": {
       "name": "Broodplate Helmet",
@@ -3604,12 +3701,36 @@
         }
       },
       "pips": {
-        "Common": 1,
+        "Uncommon": 1,
         "Rare": 1
       },
       "reqs": "165r TTL",
       "voi": false,
       "desc": "...",
+      "voi_only": false
+    },
+    "broodplate_sabatons": {
+      "name": "Broodplate Sabatons",
+      "equippable": true,
+      "type": "Legs",
+      "rarity": "Common",
+      "set": "Broodplate",
+      "variants": [],
+      "talents": [
+        "Gut Rot"
+      ],
+      "innates": {
+        "Health": {
+          "value": 9,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": false,
+      "desc": "",
       "voi_only": false
     },
     "brow_stud": {
@@ -3632,91 +3753,17 @@
       "desc": "That's metal.",
       "voi_only": false
     },
-    "browline_citadel_frames": {
-      "name": "Browline Citadel Frames",
-      "equippable": true,
-      "type": "Face",
-      "rarity": "Rare",
-      "set": null,
-      "variants": [
-        "Black",
-        "Amber",
-        "Azure"
-      ],
-      "talents": [],
-      "innates": {
-        "Health": {
-          "value": 5,
-          "percentage": false
-        },
-        "Posture": {
-          "value": -1,
-          "percentage": false
-        }
-      },
-      "pips": {
-        "Rare": 1
-      },
-      "reqs": "()",
-      "voi": false,
-      "wiki": "",
-      "desc": "Designed for the scholars of the Citadel, these frames are renowned for their simple yet striking style, and are traded and sought after across all Luminants. Unfortunately, they are not your prescription...",
-      "voi_only": false
-    },
-    "brown_hood": {
-      "name": "Brown Hood",
-      "equippable": true,
-      "type": "Head",
-      "rarity": "Uncommon",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Stealth": {
-          "value": 2,
-          "percentage": true
-        },
-        "Posture": {
-          "value": 1,
-          "percentage": false
-        }
-      },
-      "pips": {},
-      "reqs": "()",
-      "voi": false,
-      "desc": "A sleek brown hood."
-    },
-    "bulwark_helm": {
-      "name": "Bulwark Helm",
-      "equippable": true,
-      "type": "Head",
-      "rarity": "Rare",
-      "set": null,
-      "variants": [],
-      "talents": [
-        "Strong Hold"
-      ],
-      "innates": {
-        "Health": {
-          "value": 3,
-          "percentage": false
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "135 ttl",
-      "voi": false,
-      "desc": "..."
-    },
     "canticlysm_pendant": {
       "name": "Canticlysm Pendant",
       "equippable": true,
       "type": "Torso",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Metal",
+        "Precious Stone",
+        "Tarnished"
+      ],
       "talents": [],
       "innates": {
         "Elemental Armor": {
@@ -3731,6 +3778,32 @@
       "reqs": "90r TTL",
       "voi": false,
       "wiki": "",
+      "desc": "...",
+      "voi_only": false
+    },
+    "captains_kabuto": {
+      "name": "Captain's Kabuto",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [
+        "Anaconda",
+        "Captain",
+        "Psammophis"
+      ],
+      "talents": [],
+      "innates": {
+        "Health": {
+          "value": 8,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1
+      },
+      "reqs": "()",
+      "voi": false,
       "desc": "...",
       "voi_only": false
     },
@@ -3751,6 +3824,54 @@
       "reqs": "90r TTL",
       "voi": true,
       "desc": "A perfect conduit to help channel your energy into force.",
+      "voi_only": true
+    },
+    "caster_fur_boots": {
+      "name": "Caster Fur Boots",
+      "equippable": true,
+      "type": "Legs",
+      "rarity": "Rare",
+      "set": "Caster Fur",
+      "variants": [],
+      "talents": [
+        "Ether Efficiency"
+      ],
+      "innates": {
+        "Health": {
+          "value": 3,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
+    },
+    "caster_fur_pauldrons": {
+      "name": "Caster Fur Pauldrons",
+      "equippable": true,
+      "type": "Arms",
+      "rarity": "Rare",
+      "set": "Caster Fur",
+      "variants": [],
+      "talents": [
+        "Ether Upgrade"
+      ],
+      "innates": {
+        "Health": {
+          "value": 3,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 2
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
       "voi_only": true
     },
     "celestial_boots": {
@@ -3795,7 +3916,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "...",
+      "desc": "Despite being a realm built primarily on commerce, the city of Celtor also possessed many long-standing military traditions, now lost to time. But, by candle light, among the Celtorian diaspora, some still recall their fragments, many generations since. These embers of history survive through word of mouth and recollection. Tales of valiant knights in shining armour, of glorious quests, of honour and virtue. Yet, what kernels of truth remain in these stories, diluted by the salt-brine of time?",
       "voi_only": false
     },
     "celtor_commander_plate": {
@@ -3804,7 +3925,12 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Celtor Commander",
-      "variants": [],
+      "variants": [
+        "Grand Marshal",
+        "Sable",
+        "Stygian",
+        "Tideknight"
+      ],
       "talents": [
         "Breathing Exercise"
       ],
@@ -3820,7 +3946,7 @@
       },
       "reqs": "165r TTL",
       "voi": false,
-      "desc": "...",
+      "desc": "Clad in sturdy mastercraft armour modelled to resemble the walls of Celtor, the city's highest-ranking officers oversaw the day-to-day running of its military affairs. What did they see, on Celtor's final, fateful day? What hearts of stone belayed the Grand Marshal's order to evacuate the city? How many of them fled ahead of time, seeking to save their sorry lives? What hand valiantly stayed behind, to shepherd desperate civilians to the harbour?",
       "voi_only": false
     },
     "celtorian_sabatons": {
@@ -3829,7 +3955,12 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Celtor Commander",
-      "variants": [],
+      "variants": [
+        "Grand Marshal",
+        "Sable",
+        "Stygian",
+        "Tideknight"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -3859,7 +3990,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "Reduces incoming knockback but removes your ability to Air Dash. Landing an uppercut with Chained Ring now disables your opponents' air dashes for 5 seconds and briefly makes them unable to roll.",
+      "desc": "Reduces incoming knockback but removes your ability to Air Dash. Landing an uppercut with Chained Ring now disables your opponent's air dashes for 5 seconds and briefly makes them unable to roll.",
       "voi_only": false
     },
     "champions_cape": {
@@ -3896,7 +4027,9 @@
       "variants": [],
       "talents": [],
       "innates": {},
-      "pips": {},
+      "pips": {
+        "Rare": 1
+      },
       "reqs": "()",
       "voi": false,
       "desc": "Reduces the charges required to proc Crystal Explosions and Surge Overloads, but also reduces the damage they deal.",
@@ -3927,13 +4060,49 @@
       "desc": "It's not raw, you are.",
       "voi_only": false
     },
+    "citadel_frames": {
+      "name": "Citadel Frames",
+      "equippable": true,
+      "type": "Face",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [
+        "Amber (Browline)",
+        "Amber (Round)",
+        "Azure (Browline)",
+        "Azure (Round)",
+        "Black (Browline)",
+        "Black (Round)"
+      ],
+      "talents": [],
+      "innates": {
+        "Health": {
+          "value": 5,
+          "percentage": false
+        },
+        "Posture": {
+          "value": -1,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1
+      },
+      "reqs": "()",
+      "voi": false,
+      "desc": "Designed for the scholars of the Citadel, these frames are renowned for their simple yet striking style, and are traded and sought after across all Luminants. Unfortunately, they are not your prescription...",
+      "voi_only": false
+    },
     "confessors_charm": {
       "name": "Confessor's Charm",
       "equippable": true,
       "type": "Torso",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Classic",
+        "Tarnished"
+      ],
       "talents": [],
       "innates": {
         "Physical Armor": {
@@ -3951,8 +4120,8 @@
       "desc": "An intricately bejewelled pendant, traditionally worn by academics and prestigious of the Lullaby Isles. Though you'll never really know its real symbolism, one can only assume it was some form of sacred item, something to be revered. It's surprisingly heavy, must've been annoyingly impractical. Who knows how it got into your hands.",
       "voi_only": false
     },
-    "corrupted_duelists_mask": {
-      "name": "Corrupted Duelist's Mask",
+    "corrupted_duelist_mask": {
+      "name": "Corrupted Duelist Mask",
       "equippable": true,
       "type": "Face",
       "rarity": "Rare",
@@ -4072,11 +4241,12 @@
         }
       },
       "pips": {
-        "Legendary": 1
+        "Legendary": 2
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "It's showtime!\n[*Note: Only obtainable through Goodie Bags.]",
+      "wiki": "Only obtainable through Goodie Bags.",
+      "desc": "It's showtime!",
       "voi_only": false
     },
     "crescent_earrings": {
@@ -4101,33 +4271,11 @@
       "desc": "...",
       "voi_only": false
     },
-    "crimson_scarf": {
-      "name": "Crimson Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Common",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Flame Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "90r ttl",
-      "voi": false,
-      "desc": "..."
-    },
     "crimson_terraplate_pauldrons": {
       "name": "Crimson Terraplate Pauldrons",
       "equippable": true,
       "type": "Arms",
-      "rarity": "Uncommon",
+      "rarity": "Rare",
       "set": null,
       "variants": [],
       "talents": [
@@ -4155,7 +4303,7 @@
       "pips": {
         "Uncommon": 1
       },
-      "reqs": "()",
+      "reqs": "240r TTL",
       "voi": false,
       "desc": "Infuse your Parasol's Blight with the essence of bone. Buff the health of any mobs you spawn with Parasol's Blight. Bonekeepers also potentially spawn from your Parasol's Blight proc.",
       "voi_only": false
@@ -4176,6 +4324,32 @@
       "voi": false,
       "desc": "...",
       "voi_only": false
+    },
+    "cultist_cowl": {
+      "name": "Cultist Cowl",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [],
+      "talents": [
+        "Experienced Healer"
+      ],
+      "innates": {
+        "Stealth": {
+          "value": 4,
+          "percentage": true
+        },
+        "Posture": {
+          "value": 1,
+          "percentage": false
+        }
+      },
+      "pips": {},
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "curseblood_pendant": {
       "name": "Curseblood Pendant",
@@ -4234,7 +4408,7 @@
       "innates": {
         "Stealth": {
           "value": 2,
-          "percentage": false
+          "percentage": true
         },
         "Shadow Resistance": {
           "value": 5,
@@ -4337,28 +4511,6 @@
       "desc": "A daring statement to the upper class, these earrings contain pearls taken from the clutches of enormous, vicious clams native to the southern seas before the Submergence. Their rarity has only deepened with time; not only were they perilously difficult to obtain, but the very creatures that produced them are now all but extinct.",
       "voi_only": false
     },
-    "dawn_scarf": {
-      "name": "Dawn Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Rare",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Shadow Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "90r TTL",
-      "voi": false,
-      "desc": "..."
-    },
     "dawnfists_ring": {
       "name": "Dawnfist's Ring",
       "equippable": true,
@@ -4373,7 +4525,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "Gives every weapon 1.2 strength scaling when equipped.",
+      "desc": "A ring once worn by an unparalleled warrior. It seems they finally met their match. +1.2 STR scaling to all weapons.",
       "voi_only": false
     },
     "dazed_band": {
@@ -4408,11 +4560,12 @@
         }
       },
       "pips": {
-        "Legendary": 1
+        "Legendary": 2
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "You may think this world is a dream come true... but you're wrong.\n[*Note: Only obtainable through Goodie Bags.]",
+      "wiki": "Only obtainable through Goodie Bags.",
+      "desc": "You may think this world is a dream come true... but you're wrong.",
       "voi_only": false
     },
     "deepfire_ring": {
@@ -4427,7 +4580,7 @@
       "pips": {},
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "Ring of Korilfiend. Burn status burns faster.",
+      "desc": "Ring of Korlifiend. Burn status burns faster, and lava eruptions have a reduced delay.",
       "voi_only": false
     },
     "deepscorn_casque": {
@@ -4452,18 +4605,18 @@
       },
       "reqs": "135r TTL",
       "voi": false,
-      "desc": "An artifact of dark renown, convincing them they are already dead, instilling a strange reckless calm, Crafted from darksteel, its history is steeped in blood; its last owner met a grim fate during a forbidden Ministry Ritual to grow a murky, grotesque abomination. Grayhule failed his experiments and succumbed to his own shadows. Dare to don this helm at your own peril.",
+      "desc": "An artifact of dark renown, convincing them they are already dead, instilling a strange reckless calm. Crafted from darksteel, its history is steeped in blood; its last owner met a grim fate during a forbidden Ministry Ritual to grow a murky, grotesque abomination. Grayrhule failed his experiments and succumbed to his own shadows. Dare to don this helm at your own peril.",
       "voi_only": false
     },
     "deepwoken_cloak": {
       "name": "Deepwoken Cloak",
       "equippable": true,
       "type": "Arms",
-      "rarity": "Rare",
+      "rarity": "Legendary",
       "set": "Deepwoken",
       "variants": [
-        "White",
-        "Black"
+        "Black",
+        "White"
       ],
       "talents": [
         "Blade Dancer"
@@ -4511,7 +4664,10 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Delver",
+        "Galeworn"
+      ],
       "talents": [
         "Surestep"
       ],
@@ -4560,7 +4716,14 @@
       "type": "Face",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Anaconda",
+        "Cobra",
+        "Mamba",
+        "Oni",
+        "Psammophis",
+        "Taipan"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -4572,7 +4735,7 @@
       "voi_only": false
     },
     "depths_supercharger": {
-      "name": "Depth's Supercharger",
+      "name": "Depths Supercharger",
       "equippable": true,
       "type": "Rings",
       "rarity": "Relic",
@@ -4625,7 +4788,7 @@
       "pips": {},
       "reqs": "()",
       "voi": true,
-      "desc": "Gain extra defense when you are insane, with this effect scaling based on how insane you are",
+      "desc": "Gain extra defense when you are insane, with this effect scaling based on how insane you are.",
       "voi_only": true
     },
     "dermal_stud": {
@@ -4648,34 +4811,11 @@
       "desc": "That's metal.",
       "voi_only": false
     },
-    "desert_scarf": {
-      "name": "Desert Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Uncommon",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Flame Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "90r TTL",
-      "voi": false,
-      "desc": "...",
-      "voi_only": false
-    },
     "destroyman_chain": {
       "name": "Destroyman Chain",
       "equippable": false,
       "type": "Torso",
-      "rarity": "Common",
+      "rarity": "Rare",
       "set": null,
       "variants": [],
       "talents": [],
@@ -4691,7 +4831,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "A chain for the strongest of pathfinders. Some would say the extra 0.1% physical armor on this makes it a spec. They would be right.",
+      "desc": "A chain for only the strongest of pathfinders. Some would say the extra 0.1% physical armor on this makes it a spec. They would be right.",
       "voi_only": false
     },
     "dew_drop_earrings": {
@@ -4775,8 +4915,8 @@
       "desc": "Your mantras always cost your entire ether bar but do 3x damage.",
       "voi_only": true
     },
-    "duelists_mask": {
-      "name": "Duelist's Mask",
+    "duelist_mask": {
+      "name": "Duelist Mask",
       "equippable": true,
       "type": "Face",
       "rarity": "Rare",
@@ -4808,7 +4948,8 @@
       ],
       "innates": {},
       "pips": {
-        "Common": 1
+        "Common": 1,
+        "Rare": 1
       },
       "reqs": "()",
       "voi": false,
@@ -4873,6 +5014,30 @@
       "voi": false,
       "desc": "...",
       "voi_only": false
+    },
+    "enforcer_helm": {
+      "name": "Enforcer Helm",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Common",
+      "set": null,
+      "variants": [],
+      "talents": [
+        "Blend In"
+      ],
+      "innates": {
+        "Health": {
+          "value": 4,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "enforcer_plate": {
       "name": "Enforcer Plate",
@@ -4965,7 +5130,13 @@
       "type": "Head",
       "rarity": "Unique",
       "set": "Ether Refined",
-      "variants": [],
+      "variants": [
+        "Default",
+        "Lilac",
+        "Navy",
+        "Sky",
+        "Verdant"
+      ],
       "talents": [
         "Sorcerer's Skill"
       ],
@@ -4980,7 +5151,7 @@
       },
       "reqs": "255r TTL",
       "voi": false,
-      "desc": "A finely crafted hat worn by master wizards of the Northern Luminant, imbued with song woven into its fabric. It amplifies the wearer's power in battle.",
+      "desc": "A finely crafted hat worn by master wizards of the Northen Luminant, imbued with song woven into its fabric. It amplifies the wearer's power in battle.",
       "voi_only": false
     },
     "ether_refined_mantle": {
@@ -4989,10 +5160,16 @@
       "type": "Arms",
       "rarity": "Unique",
       "set": "Ether Refined",
-      "variants": [],
+      "variants": [
+        "Lilac",
+        "Navy",
+        "Sky",
+        "Sorcerer",
+        "Verdant"
+      ],
       "talents": [
-        "Sorcerer's Supply",
-        "Overflowing Dam"
+        "Overflowing Dam",
+        "Sorcerer's Surge"
       ],
       "innates": {
         "Health": {
@@ -5016,7 +5193,17 @@
       "type": "Torso",
       "rarity": "Legendary",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Anaconda",
+        "Cobra",
+        "Forbidden",
+        "Joy",
+        "Mamba",
+        "Peace",
+        "Pride",
+        "Psammophis",
+        "Royal"
+      ],
       "talents": [
         "Traditional Execution"
       ],
@@ -5041,7 +5228,13 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Etrean Siege",
-      "variants": [],
+      "variants": [
+        "Anaconda",
+        "Cobra",
+        "Mamba",
+        "Psammophis",
+        "Steel"
+      ],
       "talents": [
         "Battle Tendency"
       ],
@@ -5067,7 +5260,13 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Etrean Siege",
-      "variants": [],
+      "variants": [
+        "Anaconda",
+        "Cobra",
+        "Mamba",
+        "Psammophis",
+        "Steel"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -5076,7 +5275,7 @@
         }
       },
       "pips": {},
-      "reqs": "90r ttl",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "..."
     },
@@ -5253,7 +5452,8 @@
       },
       "reqs": "135r TTL",
       "voi": false,
-      "desc": "A familiar helm said to have been passed down by a wayward line of a distant land.\n[*Note; Only obtainable through the Hallowtide Event or the Hallowtide '22 Medal.]",
+      "wiki": "Only obtainable through the Hallowtide Event or the Hallowtide '22 Medal.",
+      "desc": "A familiar helm said to have been passed down by a wayward line of a distant land.",
       "voi_only": false
     },
     "familiar_knights_helm": {
@@ -5276,7 +5476,8 @@
       },
       "reqs": "135r TTL",
       "voi": false,
-      "desc": "A familiar helm said to have been passed down by a wayward line of a distant land.\n[*Note; Only obtainable through the Hallowtide Event or the Hallowtide '22 Medal.]",
+      "wiki": "Only obtainable through the Hallowtide Event or the Hallowtide '22 Medal.",
+      "desc": "A familiar helm said to have been passed down by a wayward line of a distant land.",
       "voi_only": false
     },
     "familiar_priests_helm": {
@@ -5299,7 +5500,8 @@
       },
       "reqs": "135r TTL",
       "voi": false,
-      "desc": "A familiar helm said to have been passed down by a wayward line of a distant land.\n[*Note; Only obtainable through the Hallowtide Event or the Hallowtide '22 Medal.]",
+      "wiki": "Only obtainable through the Hallowtide Event or the Hallowtide '22 Medal.",
+      "desc": "A familiar helm said to have been passed down by a wayward line of a distant land.",
       "voi_only": false
     },
     "fauld_of_enmity": {
@@ -5307,7 +5509,7 @@
       "equippable": true,
       "type": "Torso",
       "rarity": "Unique",
-      "set": "Emnity",
+      "set": "Enmity",
       "variants": [],
       "talents": [],
       "innates": {},
@@ -5327,7 +5529,10 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Militia",
+        "Palace Guard"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -5372,7 +5577,7 @@
       "pips": {},
       "reqs": "165r TTL",
       "voi": false,
-      "desc": "Extra PEN on attacks that flourish opponents.",
+      "desc": "Extra PEN on your attacks that flourish opponents.",
       "voi_only": false
     },
     "first_ranger_duster": {
@@ -5432,16 +5637,19 @@
       },
       "reqs": "()",
       "voi": true,
-      "desc": "An otherworldly set of faux horns. Faint scratches on the back spell something like 'Aazel', though the writing is weathered almost beyond recognition. Whoever wore these must have long since drowned. Strangely, they're warm to the touch.",
+      "desc": "An otherwordly set of faux horns. Faint scratches on the back spell something like 'Aazel', though the writing is weathered almost beyond recognition. Whoever wore these must have long since drowned. Strangely, they're warm to the touch.",
       "voi_only": true
     },
     "flameguard_boots": {
       "name": "Flameguard Boots",
       "equippable": true,
       "type": "Legs",
-      "rarity": "Common",
+      "rarity": "Rare",
       "set": "Flameguard",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -5463,13 +5671,16 @@
       "type": "Arms",
       "rarity": "Common",
       "set": "Flameguard",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
         "Rare": 1
       },
-      "reqs": "()",
+      "reqs": "135r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -5501,12 +5712,12 @@
       "rarity": "Uncommon",
       "set": null,
       "variants": [
-        "Shade",
+        "Emerald",
+        "Onyx",
         "Rose",
         "Scarlet",
-        "Emerald",
-        "Silver",
-        "Onyx"
+        "Shade",
+        "Silver"
       ],
       "talents": [],
       "innates": {
@@ -5519,32 +5730,10 @@
         "Rare": 1,
         "Legendary": 1
       },
-      "reqs": "135r TTL",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
-    },
-    "forest_scarf": {
-      "name": "Forest Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Rare",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Thunder Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "90r TTL",
-      "voi": false,
-      "desc": "..."
     },
     "freestylers_band": {
       "name": "Freestyler's Band",
@@ -5555,7 +5744,9 @@
       "variants": [],
       "talents": [],
       "innates": {},
-      "pips": {},
+      "pips": {
+        "Uncommon": 1
+      },
       "reqs": "()",
       "voi": false,
       "desc": "Swim like some famous swimmer. Just like Mikhael Felps.",
@@ -5577,7 +5768,7 @@
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "Though the setting and clasp have been dulled by wear and tear, the frost crystal remains completely untarnished.",
+      "desc": "The crystals of these earrings are cold to the touch, seemingly unaffected by the warmth of your palms. Listening closely, you can hear the constant, subtle cracking of frost emanating from their core.",
       "voi_only": false
     },
     "frost_ring": {
@@ -5713,7 +5904,10 @@
       "type": "Torso",
       "rarity": "Legendary",
       "set": "Gale Enhanced",
-      "variants": [],
+      "variants": [
+        "Polished",
+        "Wood"
+      ],
       "talents": [
         "Focused Strikes"
       ],
@@ -5761,7 +5955,7 @@
       "equippable": true,
       "type": "Earrings",
       "rarity": "Rare",
-      "set": "Gale Enhanced",
+      "set": null,
       "variants": [],
       "talents": [
         "Way of the Wind"
@@ -5818,18 +6012,24 @@
       "rarity": "Legendary",
       "set": "Blademaster",
       "variants": [
-        "Default"
+        "Dark",
+        "Light"
       ],
       "talents": [
         "Dancing Steps Of War"
       ],
-      "innates": {},
+      "innates": {
+        "Posture": {
+          "value": 1,
+          "percentage": false
+        }
+      },
       "pips": {
-        "Rare": 1
+        "Rare": 3
       },
       "reqs": "195r TTL",
       "voi": false,
-      "desc": "A type of traditional Etrean footwear, these wooden sandals were once a mainstay of the Kingdom of Etris, although they have been falling out of fashion in recent decades. Relatively cheap and easy to make, the geta were the preferred footwear of many Etreans due to practical reasons - the elevation offered by the two 'teeth' under the sole tend to keep the wearers robes from brushing against the ground, and their feet from coming into contact with rainwater, snow, or mud.",
+      "desc": "A type of traditional Etrean footwear, these wooden sandals were once a mainstay of the Kingdom of Etris, although they have been falling out of fashion in recent decades. Relatively cheap and easy to make, the geta were the preferred footwar of many Etreans due to practical reasons - the elevation offered by the two 'teeth' under the sole tend to keep the wearers robes from brushing against the ground, and their feet from coming into contact with rainwater, snow, or mud.",
       "voi_only": false
     },
     "gladiator_helm": {
@@ -5839,7 +6039,9 @@
       "rarity": "Uncommon",
       "set": "Gladiator",
       "variants": [],
-      "talents": [],
+      "talents": [
+        "Concussive Force"
+      ],
       "innates": {
         "Health": {
           "value": 5,
@@ -5929,27 +6131,6 @@
       "desc": "A simple gold ring.",
       "voi_only": false
     },
-    "golden_cape": {
-      "name": "Golden Cape",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Uncommon",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Physical Armor": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Legendary": 1
-      },
-      "reqs": "90 ttl",
-      "voi": false,
-      "desc": "..."
-    },
     "goldleaf_helm": {
       "name": "Goldleaf Helm",
       "equippable": true,
@@ -5978,7 +6159,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Grand Authority",
-      "variants": [],
+      "variants": [
+        "Bulwark",
+        "Juggernaut"
+      ],
       "talents": [
         "Heavy Haul"
       ],
@@ -6004,7 +6188,10 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Grand Authority",
-      "variants": [],
+      "variants": [
+        "Bulwark",
+        "Juggernaut"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -6054,7 +6241,10 @@
       "type": "Legs",
       "rarity": "Common",
       "set": "Grand",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -6100,7 +6290,7 @@
         "Rare": 1,
         "Legendary": 1
       },
-      "reqs": "165r TTL",
+      "reqs": "195r TTL",
       "voi": false,
       "wiki": "",
       "desc": "...",
@@ -6129,7 +6319,7 @@
       "pips": {
         "Legendary": 3
       },
-      "reqs": "195r TTL",
+      "reqs": "210r TTL",
       "voi": false,
       "wiki": "",
       "desc": "...",
@@ -6139,7 +6329,7 @@
       "name": "Grand Pathfinder's Backpack",
       "equippable": true,
       "type": "Torso",
-      "rarity": "Rare",
+      "rarity": "Common",
       "set": null,
       "variants": [],
       "talents": [
@@ -6152,7 +6342,7 @@
         }
       },
       "pips": {
-        "Rare": 2
+        "Rare": 1
       },
       "reqs": "90r TTL",
       "voi": false,
@@ -6166,7 +6356,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Grand",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -6225,6 +6418,31 @@
       "desc": "Often found adorning the shoulders of those who guard villages close to the shores, where cost-effective equipment is prized.",
       "voi_only": false
     },
+    "guards_kabuto": {
+      "name": "Guard's Kabuto",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [
+        "Cobra",
+        "Guard"
+      ],
+      "talents": [],
+      "innates": {
+        "Health": {
+          "value": 8,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1
+      },
+      "reqs": "90r TTL",
+      "voi": false,
+      "desc": "...",
+      "voi_only": false
+    },
     "gumshoe_hat": {
       "name": "Gumshoe Hat",
       "equippable": true,
@@ -6233,8 +6451,8 @@
       "set": "Gumshoe",
       "variants": [
         "Dark",
-        "Ochre",
         "Grey",
+        "Ochre",
         "White"
       ],
       "talents": [],
@@ -6255,8 +6473,8 @@
       "set": "Gumshoe",
       "variants": [
         "Dark",
-        "Ochre",
         "Grey",
+        "Ochre",
         "White"
       ],
       "talents": [
@@ -6306,7 +6524,10 @@
       "type": "Head",
       "rarity": "Legendary",
       "set": "Hallowed Monastery Champion",
-      "variants": [],
+      "variants": [
+        "Cotton",
+        "Linen"
+      ],
       "talents": [
         "Blade Dancer",
         "Footwork Mastery"
@@ -6320,7 +6541,7 @@
       "pips": {
         "Rare": 2
       },
-      "reqs": "105r TTL",
+      "reqs": "()",
       "voi": true,
       "desc": "...",
       "voi_only": true
@@ -6331,7 +6552,16 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Brown",
+        "Dark",
+        "Navy",
+        "Relentless",
+        "Shadow",
+        "Smoke",
+        "Titan",
+        "Vermilion"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -6339,8 +6569,32 @@
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "A shroud worn proud by members of the Inquisition.",
+      "desc": "A shroud worn proud by the higher ranking members of the Central Authority Inquisition. Becoming a Handler is no easy feat for any Inquisitor, and requires a high expertise in a variety of skills. Handlers often act as trusted agents commanded directly by the High Inquisitors, extending the reach of their activities far beyond Authority territory. They are the measured blades which slice apart the chains which seek to bind all.",
       "voi_only": false
+    },
+    "hardened_barrel_helm": {
+      "name": "Hardened Barrel Helm",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Uncommon",
+      "set": null,
+      "variants": [],
+      "talents": [
+        "Tenacity"
+      ],
+      "innates": {
+        "Health": {
+          "value": 5,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Uncommon": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "A sturdy helmet shaped like a barrel.",
+      "voi_only": true
     },
     "hardened_crystal_earrings": {
       "name": "Hardened Crystal Earrings",
@@ -6397,7 +6651,10 @@
           "percentage": false
         }
       },
-      "pips": {},
+      "pips": {
+        "Rare": 1,
+        "Legendary": 1
+      },
       "reqs": "135r TTL",
       "voi": false,
       "desc": "...",
@@ -6410,12 +6667,13 @@
       "rarity": "Rare",
       "set": null,
       "variants": [
-        "Yellow",
+        "Black",
+        "Blue",
+        "Green",
+        "Orange",
         "Red",
         "White",
-        "Green",
-        "Blue",
-        "Black"
+        "Yellow"
       ],
       "talents": [],
       "innates": {},
@@ -6450,10 +6708,13 @@
       "type": "Head",
       "rarity": "Uncommon",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Leather",
+        "Quatrefoil"
+      ],
       "talents": [
-        "Herbivore",
-        "Iron Gut"
+        "Iron Gut",
+        "Herbivore"
       ],
       "innates": {},
       "pips": {
@@ -6500,7 +6761,16 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Brown",
+        "Dark",
+        "Navy",
+        "Relentless",
+        "Shadow",
+        "Smoke",
+        "Titan",
+        "Vermilion"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -6508,7 +6778,33 @@
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "A shroud worn proud by members of the Inquisition.",
+      "desc": "A shroud worn proudly by highest ranking members of the Inquisition of the Central Authority. Orchestrating whole divisions of Inquisitors like relentless, haunting shadows, the High Inquisitors are the faithful eyes and ears of the Authority all over Lumen.",
+      "voi_only": false
+    },
+    "hive_greatlords_royal_adornment": {
+      "name": "Hive Greatlord's Royal Adornment",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Unique",
+      "set": null,
+      "variants": [],
+      "talents": [
+        "Ashes on the Fire"
+      ],
+      "innates": {
+        "Health": {
+          "value": 10,
+          "percentage": true
+        },
+        "Posture": {
+          "value": 5,
+          "percentage": false
+        }
+      },
+      "pips": {},
+      "reqs": "()",
+      "voi": false,
+      "desc": "Lol",
       "voi_only": false
     },
     "hive_scourge_cuirass": {
@@ -6621,7 +6917,8 @@
       ],
       "innates": {},
       "pips": {
-        "Rare": 1
+        "Rare": 1,
+        "Legendary": 1
       },
       "reqs": "90r TTL",
       "voi": false,
@@ -6640,7 +6937,7 @@
       ],
       "innates": {},
       "pips": {},
-      "reqs": "135r TTL",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "Certain legions among the Hundred, such as the Imperators of the 77th, include members who implant physiologically altering stakes into their bodies as a part of a sacred vow to enhance their physical abilities. By embedding such a stake, they willingly sacrifice a part of themselves in exchange for heightened strength and abilities. Though this concept isn't unilaterally accepted amongst the legions as an appropriate way to acquire strength.",
       "voi_only": false
@@ -6651,7 +6948,10 @@
       "type": "Legs",
       "rarity": "Uncommon",
       "set": "Imperial",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -6674,7 +6974,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Imperial",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -6693,6 +6996,32 @@
       "voi": false,
       "desc": "...",
       "voi_only": false
+    },
+    "infused_bloodforged_crown": {
+      "name": "Infused Bloodforged Crown",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Mythical",
+      "set": null,
+      "variants": [],
+      "talents": [
+        "No Limits",
+        "Cauterized Wounds"
+      ],
+      "innates": {
+        "Health": {
+          "value": 5,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1,
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "inquisitors_duster": {
       "name": "Inquisitor's Duster",
@@ -6731,7 +7060,7 @@
         "Shadow",
         "Smoke",
         "Titan",
-        "Vermillion"
+        "Vermilion"
       ],
       "talents": [],
       "innates": {},
@@ -6740,7 +7069,7 @@
       },
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "A shroud worn proud by the members of the Inquisition.",
+      "desc": "A shroud worn proudly by the rank-and-file members of the Central Authority Inquisition. Often deployed individually behind enemy lines, Inquisitors are an invaluable tool to the Central Authority, excelling in acts of espionage, sabotage, and subterfuge.",
       "voi_only": false
     },
     "inquisitors_visor": {
@@ -6755,13 +7084,10 @@
         "Steel"
       ],
       "talents": [
-        "Blind Spot"
+        "Blind Spot",
+        "Blinded"
       ],
       "innates": {
-        "Health": {
-          "value": -5,
-          "percentage": false
-        },
         "Posture": {
           "value": 1,
           "percentage": false
@@ -6770,9 +7096,9 @@
       "pips": {
         "Rare": 1
       },
-      "reqs": "90r TTL",
+      "reqs": "135r TTL",
       "voi": false,
-      "desc": "A metal visor favoured by the Inquisitors of the Central Authority. The perfect facewear to steel your visage of the world around you - hide your identity and emotions while retaining a look that commands authority on the field.",
+      "desc": "A metal visor favoured by the Inquisitors of the Central Authority. The perfect facewear to steel your visage from the world around you-hide your identity and emotions while retaining a look that commands authority on the field.",
       "voi_only": false
     },
     "investigators_hat": {
@@ -6781,9 +7107,12 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Fabric",
+        "Leather"
+      ],
       "talents": [
-        "Diplomat"
+        "Give and Take"
       ],
       "innates": {
         "Health": {
@@ -6806,7 +7135,10 @@
       "type": "Legs",
       "rarity": "Common",
       "set": "Iron",
-      "variants": [],
+      "variants": [
+        "Classic",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -6840,7 +7172,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Iron",
-      "variants": [],
+      "variants": [
+        "Classic",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Posture": {
@@ -6851,7 +7186,7 @@
       "pips": {
         "Rare": 2
       },
-      "reqs": "()",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -6864,7 +7199,7 @@
       "set": null,
       "variants": [],
       "talents": [
-        "Defiant until the End"
+        "Stay of Execution"
       ],
       "innates": {
         "Health": {
@@ -6898,14 +7233,14 @@
       "pips": {},
       "reqs": "90r TTL",
       "voi": false,
-      "desc": "Ring of A wandering Swordsman. Take 1.2x damage and deal 1.15x damage when in close-quarters combat.",
+      "desc": "Ring of a wandering Swordsman. Take 1.2x damage and deal 1.15x damage when in close-quarters combat.",
       "voi_only": false
     },
     "jadeite_megalodaunt": {
       "name": "Jadeite Megalodaunt",
       "equippable": true,
       "type": "Torso",
-      "rarity": "Relic",
+      "rarity": "Legendary",
       "set": null,
       "variants": [],
       "talents": [
@@ -6915,7 +7250,7 @@
       "pips": {
         "Legendary": 2
       },
-      "reqs": "()",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "An effigy of a stylized Megalodaunt, cherished for its ability to boost morale and scare off bad juju.",
       "voi_only": false
@@ -6926,7 +7261,13 @@
       "type": "Head",
       "rarity": "Unique",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Chaos",
+        "Joker",
+        "Mono",
+        "Rouge",
+        "Wishmaker"
+      ],
       "talents": [
         "Cap Artist",
         "Jester's Ruse"
@@ -6950,15 +7291,15 @@
       "desc": "A beret with a sleek texture and fit, evidently the work of a skilled tailor - must've cost a pretty penny. Though to those which money has no meaning, the visual statement outweighs any price.",
       "voi_only": false
     },
-    "justicar_defender": {
-      "name": "Justicar Defender",
+    "justicar_defender_coat": {
+      "name": "Justicar Defender Coat",
       "equippable": true,
       "type": "Arms",
       "rarity": "Uncommon",
       "set": null,
       "variants": [
-        "Jet Black",
         "Black",
+        "Jet Black",
         "Faded",
         "Orange",
         "Purple",
@@ -6967,33 +7308,7 @@
       "talents": [],
       "innates": {},
       "pips": {
-        "Rare": 4
-      },
-      "reqs": "90r TTL",
-      "voi": false,
-      "desc": "...",
-      "voi_only": false
-    },
-    "kabuto": {
-      "name": "Kabuto",
-      "equippable": true,
-      "type": "Head",
-      "rarity": "Rare",
-      "set": null,
-      "variants": [
-        "Captain's",
-        "Guard's",
-        "Royal Guard's"
-      ],
-      "talents": [],
-      "innates": {
-        "Health": {
-          "value": 8,
-          "percentage": false
-        }
-      },
-      "pips": {
-        "Rare": 1
+        "Rare": 2
       },
       "reqs": "90r TTL",
       "voi": false,
@@ -7009,10 +7324,12 @@
       "variants": [],
       "talents": [],
       "innates": {},
-      "pips": {},
+      "pips": {
+        "Uncommon": 1
+      },
       "reqs": "()",
       "voi": false,
-      "desc": "Konga's Clutch Ring allows the user to slide with little delay.",
+      "desc": "Ring of the infamous thief Emiya Konga. Allows the user to slide with little delay.",
       "voi_only": false
     },
     "kongas_parka": {
@@ -7092,7 +7409,10 @@
       "type": "Legs",
       "rarity": "Common",
       "set": "Leather",
-      "variants": [],
+      "variants": [
+        "Rough",
+        "Smooth"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -7184,7 +7504,10 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Legion",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -7206,7 +7529,10 @@
       "type": "Head",
       "rarity": "Rare",
       "set": "Legion",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -7232,7 +7558,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Legion",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [
         "Polite Awakening"
       ],
@@ -7409,7 +7738,7 @@
       "equippable": true,
       "type": "Torso",
       "rarity": "Relic",
-      "set": null,
+      "set": "Enmity",
       "variants": [],
       "talents": [
         "Heartwing Beat"
@@ -7446,7 +7775,7 @@
       },
       "reqs": "240r TTL",
       "voi": false,
-      "desc": "A grotesque set of boots, manufactured from what appears too be the foot and head of a Bonekeeper. Calling these 'comfortable' feels charitable. And yet, holding them, you cannot help not feel your bones itch and the ground beneath you quiver...",
+      "desc": "A grotesque set of boots, manufactured from what appears to be the foot and head of a Bonekeeper. Calling these 'comfortable' feels charitable. And yet, holding them, you cannot help but feel your bones itch, and the ground beneath you quiver...",
       "voi_only": false
     },
     "master_thief_earrings": {
@@ -7480,10 +7809,10 @@
       "variants": [
         "Brown",
         "Blue",
+        "Green",
         "Peach",
-        "Red",
         "Purple",
-        "Green"
+        "Red"
       ],
       "talents": [],
       "innates": {
@@ -7558,22 +7887,22 @@
       "set": null,
       "variants": [],
       "talents": [
-        "Merc Blade"
+        "Mercenary Blade"
       ],
       "innates": {
+        "Stealth": {
+          "value": 10,
+          "percentage": true
+        },
         "Posture": {
           "value": 1,
           "percentage": false
-        },
-        "Stealth": {
-          "value": 4,
-          "percentage": true
         }
       },
       "pips": {},
       "reqs": "()",
       "voi": true,
-      "desc": "A sleek black hood.",
+      "desc": "A sleek hood.",
       "voi_only": true
     },
     "microwavetm": {
@@ -7604,7 +7933,12 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Brass (Rookie)",
+        "Brass (Roughneck)",
+        "Steel (Rookie)",
+        "Steel (Roughneck)"
+      ],
       "talents": [
         "Rock Blaster",
         "Excavator"
@@ -7631,11 +7965,11 @@
       "set": null,
       "variants": [
         "Onyx",
-        "Verdant",
-        "Yellow",
-        "Smoke",
+        "Pink",
         "Scarlet",
-        "Pink"
+        "Smoke",
+        "Verdant",
+        "Yellow"
       ],
       "talents": [],
       "innates": {
@@ -7694,7 +8028,7 @@
         "Rare": 2,
         "Legendary": 1
       },
-      "reqs": "()",
+      "reqs": "135r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -7727,7 +8061,11 @@
       "type": "Torso",
       "rarity": "Legendary",
       "set": "Monastery Champion",
-      "variants": [],
+      "variants": [
+        "Oni",
+        "Polished Stone",
+        "Wood"
+      ],
       "talents": [],
       "innates": {
         "Elemental Armor": {
@@ -7749,7 +8087,12 @@
       "type": "Arms",
       "rarity": "Legendary",
       "set": "Monastery Champion",
-      "variants": [],
+      "variants": [
+        "Champion (Cotton)",
+        "Champion (Linen)",
+        "Oni (Cotton)",
+        "Oni (Linen)"
+      ],
       "talents": [
         "Temple Guard"
       ],
@@ -7779,7 +8122,10 @@
       "type": "Head",
       "rarity": "Legendary",
       "set": "Monastery Champion",
-      "variants": [],
+      "variants": [
+        "Cotton",
+        "Linen"
+      ],
       "talents": [
         "Blade Dancer"
       ],
@@ -7803,11 +8149,47 @@
       "type": "Face",
       "rarity": "Rare",
       "set": null,
-      "variants": [
-        "Brow",
-        "Dermal",
-        "Lip & Septum"
-      ],
+      "variants": [],
+      "talents": [],
+      "innates": {
+        "Health": {
+          "value": 1,
+          "percentage": false
+        }
+      },
+      "pips": {},
+      "reqs": "()",
+      "voi": false,
+      "desc": "FEAR. IRONSINGERS.",
+      "voi_only": false
+    },
+    "moon_dermal_rings": {
+      "name": "Moon Dermal Rings",
+      "equippable": true,
+      "type": "Face",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [],
+      "talents": [],
+      "innates": {
+        "Health": {
+          "value": 1,
+          "percentage": false
+        }
+      },
+      "pips": {},
+      "reqs": "()",
+      "voi": false,
+      "desc": "FEAR. IRONSINGERS.",
+      "voi_only": false
+    },
+    "moon_lip_ring": {
+      "name": "Moon Lip Ring",
+      "equippable": true,
+      "type": "Face",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [],
       "talents": [],
       "innates": {
         "Health": {
@@ -7838,6 +8220,26 @@
       "desc": "A deceptive ring that conceals one's true age. Greatly sought after by vain misers.",
       "voi_only": false
     },
+    "moon_septum_ring": {
+      "name": "Moon Septum Ring",
+      "equippable": true,
+      "type": "Face",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [],
+      "talents": [],
+      "innates": {
+        "Health": {
+          "value": 1,
+          "percentage": false
+        }
+      },
+      "pips": {},
+      "reqs": "()",
+      "voi": false,
+      "desc": "FEAR. IRONSINGERS.",
+      "voi_only": false
+    },
     "moonseye_gauntlets": {
       "name": "Moonseye Gauntlets",
       "equippable": true,
@@ -7857,7 +8259,7 @@
         }
       },
       "pips": {
-        "Rare": 1,
+        "Rare": 2,
         "Legendary": 1
       },
       "reqs": "195r TTL",
@@ -7906,7 +8308,8 @@
       "pips": {},
       "reqs": "()",
       "voi": false,
-      "desc": "A fullbody mushroom costume. You feel the strange urge to change your name to Fungbert, or perhaps Fungula.\n[*Note; Only obtainable through the Hallowtide Event, or with the Hallowtide '23 Medal.]",
+      "wiki": "Only obtainable through the Hallowtide Event, or with the Hallowtide '23 Medal.",
+      "desc": "A fullbody mushroom costume. You feel the strange urge to change your name to Fungbert, or perhaps Fungula.",
       "voi_only": false
     },
     "necrotic_cowl": {
@@ -8038,10 +8441,16 @@
       "rarity": "Rare",
       "set": "Novice",
       "variants": [],
-      "talents": [],
+      "talents": [
+        "Steady Footing"
+      ],
       "innates": {
         "Health": {
           "value": 3,
+          "percentage": false
+        },
+        "Posture": {
+          "value": 1,
           "percentage": false
         }
       },
@@ -8074,7 +8483,7 @@
       "pips": {
         "Rare": 1
       },
-      "reqs": "()",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -8101,6 +8510,21 @@
       "desc": "...",
       "voi_only": false
     },
+    "oni_beads": {
+      "name": "Oni Beads",
+      "equippable": true,
+      "type": "Torso",
+      "rarity": "Legendary",
+      "set": "Oni",
+      "variants": [],
+      "talents": [],
+      "innates": {},
+      "pips": {},
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
+    },
     "oni_mask": {
       "name": "Oni Mask",
       "equippable": true,
@@ -8118,6 +8542,29 @@
       "reqs": "()",
       "voi": true,
       "desc": "The demonic visage fills you with a mix of dread and glee.",
+      "voi_only": true
+    },
+    "oni_robes": {
+      "name": "Oni Robes",
+      "equippable": true,
+      "type": "Arms",
+      "rarity": "Legendary",
+      "set": "Oni",
+      "variants": [],
+      "talents": [],
+      "innates": {
+        "Posture": {
+          "value": 1,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1,
+        "Legendary": 2
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
       "voi_only": true
     },
     "ossified_barrel_helm": {
@@ -8152,7 +8599,7 @@
       "set": "Ossified Black",
       "variants": [],
       "talents": [
-        "Laminated Armor"
+        "Sloped Plate"
       ],
       "innates": {
         "Health": {
@@ -8174,7 +8621,7 @@
       "equippable": true,
       "type": "Arms",
       "rarity": "Rare",
-      "set": "Ossified Blood",
+      "set": "Ossified Black",
       "variants": [],
       "talents": [
         "Laminated Armor"
@@ -8192,7 +8639,7 @@
       "pips": {
         "Rare": 1
       },
-      "reqs": "()",
+      "reqs": "135r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -8275,7 +8722,11 @@
       "type": "Head",
       "rarity": "Unique",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Fabric",
+        "Leather",
+        "Robust"
+      ],
       "talents": [
         "Grotesque Resilience"
       ],
@@ -8328,7 +8779,7 @@
       "name": "Pathfinder Elite",
       "equippable": true,
       "type": "Arms",
-      "rarity": "Legendary",
+      "rarity": "Rare",
       "set": null,
       "variants": [
         "Ash",
@@ -8358,7 +8809,10 @@
       "type": "Torso",
       "rarity": "Common",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Left",
+        "Right"
+      ],
       "talents": [
         "Breathing Exercise"
       ],
@@ -8423,7 +8877,12 @@
       "type": "Torso",
       "rarity": "Hallowtide",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Balanced",
+        "Classic",
+        "Glory",
+        "Oldhead"
+      ],
       "talents": [],
       "innates": {
         "Physical Armor": {
@@ -8459,8 +8918,8 @@
       "desc": "...",
       "voi_only": false
     },
-    "phalanx_helm": {
-      "name": "Phalanx Helm",
+    "phalanx_helmet": {
+      "name": "Phalanx Helmet",
       "equippable": true,
       "type": "Head",
       "rarity": "Rare",
@@ -8476,7 +8935,8 @@
         }
       },
       "pips": {
-        "Rare": 1
+        "Rare": 1,
+        "Legendary": 1
       },
       "reqs": "135r TTL",
       "voi": false,
@@ -8522,14 +8982,14 @@
       "rarity": "Uncommon",
       "set": null,
       "variants": [
-        "White",
-        "Golden",
-        "Blue",
-        "Red",
-        "Green",
         "Authority",
         "Black",
-        "Grey"
+        "Blue",
+        "Golden",
+        "Green",
+        "Grey",
+        "Red",
+        "White"
       ],
       "talents": [],
       "innates": {
@@ -8553,10 +9013,10 @@
       "rarity": "Uncommon",
       "set": null,
       "variants": [
-        "Hood Up",
-        "Hood Down",
-        "Hood Up (brown)",
-        "Hood Down (brown)"
+        "Black (Hood Down)",
+        "Black (Hood Up)",
+        "Brown (Hood Down)",
+        "Brown (Hood Up)"
       ],
       "talents": [],
       "innates": {
@@ -8645,6 +9105,32 @@
       "voi": false,
       "desc": "..."
     },
+    "prophets_operative_cloak": {
+      "name": "Prophet's Operative Cloak",
+      "equippable": true,
+      "type": "Arms",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [],
+      "talents": [
+        "Tempo Sap",
+        "Eureka"
+      ],
+      "innates": {
+        "Stealth": {
+          "value": 6,
+          "percentage": true
+        }
+      },
+      "pips": {
+        "Rare": 2,
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
+    },
     "prophets_ring": {
       "name": "Prophet's Ring",
       "equippable": true,
@@ -8717,7 +9203,8 @@
       "pips": {},
       "reqs": "()",
       "voi": false,
-      "desc": "Just make sure you still have a head after you take it off.\n[*Note; Only obtainable through the Hallowtide Event or the Hallowtide '23 Medal.]",
+      "wiki": "Only obtainable through the Hallowtide Event or the Hallowtide '23 Medal.",
+      "desc": "Just make sure you still have a head after you take it off.",
       "voi_only": false
     },
     "purifying_ring": {
@@ -8736,6 +9223,29 @@
       "voi": false,
       "desc": "A silver ring that eradicates the murk in the water surrounding it.",
       "voi_only": false
+    },
+    "radial_pendant": {
+      "name": "Radial Pendant",
+      "equippable": true,
+      "type": "Torso",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [
+        "Tarnished",
+        "Unblemished"
+      ],
+      "talents": [
+        "Praise The Sun"
+      ],
+      "innates": {},
+      "pips": {
+        "Rare": 2,
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "rangers_boots": {
       "name": "Ranger's Boots",
@@ -8904,7 +9414,12 @@
       "type": "Earrings",
       "rarity": "Rare",
       "set": "Regenerative",
-      "variants": [],
+      "variants": [
+        "Tarnished (Gold)",
+        "Tarnished (Silver)",
+        "Unblemished (Gold)",
+        "Unblemished (Silver)"
+      ],
       "talents": [
         "Blood Convergence"
       ],
@@ -8915,7 +9430,7 @@
         }
       },
       "pips": {
-        "Legendary": 1
+        "Rare": 1
       },
       "reqs": "135r TTL",
       "voi": false,
@@ -8928,7 +9443,10 @@
       "type": "Torso",
       "rarity": "Rare",
       "set": "Regenerative",
-      "variants": [],
+      "variants": [
+        "Tarnished",
+        "Unblemished"
+      ],
       "talents": [
         "Blood Pact"
       ],
@@ -8960,10 +9478,6 @@
       "innates": {
         "Health": {
           "value": 8,
-          "percentage": false
-        },
-        "Posture": {
-          "value": 1,
           "percentage": false
         }
       },
@@ -9160,7 +9674,7 @@
       "pips": {},
       "reqs": "()",
       "voi": false,
-      "desc": "Your weapon applies 50% anti-heal for 5s.",
+      "desc": "Your weapon applies 50% anti-heal for 10s.",
       "voi_only": false
     },
     "ring_of_the_primal_king": {
@@ -9273,7 +9787,7 @@
       "pips": {
         "Legendary": 2
       },
-      "reqs": "195r TTL",
+      "reqs": "135r TTL",
       "voi": false,
       "desc": "An old, well worn jacket, its fabric softened by time yet kept in meticulous condition despite years of disuse. Along its lining, intricate lace and fine detailing remained intact, unmistakable hallmarks of Anansi fashion from the Old World.",
       "voi_only": false
@@ -9281,7 +9795,7 @@
     "rogue_assassins_hood": {
       "name": "Rogue Assassin's Hood",
       "equippable": true,
-      "type": "Arms",
+      "type": "Head",
       "rarity": "Rare",
       "set": null,
       "variants": [],
@@ -9320,37 +9834,6 @@
       "desc": "A ring once worn by a genius inventor. Said to have been discarded once he turned to other methods of inspiration. +1.2 INT scaling to all weapons.",
       "voi_only": false
     },
-    "round_citadel_frames": {
-      "name": "Round Citadel Frames",
-      "equippable": true,
-      "type": "Face",
-      "rarity": "Rare",
-      "set": null,
-      "variants": [
-        "Black",
-        "Amber",
-        "Azure"
-      ],
-      "talents": [],
-      "innates": {
-        "Health": {
-          "value": 5,
-          "percentage": false
-        },
-        "Posture": {
-          "value": -1,
-          "percentage": false
-        }
-      },
-      "pips": {
-        "Rare": 1
-      },
-      "reqs": "()",
-      "voi": false,
-      "wiki": "",
-      "desc": "Designed for the scholars of the Citadel, these frames are renowned for their simple yet striking style, and are traded and sought after across all Luminants. Unfortunately, they are not your prescription...",
-      "voi_only": false
-    },
     "royal_commander_helm": {
       "name": "Royal Commander Helm",
       "equippable": true,
@@ -9386,10 +9869,10 @@
       "variants": [
         "Dark",
         "Faded",
+        "Purple",
         "Red",
         "Rose",
-        "Stained",
-        "Purple"
+        "Stained"
       ],
       "talents": [],
       "innates": {},
@@ -9418,26 +9901,31 @@
       "desc": "One handing a sword while wearing this ring turns your Critical Attack into the Twincleave mantra.",
       "voi_only": true
     },
-    "royal_guard": {
-      "name": "Royal Guard",
+    "royal_guards_kabuto": {
+      "name": "Royal Guard's Kabuto",
       "equippable": true,
-      "type": "Face",
+      "type": "Head",
       "rarity": "Rare",
       "set": null,
       "variants": [
-        "Red",
-        "Blue",
-        "Green"
+        "Mamba",
+        "Royal Guard"
       ],
       "talents": [],
-      "innates": {},
-      "pips": {
-        "Uncommon": 1,
-        "Rare": 1
+      "innates": {
+        "Health": {
+          "value": 8,
+          "percentage": false
+        }
       },
-      "reqs": "()",
+      "pips": {
+        "Rare": 1,
+        "Legendary": 1
+      },
+      "reqs": "165r TTL",
       "voi": false,
-      "desc": "..."
+      "desc": "...",
+      "voi_only": false
     },
     "royal_pathfinder": {
       "name": "Royal Pathfinder",
@@ -9512,7 +10000,8 @@
       ],
       "innates": {},
       "pips": {
-        "Common": 1
+        "Common": 1,
+        "Rare": 1
       },
       "reqs": "()",
       "voi": true,
@@ -9526,8 +10015,10 @@
       "rarity": "Uncommon",
       "set": null,
       "variants": [
-        "Normal",
-        "Dark"
+        "Dark (Corduroy)",
+        "Dark (Knit)",
+        "Light (Corduroy)",
+        "Light (Knit)"
       ],
       "talents": [],
       "innates": {
@@ -9541,7 +10032,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "A thick woolen fleece, somewhat scratchy in texture, commonly worn by sailors in the East. When the Suncross falls into the voidfog, the seas of Lumen get surprisingly chilly.",
+      "desc": "A thick woolen fleece, somewhat scratchy in texture, commonly work by sailors in the East. When the Suncross falls into the voidfog the seas of Lumen get surprisingly chilly.",
       "voi_only": false
     },
     "saint_jays_ring": {
@@ -9635,7 +10126,11 @@
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Classic",
+        "Fabric",
+        "Leather"
+      ],
       "talents": [
         "Seamaster's Guile"
       ],
@@ -9694,7 +10189,12 @@
       "type": "Legs",
       "rarity": "Common",
       "set": "Shock Trooper",
-      "variants": [],
+      "variants": [
+        "21st Legion",
+        "49th Legion",
+        "84th Legion",
+        "The Immortals"
+      ],
       "talents": [],
       "innates": {
         "Posture": {
@@ -9707,7 +10207,7 @@
       },
       "reqs": "165r TTL",
       "voi": false,
-      "desc": "The only thing that surpasses a Shock Trooper's Brutality is their speed.",
+      "desc": "The only thing that surpasses a Shock Trooper's brutality is their speed.",
       "voi_only": false
     },
     "shock_trooper_helmet": {
@@ -9716,7 +10216,12 @@
       "type": "Head",
       "rarity": "Rare",
       "set": "Shock Trooper",
-      "variants": [],
+      "variants": [
+        "21st Legion",
+        "49th Legion",
+        "84th Legion",
+        "The Immortals"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -9738,7 +10243,12 @@
       "type": "Arms",
       "rarity": "Common",
       "set": "Shock Trooper",
-      "variants": [],
+      "variants": [
+        "21st Legion",
+        "49th Legion",
+        "84th Legion",
+        "The Immortals"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -9751,7 +10261,7 @@
       },
       "reqs": "165r TTL",
       "voi": false,
-      "desc": "Armorers in the Hundred Legion dedicate their lives to these plates. The techniques used to attune them between Thunder and Gale demand complete expertise.",
+      "desc": "Armorers of the Hundred Legion dedicated their lives to these plates. The techniques used to attune them between Thunder and Gale demand complete expertise.",
       "voi_only": false
     },
     "shrouded_cape": {
@@ -9762,6 +10272,7 @@
       "set": null,
       "variants": [
         "Black",
+        "Dusk",
         "Midnight",
         "Red",
         "White"
@@ -9793,7 +10304,10 @@
       "type": "Head",
       "rarity": "Rare",
       "set": "Silver Knight",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -9802,7 +10316,8 @@
         }
       },
       "pips": {
-        "Uncommon": 1
+        "Uncommon": 1,
+        "Rare": 1
       },
       "reqs": "135r TTL",
       "voi": false,
@@ -9815,7 +10330,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Silver Knight",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -9826,7 +10344,7 @@
       "pips": {
         "Rare": 2
       },
-      "reqs": "()",
+      "reqs": "135r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -9835,7 +10353,7 @@
       "name": "Silver Ring",
       "equippable": true,
       "type": "Rings",
-      "rarity": "Common",
+      "rarity": "Uncommon",
       "set": null,
       "variants": [],
       "talents": [],
@@ -9854,7 +10372,10 @@
       "type": "Legs",
       "rarity": "Rare",
       "set": "Silver Knight",
-      "variants": [],
+      "variants": [
+        "Brushed",
+        "Galvanized"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -9894,7 +10415,7 @@
       "reqs": "165r TTL",
       "voi": false,
       "wiki": "",
-      "desc": "Another relic of Aska's, this ancient artifact was once in the hands of the elusive pioneer of flame charm. Bestowed by flame worshippers and seldom seen, its precise origins are shrouded in mystery. The flame that flickers within its adorned flower suggests a hidden power, making it a priceless treasure for those who truly understand its significance.",
+      "desc": "Another relic of Aska's, this ancient artifact was once in the hands of the elusive pioneer of flamecharm. Bestowed by flame worshippers and seldom seen, its precise origins are shrouded in mystery. The flame that flickers within its adorned flower suggests a hidden power, making it a priceless treasure for those who truly understand its significance.",
       "voi_only": false
     },
     "simple_pauldrons": {
@@ -9903,7 +10424,10 @@
       "type": "Arms",
       "rarity": "Common",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Not So Simple",
+        "Simple"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -9969,7 +10493,10 @@
       "type": "Arms",
       "rarity": "Rare",
       "set": "Smith",
-      "variants": [],
+      "variants": [
+        "Default",
+        "Closed"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -10022,21 +10549,18 @@
       "desc": "That's metal.",
       "voi_only": false
     },
-    "solar_pendant": {
-      "name": "Solar Pendant",
+    "solfeather_earrings": {
+      "name": "Solfeather Earrings",
       "equippable": true,
-      "type": "Torso",
+      "type": "Earrings",
       "rarity": "Rare",
       "set": null,
       "variants": [],
       "talents": [
-        "Praise The Sun"
+        "Heart Reservoir"
       ],
       "innates": {},
-      "pips": {
-        "Rare": 2,
-        "Legendary": 1
-      },
+      "pips": {},
       "reqs": "()",
       "voi": true,
       "desc": "...",
@@ -10063,7 +10587,33 @@
       },
       "reqs": "255r TTL",
       "voi": true,
-      "desc": "A finely crafted hat worn by master wizards of the Northern Luminant, imbued with song woven into its fabric. It amplifies the wearer's power in battle.",
+      "desc": "A finely crafted hat worn by master wizards of the Northen Luminant, imbued with song woven into its fabric. It amplifies the wearer's power in battle.",
+      "voi_only": true
+    },
+    "sorcerers_mantle": {
+      "name": "Sorcerer's Mantle",
+      "equippable": true,
+      "type": "Arms",
+      "rarity": "Mythical",
+      "set": "Sorcerer",
+      "variants": [],
+      "talents": [
+        "Overflowing Dam",
+        "Sorcerer's Surge"
+      ],
+      "innates": {
+        "Health": {
+          "value": 7,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 1,
+        "Legendary": 2
+      },
+      "reqs": "195r TTL, 5r INT",
+      "voi": true,
+      "desc": "A finely woven gown imbued with the artistry of master songsmiths from the Northern Luminant. Enchanted by melodies intricately woven into its fabric, this garment bestows supernatural properties, amplifying the wearer's prowess and performance in battle.",
       "voi_only": true
     },
     "specialist_boots": {
@@ -10072,7 +10622,12 @@
       "type": "Legs",
       "rarity": "Common",
       "set": "Specialist",
-      "variants": [],
+      "variants": [
+        "21st Legion",
+        "49th Legion",
+        "84th Legion",
+        "The Immortals"
+      ],
       "talents": [
         "Flashwind"
       ],
@@ -10083,11 +10638,12 @@
         }
       },
       "pips": {
-        "Uncommon": 1
+        "Uncommon": 1,
+        "Rare": 1
       },
-      "reqs": "315r TTL, 30r LTN, 30r WND",
+      "reqs": "315r TTL, 30r WND, 30r LTN",
       "voi": false,
-      "desc": "The only thing that surpasses a Shock Trooper's Brutality is their speed.",
+      "desc": "The only thing that surpasses a Shock Trooper's brutality is their speed.",
       "voi_only": false
     },
     "specialist_helmet": {
@@ -10096,7 +10652,12 @@
       "type": "Head",
       "rarity": "Rare",
       "set": "Specialist",
-      "variants": [],
+      "variants": [
+        "21st Legion",
+        "49th Legion",
+        "84th Legion",
+        "The Immortals"
+      ],
       "talents": [
         "Volt Draft"
       ],
@@ -10106,10 +10667,8 @@
           "percentage": false
         }
       },
-      "pips": {
-        "Rare": 1
-      },
-      "reqs": "315r TTL, 30r LTN, 30r WND",
+      "pips": {},
+      "reqs": "315r TTL, 30r WND, 30r LTN",
       "voi": false,
       "desc": "The Legion boast of honor in battle, but the victims of a Shock Trooper would tell a different story.",
       "voi_only": false
@@ -10120,7 +10679,12 @@
       "type": "Arms",
       "rarity": "Common",
       "set": "Specialist",
-      "variants": [],
+      "variants": [
+        "21st Legion",
+        "49th Legion",
+        "84th Legion",
+        "The Immortals"
+      ],
       "talents": [
         "Stormcall"
       ],
@@ -10131,11 +10695,11 @@
         }
       },
       "pips": {
-        "Rare": 2
+        "Rare": 1
       },
-      "reqs": "315r TTL, 30r LTN, 30r WND",
+      "reqs": "315r TTL, 30r WND, 30r LTN",
       "voi": false,
-      "desc": "Armorers in the Hundred Legion dedicate their lives to these plates. The techniques used to attune them between Thunder and Gale demand complete expertise.",
+      "desc": "Armorers of the Hundred Legion dedicated their lives to these plates. The techniques used to attune them between Thunder and Gale demand complete expertise.",
       "voi_only": false
     },
     "stag_wraps": {
@@ -10245,8 +10809,10 @@
       "rarity": "Rare",
       "set": null,
       "variants": [
-        "Black",
-        "Double"
+        "Default",
+        "Grey Fabric",
+        "Double Fabric",
+        "Double Leather"
       ],
       "talents": [
         "Exterminator",
@@ -10285,7 +10851,7 @@
       },
       "reqs": "()",
       "voi": false,
-      "desc": "Timeless eyewear produced by the Summer Company. In this world, It's drip or drown. You have no way of knowing if these are genuine.",
+      "desc": "Timeless eyewear produced by the Summer Company. In this world, it's drip or drown. You have no way of knowing if these are genuine.",
       "voi_only": false
     },
     "summer_scarf": {
@@ -10319,7 +10885,10 @@
       "type": "Torso",
       "rarity": "Common",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Tarnished",
+        "Unblemished"
+      ],
       "talents": [],
       "innates": {
         "Elemental Armor": {
@@ -10341,7 +10910,10 @@
       "type": "Arms",
       "rarity": "Common",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Not So Simple",
+        "Simple"
+      ],
       "talents": [
         "Simple Buff"
       ],
@@ -10452,7 +11024,7 @@
       "talents": [],
       "innates": {},
       "pips": {
-        "Common": 1
+        "Rare": 1
       },
       "reqs": "()",
       "voi": false,
@@ -10516,7 +11088,7 @@
       "equippable": true,
       "type": "Face",
       "rarity": "Unique",
-      "set": "Emnity",
+      "set": "Enmity",
       "variants": [],
       "talents": [
         "Lose Your Mind"
@@ -10525,7 +11097,7 @@
       "pips": {
         "Rare": 1
       },
-      "reqs": "165r TTL",
+      "reqs": "()",
       "voi": false,
       "wiki": "",
       "desc": "The mask of the fabled Angels of Enmity, infamous for barring the unworthy from the trial, instills dread in the hearts of the drowned.",
@@ -10537,7 +11109,12 @@
       "type": "Torso",
       "rarity": "Uncommon",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Houndstooth",
+        "Masterwork",
+        "Threadwork",
+        "Well-Crafted"
+      ],
       "talents": [],
       "innates": {
         "Posture": {
@@ -10565,7 +11142,7 @@
       "set": null,
       "variants": [
         "Default",
-        "Hang in There"
+        "Hang In There"
       ],
       "talents": [
         "Thresher Thrasher"
@@ -10574,7 +11151,7 @@
       "pips": {
         "Rare": 2
       },
-      "reqs": "90r TTL",
+      "reqs": "()",
       "voi": false,
       "desc": "An old charm engraved by the ancient denizens of Aratel. Beneath the shifting sands, countless artifacts remain lost to time.",
       "voi_only": false
@@ -10630,13 +11207,33 @@
       "desc": "A beret with a sleek texture and fit, evidently the work of a skilled tailor - must've cost a pretty penny. Though to those which money has no meaning, the visual statement outweighs any price.",
       "voi_only": false
     },
+    "tiny_soul_ring": {
+      "name": "Tiny Soul Ring",
+      "equippable": true,
+      "type": "Rings",
+      "rarity": "Relic",
+      "set": null,
+      "variants": [],
+      "talents": [],
+      "innates": {},
+      "pips": {
+        "Uncommon": 1
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "You can no longer block, but your parrys deal 2x posture return damage and your parry cooldown is shorter.",
+      "voi_only": true
+    },
     "tiran_pendant": {
       "name": "Tiran Pendant",
       "equippable": true,
       "type": "Torso",
       "rarity": "Relic",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Tarnished",
+        "Unblemished"
+      ],
       "talents": [
         "Featherfall"
       ],
@@ -10675,7 +11272,7 @@
       },
       "reqs": "240r TTL",
       "voi": false,
-      "desc": "The fabled cape of Titus Fulminus Destellus. Even for its size, it's heavier than it looks.",
+      "desc": "The fabled cape of Titus Fulminus Destellis. Even for its size, it's heavier than it looks.",
       "voi_only": false
     },
     "toons_goggles": {
@@ -10711,9 +11308,9 @@
       "rarity": "Rare",
       "set": "Aristocrat",
       "variants": [
+        "Beige",
         "Burgundy",
-        "Slate",
-        "Beige"
+        "Slate"
       ],
       "talents": [
         "Give and Take"
@@ -10782,6 +11379,55 @@
       "voi": false,
       "desc": "...",
       "voi_only": false
+    },
+    "trackstar_boots": {
+      "name": "Trackstar Boots",
+      "equippable": true,
+      "type": "Legs",
+      "rarity": "Rare",
+      "set": "Trackstar",
+      "variants": [],
+      "talents": [
+        "Haste"
+      ],
+      "innates": {
+        "Health": {
+          "value": 3,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 2
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
+    },
+    "trackstar_pauldrons": {
+      "name": "Trackstar Pauldrons",
+      "equippable": true,
+      "type": "Arms",
+      "rarity": "Rare",
+      "set": "Trackstar",
+      "variants": [],
+      "talents": [
+        "Pace",
+        "Polite Awakening"
+      ],
+      "innates": {
+        "Health": {
+          "value": 3,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Rare": 2
+      },
+      "reqs": "()",
+      "voi": true,
+      "desc": "...",
+      "voi_only": true
     },
     "transfusion_ring": {
       "name": "Transfusion Ring",
@@ -10871,17 +11517,19 @@
       "talents": [],
       "innates": {
         "Health": {
-          "value": 3,
+          "value": 2,
+          "percentage": false
+        },
+        "Posture": {
+          "value": 1,
           "percentage": false
         }
       },
-      "pips": {
-        "Rare": 1
-      },
+      "pips": {},
       "reqs": "()",
       "voi": false,
       "wiki": "",
-      "desc": "A thick coat to protect you against the cold.",
+      "desc": "A thick coat to protect you against the elements.",
       "voi_only": false
     },
     "trueblood_earrings": {
@@ -10947,35 +11595,18 @@
       "desc": "Gain 75% more damage when at 20% health or lower.",
       "voi_only": true
     },
-    "tundra_scarf": {
-      "name": "Tundra Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Uncommon",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Ice Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "90r TTL",
-      "voi": false,
-      "desc": "..."
-    },
     "vagabonds_bicorn": {
       "name": "Vagabond's Bicorn",
       "equippable": true,
       "type": "Head",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Dark Fabric",
+        "Dark Leather",
+        "Light Fabric",
+        "Light Leather"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -11001,12 +11632,7 @@
       "talents": [
         "Ready or Not"
       ],
-      "innates": {
-        "Health": {
-          "value": 3,
-          "percentage": false
-        }
-      },
+      "innates": {},
       "pips": {
         "Rare": 1
       },
@@ -11089,7 +11715,10 @@
       "type": "Torso",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Tarnished",
+        "Unblemished"
+      ],
       "talents": [],
       "innates": {
         "Shadow Resistance": {
@@ -11180,7 +11809,9 @@
       "variants": [],
       "talents": [],
       "innates": {},
-      "pips": {},
+      "pips": {
+        "Common": 1
+      },
       "reqs": "()",
       "voi": true,
       "desc": "Corrupted by the void, it allows the user to resist the harsh effects of the Depths for longer.",
@@ -11269,7 +11900,7 @@
       "pips": {
         "Legendary": 2
       },
-      "reqs": "255r TTL",
+      "reqs": "195r TTL",
       "voi": false,
       "desc": "A finely crafted hat worn by master wizards of the Northern Luminant, imbued with song woven into its fabric. It amplifies the wearer's power in battle.",
       "voi_only": false
@@ -11311,7 +11942,12 @@
       "type": "Torso",
       "rarity": "Relic",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Glorious",
+        "Martial",
+        "Radiant",
+        "Valiant"
+      ],
       "talents": [
         "Actions Speak Louder"
       ],
@@ -11322,7 +11958,7 @@
       "reqs": "90r TTL",
       "voi": false,
       "wiki": "",
-      "desc": "A Medallion thought to be gifted to trainee Warmaster adherents during the Canticlysm. Bolsters one's martial prowess in exchange for hampering the amplitude of one's Resonance.",
+      "desc": "A Medallion thought to be gifted to trainee Warmaster adherents during the Canticlysm. Bolsters one's martial prowess in exchange for ampering the amplitude of one's Resonance.",
       "voi_only": false
     },
     "warriors_eyepatch": {
@@ -11367,7 +12003,7 @@
       "equippable": true,
       "type": "Legs",
       "rarity": "Unique",
-      "set": "Emnity",
+      "set": "Enmity",
       "variants": [],
       "talents": [],
       "innates": {
@@ -11389,13 +12025,17 @@
       "desc": "Titanic boots, once forged to crush enemies into their graves, now anchor you firmly to the ground below.",
       "voi_only": false
     },
-    "western_outlaw_boots": {
-      "name": "Western Outlaw Boots",
+    "western_outlaw_breeches": {
+      "name": "Western Outlaw Breeches",
       "equippable": true,
       "type": "Legs",
       "rarity": "Common",
       "set": "Western Outlaw",
-      "variants": [],
+      "variants": [
+        "Mountain",
+        "Tundra",
+        "Valley"
+      ],
       "talents": [],
       "innates": {
         "Health": {
@@ -11419,13 +12059,46 @@
       "desc": "Tattered and unassuming, these rags serve as the perfect occlusion for any hidden weapons or stolen contraband.",
       "voi_only": false
     },
+    "western_outlaw_hat": {
+      "name": "Western Outlaw Hat",
+      "equippable": true,
+      "type": "Head",
+      "rarity": "Common",
+      "set": "Western Outlaw",
+      "variants": [
+        "Farmland",
+        "Fog",
+        "Mountain",
+        "Peaks",
+        "Tundra",
+        "Valley"
+      ],
+      "talents": [],
+      "innates": {
+        "Posture": {
+          "value": 2,
+          "percentage": false
+        }
+      },
+      "pips": {
+        "Legendary": 1
+      },
+      "reqs": "165r TTL",
+      "voi": false,
+      "desc": "Common Garb among western peons; this hat is perfect for beating the heat or disguising one's identity.",
+      "voi_only": false
+    },
     "western_outlaw_mask": {
       "name": "Western Outlaw Mask",
       "equippable": true,
       "type": "Face",
       "rarity": "Common",
       "set": "Western Outlaw",
-      "variants": [],
+      "variants": [
+        "Mountain",
+        "Tundra",
+        "Valley"
+      ],
       "talents": [],
       "innates": {},
       "pips": {
@@ -11442,7 +12115,11 @@
       "type": "Arms",
       "rarity": "Common",
       "set": "Western Outlaw",
-      "variants": [],
+      "variants": [
+        "Mountain",
+        "Tundra",
+        "Valley"
+      ],
       "talents": [],
       "innates": {
         "Posture": {
@@ -11465,7 +12142,10 @@
       "type": "Torso",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Collar",
+        "No Collar"
+      ],
       "talents": [],
       "innates": {
         "Elemental Armor": {
@@ -11479,6 +12159,27 @@
       "reqs": "90r TTL",
       "voi": false,
       "desc": "The scarf of an elite Knife of Eylis. Signifies the bearer's mastery over the Void.",
+      "voi_only": false
+    },
+    "wheel_pendant": {
+      "name": "Wheel Pendant",
+      "equippable": true,
+      "type": "Torso",
+      "rarity": "Rare",
+      "set": null,
+      "variants": [
+        "Tarnished",
+        "Unblemished"
+      ],
+      "talents": [],
+      "innates": {},
+      "pips": {
+        "Rare": 1,
+        "Legendary": 1
+      },
+      "reqs": "()",
+      "voi": false,
+      "desc": "...",
       "voi_only": false
     },
     "whistling_periapt": {
@@ -11507,28 +12208,6 @@
       "wiki": "",
       "desc": "The favor of the winds is yours; landing three hits (five for light weapons) on an opponent without taking damage envelops you in a shield of wind",
       "voi_only": false
-    },
-    "white_scarf": {
-      "name": "White Scarf",
-      "equippable": true,
-      "type": "Torso",
-      "rarity": "Uncommon",
-      "set": null,
-      "variants": [],
-      "talents": [],
-      "innates": {
-        "Shadow Resistance": {
-          "value": 3,
-          "percentage": true
-        }
-      },
-      "pips": {
-        "Rare": 1,
-        "Legendary": 1
-      },
-      "reqs": "90r TTL",
-      "voi": false,
-      "desc": "..."
     },
     "windmill_ring": {
       "name": "Windmill Ring",
@@ -11613,7 +12292,7 @@
       },
       "reqs": "165r TTL",
       "voi": false,
-      "desc": "An essential part of the Authority Winter Corps' kit. Devised to be resilient against the often thorny passages of the drakethistle in the Northern Luminant.",
+      "desc": "An essential part of the Authority Winter Corps' kit. Devised to be resilient against the often thorny passages of drakethistle in the Northern Luminant.",
       "voi_only": false
     },
     "woodland_boots": {
@@ -11630,7 +12309,7 @@
       "pips": {
         "Rare": 1
       },
-      "reqs": "()",
+      "reqs": "90r TTL",
       "voi": false,
       "desc": "...",
       "voi_only": false
@@ -11665,7 +12344,10 @@
       "type": "Head",
       "rarity": "Spec",
       "set": null,
-      "variants": [],
+      "variants": [
+        "Classic",
+        "Tarnished"
+      ],
       "talents": [],
       "innates": {},
       "pips": {},
@@ -11680,8 +12362,13 @@
       "type": "Torso",
       "rarity": "Rare",
       "set": null,
-      "variants": [],
-      "talents": [],
+      "variants": [
+        "Frontier",
+        "Furnace"
+      ],
+      "talents": [
+        "Wormwarder"
+      ],
       "innates": {
         "Carry Load": {
           "value": 10,
@@ -26348,8 +27035,6 @@
         "Fiber": 5
       },
       "name": "11th Legion Plate",
-      "pants_id": "6022337695",
-      "shirt_id": "6026296387",
       "reqs": "90r TTL, 10r FTD",
       "notes": 100,
       "talent": null,
@@ -26380,8 +27065,6 @@
       "notes": 1000,
       "talent": "Corrosive Touch",
       "category": "Master",
-      "pants_id": "139797713905949",
-      "shirt_id": "129686480471028",
       "durability": 2100,
       "resistances": {
         "Physical Resistance": 25,
@@ -26398,10 +27081,8 @@
       "voi_only": false
     },
     "auroran_gremor": {
-      "pants_id": "11117084212",
-      "shirt_id": "11117080267",
       "mats": {},
-      "name": "Auroran Gremor",
+      "name": "AuroranGremor",
       "reqs": "240r TTL",
       "notes": 0,
       "talent": "Frozone",
@@ -26428,8 +27109,6 @@
         "Lionfish Scale": 1
       },
       "name": "Authority Captain Uniform",
-      "pants_id": "10461616070",
-      "shirt_id": "10461611383",
       "reqs": "()",
       "prereqs": [
         "origin:authority_ensign"
@@ -26465,8 +27144,6 @@
         "origin:authority_ensign"
       ],
       "notes": 1000,
-      "pants_id": "11679644318",
-      "shirt_id": "11679642015",
       "talent": "Riot Breaker",
       "category": "Unique",
       "durability": 2800,
@@ -26484,8 +27161,6 @@
       "voi_only": false
     },
     "authority_peacekeeper_armor": {
-      "pants_id": "6624202760",
-      "shirt_id": "6624178820",
       "mats": {
         "Cloth": 5,
         "Fiber": 5,
@@ -26513,35 +27188,10 @@
       "desc": "The durable battle armour of an Adretian soldier. The armour is specially forged by techniques developed in the Central Luminant, creating an uncharacteristically versatile armour plate.",
       "voi_only": false
     },
-    "authority_peacekeeper_armour": {
-      "mats": {
-        "Iron": 1,
-        "Cloth": 5,
-        "Fiber": 5
-      },
-      "name": "Authority Peacekeeper Armour",
-      "pants_id": "6624202760",
-      "shirt_id": "6624178820",
-      "reqs": "5r FTD, 90r TTL",
-      "notes": 30,
-      "talent": "Now You See Me",
-      "category": "Adept",
-      "durability": 1600,
-      "resistances": {
-        "Flame Resistance": 15,
-        "Slash Resistance": 10,
-        "Physical Resistance": 15,
-        "Elemental Resistance": 10
-      },
-      "extra_percents": {
-        "Ether Regen": 0,
-        "Extra Stealth": 0
-      },
-      "desc": "The durable battle armour of an Adretian soldier. The armour is specially forged by techniques developed in the Central Luminant, creating an uncharacteristically versatile armour plate."
-    },
     "barbarian": {
-      "pants_id": "16721597613",
-      "shirt_id": "16721596275",
+      "variants": [
+        "Shirtless"
+      ],
       "mats": {},
       "name": "Barbarian",
       "reqs": "()",
@@ -26578,8 +27228,6 @@
       "notes": 1000,
       "talent": null,
       "category": "Master",
-      "pants_id": "9615733074",
-      "shirt_id": "9615732422",
       "durability": 2600,
       "resistances": {
         "Shadow Resistance": 20,
@@ -26597,8 +27245,6 @@
     "blacksteel_attire": {
       "mats": {},
       "name": "Blacksteel Attire",
-      "pants_id": "4907680538",
-      "shirt_id": "4907667581",
       "reqs": "()",
       "prereqs": [
         "objective:iron_vessel"
@@ -26626,8 +27272,6 @@
         "Eternal Logstone": 1
       },
       "name": "Bounty Hunter",
-      "pants_id": "5707068742",
-      "shirt_id": "5707040824",
       "reqs": "90r TTL",
       "notes": 0,
       "talent": "Lightweight",
@@ -26659,8 +27303,6 @@
       "notes": 1000,
       "talent": "Tidal Shock",
       "category": "Master",
-      "pants_id": "73865346210922",
-      "shirt_id": "111462203380466",
       "voi_only": false,
       "durability": 2200,
       "resistances": {
@@ -26682,8 +27324,9 @@
         "Glass Stone": 1
       },
       "name": "Carefree Garments",
-      "pants_id": "122843258666243",
-      "shirt_id": "77587021895074",
+      "variants": [
+        "Dress"
+      ],
       "reqs": "105r TTL",
       "notes": 0,
       "talent": "Fleetfoot",
@@ -26717,8 +27360,6 @@
         "Vibrant Gem": 5
       },
       "name": "Celtorian Tideknight",
-      "pants_id": "16098658745",
-      "shirt_id": "16102934005",
       "notes": 1000,
       "reqs": "240r TTL",
       "resistances": {
@@ -26739,8 +27380,6 @@
         "Megalodaunt Hide": 1
       },
       "name": "Cerulean Gown",
-      "pants_id": "16826366211",
-      "shirt_id": "16826363331",
       "reqs": "135r TTL",
       "notes": 200,
       "talent": null,
@@ -26765,8 +27404,6 @@
         "Blessed Gem": 2
       },
       "name": "Cindergarb",
-      "pants_id": "13408550924",
-      "shirt_id": "13408549888",
       "reqs": "240r TTL, 45r FLM",
       "notes": 1000,
       "talent": "Warding Radiance, Repeated Propulsion",
@@ -26793,8 +27430,6 @@
         "Strange Claw": 2
       },
       "name": "Cloak of Winds",
-      "pants_id": "10401292128",
-      "shirt_id": "10401137145",
       "reqs": "165r TTL",
       "notes": 0,
       "talent": "Paired Soul",
@@ -26819,8 +27454,6 @@
         "Aeon Logstone": 1
       },
       "name": "Corsair Outlaw",
-      "pants_id": "4854428285",
-      "shirt_id": "4854374607",
       "reqs": "()",
       "notes": 0,
       "talent": "Lightweight",
@@ -26847,8 +27480,6 @@
       "name": "Cutthroat Light Armor",
       "reqs": "90r TTL",
       "notes": 30,
-      "pants_id": "5115781415",
-      "shirt_id": "5115781293",
       "talent": "Hunter's Reflexes",
       "category": "Adept",
       "durability": 1000,
@@ -26876,8 +27507,6 @@
       "notes": 1000,
       "talent": "Withering Soul",
       "category": "Master",
-      "pants_id": "9520635185",
-      "shirt_id": "9520632213",
       "durability": 2600,
       "resistances": {
         "Shadow Resistance": 20,
@@ -26900,8 +27529,6 @@
         "Strange Claw": 1
       },
       "name": "Darksteel Plate",
-      "pants_id": "10424589665",
-      "shirt_id": "10424588094",
       "reqs": "165r TTL, 20r FTD",
       "notes": 300,
       "talent": "Unbreakable",
@@ -26925,8 +27552,6 @@
         "Crystal Lens": 3
       },
       "name": "Diver Apprentice Robes",
-      "pants_id": "6806587281",
-      "shirt_id": "6806586302",
       "reqs": "90r TTL, 10r INT",
       "notes": 50,
       "talent": null,
@@ -26953,8 +27578,6 @@
       "name": "Diver Journeyman Robes",
       "reqs": "165r TTL",
       "notes": 30,
-      "pants_id": "12124472966",
-      "shirt_id": "12124471806",
       "talent": "Lowstride",
       "category": "Expert",
       "durability": 1000,
@@ -26975,8 +27598,6 @@
         "Glass Stone": 5
       },
       "name": "Duelist's Attire",
-      "pants_id": "5706841071",
-      "shirt_id": "5706840256",
       "reqs": "90r TTL",
       "notes": 0,
       "talent": null,
@@ -26999,8 +27620,6 @@
         "Fiber": 3
       },
       "name": "Eager Tradesman",
-      "pants_id": "2469632377",
-      "shirt_id": "2469628204",
       "reqs": "()",
       "notes": 50,
       "talent": "Knack",
@@ -27025,8 +27644,6 @@
         "Megalodaunt Hide": 2
       },
       "name": "Etrean Guard",
-      "pants_id": "6891785609",
-      "shirt_id": "6891784537",
       "reqs": "165r TTL",
       "notes": 30,
       "talent": "Unbreakable",
@@ -27043,29 +27660,6 @@
       "desc": "Serpentine armor of the Kingdom of Etrea. A lightweight piece of plate sits atop padded snakeskin leather.",
       "voi_only": false
     },
-    "etrean_rogue": {
-      "pants_id": null,
-      "shirt_id": null,
-      "mats": {
-        "Crystal Lens": 3,
-        "Spark Gland": 3
-      },
-      "name": "Etrean Rogue",
-      "reqs": "()",
-      "notes": 0,
-      "talent": "Test",
-      "category": "Unobtainable",
-      "durability": 500,
-      "resistances": {
-        "Slash Resistance": 20
-      },
-      "extra_percents": {
-        "Ether Regen": 0,
-        "Extra Stealth": 0
-      },
-      "desc": "Sturdy leather armor, fashioned for the hunters sent down into Etrea's forest.",
-      "voi_only": false
-    },
     "experienced_adventurer": {
       "mats": {
         "Cloth": 3,
@@ -27073,8 +27667,6 @@
         "Irithine": 2
       },
       "name": "Experienced Adventurer",
-      "pants_id": "5899132181",
-      "shirt_id": "5899129203",
       "reqs": "90r TTL",
       "notes": 25,
       "talent": "Looter",
@@ -27097,8 +27689,6 @@
         "Fiber": 5
       },
       "name": "Familiar Assassin's Armor",
-      "pants_id": "616382369",
-      "shirt_id": "616382294",
       "reqs": "240r TTL",
       "notes": 15000,
       "talent": "Bane",
@@ -27122,8 +27712,6 @@
         "Dread Serpent's Tooth": 1
       },
       "name": "Familiar Demon's Armor",
-      "pants_id": "708342460",
-      "shirt_id": "9727632807",
       "reqs": "240r TTL",
       "notes": 15000,
       "talent": "Demon Step",
@@ -27148,8 +27736,6 @@
         "Nightbringer Enchant Stone": 1
       },
       "name": "Familiar Heretic's Armor",
-      "pants_id": "2366828269",
-      "shirt_id": "2366825248",
       "reqs": "240r TTL",
       "notes": 5000,
       "talent": "Soul Rip",
@@ -27176,8 +27762,6 @@
         "Heroism Enchant Stone": 5
       },
       "name": "Familiar Knight's Armor",
-      "pants_id": "665014655",
-      "shirt_id": "665014274",
       "reqs": "240r TTL",
       "notes": 5000,
       "talent": "Hyperbody",
@@ -27194,35 +27778,7 @@
       "desc": "You don't know why but a certain Murmur is making you very angry.",
       "voi_only": false
     },
-    "familiar_occulists_armor": {
-      "mats": {
-        "Cloth": 5,
-        "Fiber": 5,
-        "Hemobloom": 5,
-        "Bloodless Gem": 5
-      },
-      "name": "Familiar Occulist's Armor",
-      "pants_id": "3072082107",
-      "shirt_id": "3072032909",
-      "reqs": "240r TTL",
-      "notes": 10000,
-      "talent": "Life Leech",
-      "category": "Unique",
-      "durability": 2000,
-      "resistances": {
-        "Shadow Resistance": 20,
-        "Physical Resistance": 25,
-        "Elemental Resistance": 25
-      },
-      "extra_percents": {
-        "Ether Regen": 50,
-        "Extra Stealth": 0
-      },
-      "desc": "The visage of a five-eyed hound enters your mind unsolicited. Brr."
-    },
     "familiar_occultists_armor": {
-      "pants_id": "3072082107",
-      "shirt_id": "3072032909",
       "mats": {
         "Cloth": 5,
         "Fiber": 5,
@@ -27260,8 +27816,6 @@
       "notes": 400,
       "talent": "Ferryman's Curse",
       "category": "Unique",
-      "pants_id": "5807965600",
-      "shirt_id": "5825770698",
       "durability": 2500,
       "resistances": {
         "Physical Resistance": 25,
@@ -27288,8 +27842,6 @@
       "notes": 30,
       "talent": "Intrepeid Flame",
       "category": "Adept",
-      "pants_id": "5202213328",
-      "shirt_id": "5202212340",
       "durability": 1000,
       "resistances": {
         "Flame Resistance": 25,
@@ -27318,8 +27870,6 @@
       "notes": 150,
       "talent": "Legendary",
       "category": "Expert",
-      "pants_id": "9639386496",
-      "shirt_id": "9639320443",
       "durability": 2000,
       "resistances": {
         "Physical Resistance": 20,
@@ -27345,8 +27895,6 @@
       "notes": 500,
       "talent": "Underdog",
       "category": "Unique",
-      "pants_id": "16129130309",
-      "shirt_id": "16129125190",
       "durability": 2000,
       "resistances": {
         "Physical Resistance": 25,
@@ -27362,14 +27910,12 @@
       "desc": "Heretic's Memento",
       "voi_only": false
     },
-    "hidden_knife_armor": {
-      "pants_id": null,
-      "shirt_id": null,
+    "hired_knife_armor": {
       "mats": {
         "Cloth": 5,
         "Fiber": 5
       },
-      "name": "Hidden Knife Armor",
+      "name": "Hired Knife Armor",
       "reqs": "()",
       "prereqs": [
         "talent:rogue_assassin"
@@ -27400,8 +27946,6 @@
       "notes": 25,
       "talent": null,
       "category": "Starter",
-      "pants_id": "5738143134",
-      "shirt_id": "5738141373",
       "durability": 1000,
       "resistances": {
         "Physical Resistance": 15,
@@ -27415,8 +27959,6 @@
       "voi_only": false
     },
     "hive_adjudicator": {
-      "pants_id": "5115821026",
-      "shirt_id": "5115786091",
       "mats": {
         "Cloth": 5,
         "Fiber": 5,
@@ -27451,8 +27993,6 @@
       "notes": 30,
       "talent": "Lowstride",
       "category": "Expert",
-      "pants_id": "10415789127",
-      "shirt_id": "10415791512",
       "durability": 1000,
       "resistances": {
         "Physical Resistance": 25,
@@ -27468,8 +28008,6 @@
       "voi_only": false
     },
     "hive_leaders_garment": {
-      "pants_id": "3568545537",
-      "shirt_id": "3568543452",
       "mats": {},
       "name": "Hive Leader's Garment",
       "reqs": "240r TTL",
@@ -27500,8 +28038,6 @@
       "notes": 0,
       "talent": "Brunt",
       "category": "Expert",
-      "pants_id": "10376886686",
-      "shirt_id": "10376884392",
       "durability": 1200,
       "resistances": {
         "Physical Resistance": 30,
@@ -27530,8 +28066,6 @@
       "notes": 1000,
       "talent": "Refreeze, Orbital Ice",
       "category": "Unique",
-      "pants_id": "16826351109",
-      "shirt_id": "16826348060",
       "durability": 2600,
       "resistances": {
         "Physical Resistance": 25,
@@ -27560,8 +28094,6 @@
       "notes": 1000,
       "talent": "Force Your Way",
       "category": "Master",
-      "pants_id": "11698217402",
-      "shirt_id": "11698216419",
       "durability": 3000,
       "resistances": {
         "Physical Resistance": 30,
@@ -27588,8 +28120,6 @@
       "notes": 30,
       "talent": "Perseverance, Strong Stern",
       "category": "Expert",
-      "pants_id": "11630353582",
-      "shirt_id": "11630345812",
       "durability": 1000,
       "resistances": {
         "Blunt Resistance": 5,
@@ -27616,8 +28146,6 @@
       "notes": 0,
       "talent": null,
       "category": "Adept",
-      "pants_id": "7009098395",
-      "shirt_id": "7009096659",
       "durability": 2000,
       "resistances": {
         "Physical Resistance": 22,
@@ -27642,8 +28170,6 @@
       "notes": 300,
       "talent": "Master Craftsman",
       "category": "Expert",
-      "pants_id": "112355463907464",
-      "shirt_id": "80584303714847",
       "durability": 3000,
       "resistances": {
         "Physical Resistance": 25,
@@ -27672,8 +28198,9 @@
       "notes": 0,
       "talent": "Lethal Dose",
       "category": "Unique",
-      "pants_id": "72208548326844",
-      "shirt_id": "84894162495052",
+      "variants": [
+        "Capeless"
+      ],
       "durability": 3200,
       "resistances": {
         "Physical Resistance": 30,
@@ -27703,8 +28230,6 @@
       "notes": 1000,
       "talent": "Serpent's Dance",
       "category": "Unique",
-      "pants_id": "16220453084",
-      "shirt_id": "16220418770",
       "durability": 2800,
       "resistances": {
         "Wind Resistance": 15,
@@ -27730,8 +28255,6 @@
       "notes": 400,
       "talent": "Mocking Favor, Not a Scratch",
       "category": "Unique",
-      "pants_id": "16178500022",
-      "shirt_id": "16178494416",
       "durability": 2500,
       "resistances": {
         "Blunt Resistance": 15,
@@ -27746,8 +28269,6 @@
       "voi_only": false
     },
     "justicar_neophyte": {
-      "pants_id": "115975146239497",
-      "shirt_id": "119822033271759",
       "mats": {},
       "name": "Justicar Neophyte",
       "reqs": "30r TTL",
@@ -27784,8 +28305,6 @@
       "notes": 1000,
       "talent": "The Path, Unveiled",
       "category": "Master",
-      "pants_id": "11234431160",
-      "shirt_id": "11234428522",
       "durability": 2800,
       "resistances": {
         "Ice Resistance": 5,
@@ -27812,8 +28331,6 @@
       "notes": 25,
       "talent": null,
       "category": "Adept",
-      "pants_id": "4854440137",
-      "shirt_id": "4854403027",
       "durability": 1000,
       "resistances": {
         "Ice Resistance": 10,
@@ -27845,8 +28362,6 @@
       },
       "name": "Legion Centurion",
       "notes": 1000,
-      "pants_id": "7787129741",
-      "shirt_id": "7787127693",
       "reqs": "240r TTL, 10r FTD",
       "resistances": {
         "Physical Resistance": 30,
@@ -27868,8 +28383,9 @@
       "notes": 100,
       "talent": "Bruiser's Mixup",
       "category": "Expert",
-      "pants_id": "16721597613",
-      "shirt_id": "16721596275",
+      "variants": [
+        "Shirtless"
+      ],
       "durability": 1200,
       "resistances": {
         "Physical Resistance": 30,
@@ -27894,8 +28410,6 @@
       "notes": 25,
       "talent": "Merchant's Accord",
       "category": "Starter",
-      "pants_id": "5012187218",
-      "shirt_id": "5012185803",
       "durability": 1200,
       "resistances": {
         "Physical Resistance": 10,
@@ -27909,8 +28423,6 @@
       "voi_only": false
     },
     "mod_business_competitive": {
-      "pants_id": "15502133202",
-      "shirt_id": "123654213990549",
       "mats": {},
       "name": "Mod Business Competitive",
       "reqs": "()",
@@ -27927,8 +28439,6 @@
       "voi_only": false
     },
     "mod_hoodie": {
-      "pants_id": "110456474551047",
-      "shirt_id": "81261523859343",
       "mats": {},
       "name": "Mod Hoodie",
       "reqs": "()",
@@ -27945,8 +28455,6 @@
       "voi_only": false
     },
     "mod_skirt": {
-      "pants_id": "16291636804",
-      "shirt_id": "16291635064",
       "mats": {},
       "name": "Mod Skirt",
       "reqs": "()",
@@ -27963,8 +28471,6 @@
       "voi_only": false
     },
     "mod_suit": {
-      "pants_id": "15502133202",
-      "shirt_id": "15563656322",
       "mats": {},
       "name": "Mod Suit",
       "reqs": "()",
@@ -27981,8 +28487,6 @@
       "voi_only": false
     },
     "moonseye": {
-      "pants_id": "9520635185",
-      "shirt_id": "9520632213",
       "mats": {},
       "name": "Moonseye",
       "reqs": "()",
@@ -28006,8 +28510,6 @@
       "voi_only": true
     },
     "mr_toon": {
-      "pants_id": "5990852155",
-      "shirt_id": "5990799958",
       "mats": {},
       "name": "Mr Toon",
       "reqs": "()",
@@ -28038,8 +28540,6 @@
       "name": "Navaen Nomad Robes",
       "reqs": "90r TTL",
       "notes": 100,
-      "pants_id": "5747461248",
-      "shirt_id": "5747459547",
       "talent": "Fists of Navae",
       "category": "Adept",
       "durability": 1800,
@@ -28072,8 +28572,6 @@
       "notes": 1000,
       "talent": "Chief's Will",
       "category": "Master",
-      "pants_id": "8692777457",
-      "shirt_id": "8692790290",
       "durability": 3000,
       "resistances": {
         "Ice Resistance": 10,
@@ -28101,8 +28599,6 @@
       "notes": 100,
       "talent": "Devastating Power",
       "category": "Expert",
-      "pants_id": "10378362276",
-      "shirt_id": "10378359701",
       "durability": 1500,
       "resistances": {
         "Ice Resistance": 10,
@@ -28128,8 +28624,6 @@
       "notes": 30,
       "talent": "Survivalist",
       "category": "Adept",
-      "pants_id": "9639386496",
-      "shirt_id": "9639320443",
       "durability": 1200,
       "resistances": {
         "Physical Resistance": 18,
@@ -28151,8 +28645,6 @@
       "name": "Pathfinder Sorcerer",
       "reqs": "5r INT",
       "notes": 30,
-      "pants_id": "5115783991",
-      "shirt_id": "5115783821",
       "talent": "Lowstride",
       "category": "Starter",
       "durability": 1000,
@@ -28178,8 +28670,6 @@
       "notes": 30,
       "talent": "Lowstride",
       "category": "Adept",
-      "pants_id": "12994469874",
-      "shirt_id": "12994454374",
       "durability": 1000,
       "resistances": {
         "Physical Resistance": 15,
@@ -28207,8 +28697,6 @@
       "notes": 1000,
       "talent": "Crippling Darkness",
       "category": "Master",
-      "pants_id": "5049284805",
-      "shirt_id": "5049282732",
       "durability": 2600,
       "resistances": {
         "Ice Resistance": 20,
@@ -28224,8 +28712,6 @@
       "voi_only": false
     },
     "ringing_scholars_garb": {
-      "pants_id": "109013588018912",
-      "shirt_id": "129869609071594",
       "mats": {
         "Cloth": 2,
         "Fiber": 2,
@@ -28267,8 +28753,6 @@
       "notes": 1000,
       "talent": "Paired Soul",
       "category": "Master",
-      "pants_id": "4872573617",
-      "shirt_id": "4872573068",
       "durability": 3000,
       "resistances": {
         "Physical Resistance": 30,
@@ -28294,8 +28778,6 @@
       "notes": 1000,
       "talent": "Focused Hematoma, Sheltering Grasp",
       "category": "Unique",
-      "pants_id": "16826371768",
-      "shirt_id": "16826369299",
       "durability": 2600,
       "resistances": {
         "Blood Resistance": 25,
@@ -28317,8 +28799,6 @@
       "name": "Scholar",
       "reqs": "()",
       "notes": 50,
-      "pants_id": "5012197087",
-      "shirt_id": "5012197481",
       "talent": "Scholar's Intuition",
       "category": "Starter",
       "durability": 1000,
@@ -28345,8 +28825,6 @@
       "notes": 100,
       "talent": null,
       "category": "Expert",
-      "pants_id": "16831909570",
-      "shirt_id": "16826400469",
       "durability": 2000,
       "resistances": {
         "Physical Resistance": 25,
@@ -28371,8 +28849,6 @@
       "notes": 0,
       "talent": "Lowstride",
       "category": "Adept",
-      "pants_id": "4879083419",
-      "shirt_id": "4879082425",
       "durability": 1500,
       "resistances": {
         "Shadow Resistance": 10,
@@ -28401,8 +28877,9 @@
       "notes": 0,
       "talent": "Battle-Hardened",
       "category": "Unique",
-      "pants_id": "106517259194191",
-      "shirt_id": "127010889576907",
+      "variants": [
+        "Red"
+      ],
       "durability": 3500,
       "resistances": {
         "Ice Resistance": 10,
@@ -28427,8 +28904,6 @@
       "name": "Skeptic Pioneer",
       "reqs": "()",
       "notes": 25,
-      "pants_id": "5738143634",
-      "shirt_id": "5738142147",
       "talent": "Apothecary",
       "category": "Starter",
       "durability": 1200,
@@ -28444,8 +28919,6 @@
       "voi_only": false
     },
     "soren": {
-      "pants_id": "6749254643",
-      "shirt_id": "6749248008",
       "mats": {},
       "name": "Soren",
       "reqs": "()",
@@ -28465,8 +28938,9 @@
       "voi_only": false
     },
     "steel_plate": {
-      "pants_id": "5123115029",
-      "shirt_id": "5123115295",
+      "variants": [
+        "Ashen"
+      ],
       "mats": {
         "Cloth": 5,
         "Fiber": 5,
@@ -28504,8 +28978,6 @@
       "notes": 1000,
       "talent": "Circuit Breaker, Kickstart",
       "category": "Unique",
-      "pants_id": "16826416646",
-      "shirt_id": "16826412506",
       "durability": 2600,
       "resistances": {
         "Physical Resistance": 25,
@@ -28529,8 +29001,6 @@
       "notes": 0,
       "talent": null,
       "category": "Starter",
-      "pants_id": "5150610366",
-      "shirt_id": "5150609029",
       "durability": 0,
       "resistances": {},
       "extra_percents": {
@@ -28543,8 +29013,6 @@
     "strange_merchant": {
       "mats": {},
       "name": "Strange Merchant",
-      "pants_id": "13408530143",
-      "shirt_id": "13449442464",
       "reqs": "()",
       "notes": 0,
       "talent": null,
@@ -28562,8 +29030,6 @@
       "voi_only": false
     },
     "stratos_cloak": {
-      "pants_id": "10401292128",
-      "shirt_id": "10401137145",
       "mats": {
         "Cloth": 5,
         "Erisore": 10,
@@ -28601,8 +29067,6 @@
       "notes": 100,
       "talent": "Armor Piercing",
       "category": "Adept",
-      "pants_id": "13743902756",
-      "shirt_id": "13743909041",
       "durability": 1500,
       "resistances": {
         "Slash Resistance": 10,
@@ -28632,8 +29096,6 @@
       "notes": 1000,
       "talent": "Sunset Ricochet",
       "category": "Master",
-      "pants_id": "11698112735",
-      "shirt_id": "11698099480",
       "durability": 2800,
       "resistances": {
         "Physical Resistance": 30,
@@ -28662,8 +29124,6 @@
       "notes": 1000,
       "talent": "Tempest Evolution, Aerogliding",
       "category": "Unique",
-      "pants_id": "16826397099",
-      "shirt_id": "16826394452",
       "durability": 2600,
       "resistances": {
         "Wind Resistance": 25,
@@ -28690,8 +29150,6 @@
         "Vibrant Gem": 20
       },
       "name": "Titanslayer's Adornment",
-      "pants_id": "16183341216",
-      "shirt_id": "16183227058",
       "reqs": "240r TTL, 50r STR",
       "notes": 5000,
       "talent": "Primal Rage",
@@ -28709,8 +29167,6 @@
       "voi_only": false
     },
     "tituss_raiment": {
-      "pants_id": "118300012162670",
-      "shirt_id": "75667759045391",
       "mats": {
         "Cloth": 5,
         "Might Gem": 3,
@@ -28737,30 +29193,13 @@
       "desc": "...",
       "voi_only": false
     },
-    "traveler_jacket": {
-      "mats": {
-        "Cloth": 1
-      },
-      "name": "Traveler Jacket",
-      "pants_id": "5115781091",
-      "shirt_id": "5115780873",
-      "reqs": "()",
-      "notes": 10,
-      "talent": null,
-      "category": "Starter",
-      "durability": 1000,
-      "resistances": {
-        "Physical Resistance": 10
-      },
-      "extra_percents": {
-        "Ether Regen": 0,
-        "Extra Stealth": 0
-      },
-      "desc": "A well-worn jacket suitable for travelling."
-    },
     "travellers_jacket": {
-      "pants_id": "5115781091",
-      "shirt_id": "5115780873",
+      "variants": [
+        "Navy",
+        "Lilac",
+        "Brown",
+        "Red"
+      ],
       "mats": {
         "Cloth": 1
       },
@@ -28791,8 +29230,6 @@
       "notes": 400,
       "talent": "Mocking Favor, Not a Scratch",
       "category": "Unique",
-      "pants_id": "120890524359701",
-      "shirt_id": "138376084824969",
       "durability": 2500,
       "resistances": {
         "Blunt Resistance": 15,
@@ -28818,8 +29255,6 @@
       "notes": 100,
       "talent": null,
       "category": "Expert",
-      "pants_id": "16826409661",
-      "shirt_id": "16826407379",
       "durability": 2500,
       "resistances": {
         "Physical Resistance": 25,
@@ -28835,8 +29270,6 @@
     "union_initiate": {
       "mats": {},
       "name": "Union Initiate",
-      "pants_id": "7009098395",
-      "shirt_id": "7009096659",
       "reqs": "()",
       "prereqs": [
         "origin:ignition_delver"
@@ -28857,8 +29290,6 @@
       "voi_only": false
     },
     "unsung": {
-      "pants_id": "10483068682",
-      "shirt_id": "10483059536",
       "mats": {
         "Cloth": 5
       },
@@ -28894,8 +29325,9 @@
       "notes": 100,
       "talent": "Benefactor",
       "category": "Expert",
-      "pants_id": "16831806008",
-      "shirt_id": "16826381363",
+      "variants": [
+        "Dress"
+      ],
       "durability": 1500,
       "resistances": {
         "Physical Resistance": 20,
@@ -28919,8 +29351,6 @@
       "notes": 100,
       "talent": null,
       "category": "Expert",
-      "pants_id": "10388645710",
-      "shirt_id": "10388717697",
       "durability": 1500,
       "resistances": {
         "Wind Resistance": 10,
@@ -28947,8 +29377,6 @@
       "notes": 100,
       "talent": "Foolish Outburst",
       "category": "Expert",
-      "pants_id": "6155129825",
-      "shirt_id": "6155128386",
       "durability": 1500,
       "resistances": {
         "Flame Resistance": 5,
@@ -28975,8 +29403,6 @@
       "notes": 0,
       "talent": "Paired Soul",
       "category": "Adept",
-      "pants_id": "6191481920",
-      "shirt_id": "6191481006",
       "durability": 1200,
       "resistances": {
         "Blunt Resistance": 10,
@@ -29003,8 +29429,6 @@
       "notes": 1000,
       "talent": "Vigil's Grace, Action Surge",
       "category": "Unique",
-      "pants_id": "16205109829",
-      "shirt_id": "17008436872",
       "durability": 2500,
       "resistances": {
         "Wind Resistance": 25,
@@ -29021,8 +29445,6 @@
       "voi_only": false
     },
     "warders_attire": {
-      "pants_id": "15177804290",
-      "shirt_id": "15177801908",
       "mats": {},
       "name": "Warder's Attire",
       "reqs": "240r TTL",
@@ -29059,8 +29481,6 @@
       "notes": 100,
       "talent": null,
       "category": "Expert",
-      "pants_id": "10418587285",
-      "shirt_id": "10418548613",
       "durability": 1500,
       "resistances": {
         "Physical Resistance": 25,
@@ -29083,8 +29503,6 @@
       "notes": 0,
       "talent": null,
       "category": "Starter",
-      "pants_id": "5990847137",
-      "shirt_id": "5990796652",
       "durability": 1500,
       "resistances": {
         "Physical Resistance": 15,
@@ -29098,8 +29516,6 @@
       "voi_only": false
     },
     "white_mod_suit": {
-      "pants_id": "107987185452443",
-      "shirt_id": "84773371279406",
       "mats": {},
       "name": "White Mod Suit",
       "reqs": "()",
@@ -29129,8 +29545,6 @@
       "notes": 1000,
       "talent": "Wind Dancer",
       "category": "Master",
-      "pants_id": "5723308855",
-      "shirt_id": "5723355040",
       "durability": 2600,
       "resistances": {
         "Wind Resistance": 25,
@@ -29142,27 +29556,6 @@
         "Extra Stealth": 0
       },
       "desc": "The flowing robes of a Jetstriker, said to assist in attuning oneself to the Flow of the Song",
-      "voi_only": false
-    },
-    "wishmaker": {
-      "pants_id": null,
-      "shirt_id": null,
-      "mats": {},
-      "name": "Wishmaker",
-      "reqs": "()",
-      "notes": 0,
-      "talent": "Crippling Darkness",
-      "category": "Spec",
-      "durability": 4000,
-      "resistances": {
-        "Elemental Resistance": 25,
-        "Shadow Resistance": 25
-      },
-      "extra_percents": {
-        "Ether Regen": 100,
-        "Extra Stealth": 0
-      },
-      "desc": "The signature outfit of Wishmakers, a group of Lightborn sorcerers now lost to time.",
       "voi_only": false
     }
   },
@@ -46341,6 +46734,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A sturdy shield, traditionally crafted to suit the rank of it's holder.",
       "voi_only": false
     },
@@ -46492,6 +46887,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "With an almost flawless silver sheen that prevents corrosion from saltwater, the Dawnshot was purpose-built by Rosen for his lengthy travels at sea. Its short range is compensated for by the almost wrist-snapping kickback of four barrels. Although, with the Summer Company Cannon making most naval investments in their territories obsolete, this weapon has fallen out of production",
       "voi_only": false
     },
@@ -47204,6 +47601,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A round, wooden shield often accompanied by spear or shortblade.",
       "voi_only": false
     },
@@ -47729,6 +48128,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "With an almost flawless silver sheen that prevents corrosion from saltwater, the Dawnshot was purpose-built by Rosen for his lengthy travels at sea. Its short range is compensated for by the almost wrist-snapping kickback of four barrels. Although, with the Summer Company Cannon making most naval investments in their territories obsolete, this weapon has fallen out of production",
       "voi_only": false
     },
@@ -47883,6 +48284,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "The mechanisms of this firearm are more of a meticulous make then their mass-produced cousins, and are often found as collector's items above the mantlepieces of the wealthy.",
       "voi_only": false
     },
@@ -47984,6 +48387,8 @@
       "enchantable": true,
       "equip_motifs": false,
       "voi": true,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "With an almost flawless silver sheen that prevents corrosion from saltwater, the Dawnshot was purpose-built by Rosen for his lengthy travels at sea. Its short range is compensated for by the almost wrist-snapping kickback of four barrels. Although, with the Summer Company Cannon making most naval investments in their territories obsolete, this weapon has fallen out of production.",
       "talents": [
         "Hex Bullet"
@@ -48128,6 +48533,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A shield forged to brave the harshest of Ethironal winds, handcrafted by those who sought fortune amidst ruin.",
       "voi_only": false
     },
@@ -48382,6 +48789,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "The son of a village blacksmith, a young Gunsmith Rosen took to the seas and returned an older man, bringing with him the spark of inspiration that brought firearms into the world. The modern flintlock is an improved and lightweight version of Gunsmith's prototype now found in every Luminant.",
       "voi_only": false
     },
@@ -48690,6 +49099,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "...",
       "voi_only": false
     },
@@ -49073,6 +49484,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": true,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "The shields ofÃ‚Â LegionÃ‚Â shieldbearers are often decorated with the visages of famous warriors they admire.",
       "talents": [
         "Champion's Shield"
@@ -49360,6 +49773,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": false,
+      "only_offhand": false,
       "desc": "Reverse-engineered from stolen Summer Company weapons shipments, in recent times Ironsingers have found a lucrative profession in the creation of weaponry and equipment. Being the birthplace of the art's revival, the Ignition Union have funneled this wealth into the production of weapons imbued with active Ironsing components.",
       "voi_only": false
     },
@@ -49586,6 +50001,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "The shields of Legion shieldbearers are often decorated with the visages of famous warriors they admire.",
       "voi_only": false
     },
@@ -49629,6 +50046,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A fine shield to hold back the horrors of the world.",
       "voi_only": false
     },
@@ -49797,6 +50216,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "Suited to the unpredictable movements of the Kyrsgarde.",
       "voi_only": false
     },
@@ -50353,6 +50774,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A shield designed intricately, most likely from a pre-Canticlysm era. Its intricate design suggests previous use in royalty, although it cannot be said for sure.",
       "voi_only": false
     },
@@ -50419,6 +50842,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A dagger that is used more as a pivot for parrying than as a weapon of its own right.",
       "voi_only": false
     },
@@ -50801,6 +51226,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "A recent invention of the Summer Company's gunsmiths, a firearm with a high rate of fire.",
       "voi_only": false
     },
@@ -51030,6 +51457,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "A sleek hand cannon, wrought from meticulous ironsmithing. The Roscoe marks Lumen's First generation of true cylindrical barrel revolvers. Though slower than the Company's repeater models, it delivers unmatched power and precision, earning Rosen's student a well deserved payday for their innovation",
       "voi_only": false
     },
@@ -51406,6 +51835,8 @@
       "enchantable": true,
       "equip_motifs": true,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "A pistol passed down by your ancestors.",
       "voi_only": false
     },
@@ -51506,6 +51937,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "How heavy is this thing when fully loaded?",
       "voi_only": false
     },
@@ -51636,6 +52069,8 @@
       "enchantable": true,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": false,
       "desc": "A weapon brought out from your soul.",
       "voi_only": false
     },
@@ -51967,6 +52402,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A round, wooden shield often accompanied by spear or short blade.",
       "voi_only": false
     },
@@ -52133,6 +52570,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A venerated shield, donned only by those who have walked their own Path as they see fit.",
       "voi_only": false
     },
@@ -52747,6 +53186,8 @@
       "enchantable": false,
       "equip_motifs": false,
       "voi": false,
+      "can_offhand": true,
+      "only_offhand": true,
       "desc": "A shield bearing an emblem of a Flamepriest. The worship of Fire is seen as embracing a dichotomy between the Fire and the Sea, and places the Deep as the ultimate enemy, with the Fire representing mankind.",
       "voi_only": false
     },

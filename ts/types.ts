@@ -50,6 +50,8 @@ export interface Weapon {
     penetration?: number;
     posture_max?: number;
     posture_restoration?: number;
+    can_offhand?: boolean;
+    only_offhand?: boolean;
     talents?: string[];
 }
 

@@ -208,6 +208,10 @@ pub struct Weapon {
     #[serde(default)]
     pub posture_restoration: Option<f64>,
     #[serde(default)]
+    pub can_offhand: Option<bool>,
+    #[serde(default)]
+    pub only_offhand: Option<bool>,
+    #[serde(default)]
     pub talents: Vec<String>,
 }
 
