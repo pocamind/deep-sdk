@@ -1,5 +1,5 @@
-export { ATTUNEMENT_STATS, CORE_STATS, DAMAGE_TYPES, EQUIPMENT_SLOTS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_STATS, WEAPON_TYPES } from './generated.js';
-export type { DamageType, EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
+export { ATTUNEMENT_STATS, CORE_STATS, EQUIPMENT_SLOTS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_STATS, WEAPON_TYPES } from './generated.js';
+export type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
 import type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
@@ -153,100 +153,6 @@ export interface Preset {
     name: string;
     desc: string;
     opts: string;
-}
-
-export interface StatSource {
-    value: number;
-    source: string;
-    /** Pre-formatted display string, e.g. `+15%`, `×10%`, or a custom label. */
-    display_value: string;
-}
-
-export interface EquipmentSelection {
-    name: string;
-    pips?: Record<string, string[]>;
-    /** Quality stars, 0 to 3. */
-    stars?: number;
-    enchant?: string;
-}
-
-export interface WeaponSelection {
-    name: string;
-    /** Quality stars, 0 to 3. */
-    stars?: number;
-    /** The star buff, or '' for none. */
-    starBuff?: 'DMG%' | 'PEN%' | 'WGT%' | '';
-    enchant?: string;
-}
-
-export interface MantraSelection {
-    name: string;
-    /** 1 to 5. */
-    level?: number;
-    gem?: string;
-    sparks?: string[];
-    modifiers?: Record<string, number>;
-}
-
-export interface BuildSnapshot {
-    stats?: Partial<Record<Stat, number>>;
-    race?: string;
-    talents?: string[];
-    boons?: string[];
-    traits?: Record<string, number>;
-    equipment?: EquipmentSelection[];
-    outfit?: string | null;
-    weapon?: WeaponSelection | null;
-    mantras?: MantraSelection[];
-}
-
-export interface FactsParams {
-    race?: string;
-    origin?: string | null;
-    oath?: string | null;
-    talents?: string[];
-    equipment?: EquipmentSelection[];
-    outfit?: string | null;
-    /** One stat map per progression stage, in order. */
-    stages?: Partial<Record<Stat, number>>[];
-}
-
-/** Everything obtainment needs to know about a build that is not the requirement rows themselves.
- *
- * `given` (origin, aspect, oath, outfit) satisfy prereqs and are permanent. `granted` (from worn
- * equipment, the outfit and the aspect) have vacuous reqs of their own but do NOT satisfy prereqs,
- * so anything depending on one still has to earn its own copy. `implicitStages` are attunement
- * milestones: they do satisfy prereqs, but they are impermanent, so they carry the stage indices
- * where the stats actually reach them rather than a flat set. The three are not interchangeable. */
-export interface BuildFacts {
-    /** Talent names the user explicitly chose. */
-    picked: string[];
-    /** Qualified ids, e.g. `origin:castaway`, `aspect:etrean`, `talent:oath_oathless`. */
-    given: string[];
-    /** Qualified talent ids. */
-    granted: string[];
-    /** Qualified talent id to the stage indices where the milestone is present. */
-    implicitStages: Record<string, number[]>;
-    khan: boolean;
-}
-
-export interface BuildTotalStats {
-    flat: Record<string, StatSource[]>;
-    percents: Record<string, StatSource[]>;
-    derived: Record<string, number>;
-}
-
-export type CombatState = 'OutOfCombat' | 'Pve' | 'Pvp';
-export type AggregateMode = 'Base' | 'Optimistic';
-
-/** The conditions a build's total stats is evaluated under */
-export interface Scenario {
-    mode?: AggregateMode;
-    combatState?: CombatState;
-    /** Attacker penetration percent for our own EHP calcs. */
-    enemyPen?: number;
-    /** Target resistance percent for damage-output related stat derivations. */
-    enemyResistance?: number;
 }
 
 export interface Origin {

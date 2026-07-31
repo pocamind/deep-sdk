@@ -1,14 +1,10 @@
-use evalexpr::{
-    ContextWithMutableVariables, DefaultNumericTypes, HashMapContext, Value, build_operator_tree,
-};
+use evalexpr::{DefaultNumericTypes, build_operator_tree};
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
 use crate::error::{DeepError, Result};
-use crate::formulas::CombatState;
 use crate::model::stat::{ATTUNEMENT, CORE, WEAPON};
-use crate::util::statmap::StatMap;
 
 /// A stat contribution that is either a constant or an expression over the build's
 /// invested attributes.
@@ -38,21 +34,6 @@ impl StatFormula {
         }
 
         Ok(())
-    }
-
-    /// Evaluate this expression given supplied state
-    pub fn eval(&self, stats: &StatMap, state: CombatState) -> Result<f64> {
-        let src = match self {
-            StatFormula::Value(value) => return Ok(*value),
-            StatFormula::Expr(src) => src,
-        };
-
-        let node = build_operator_tree::<DefaultNumericTypes>(src)
-            .map_err(|e| DeepError::Formula(format!("{src:?}: {e}")))?;
-
-        node.eval_with_context(&context_for(stats, state))
-            .and_then(|value| value.as_number())
-            .map_err(|e| DeepError::Formula(format!("{src:?}: {e}")))
     }
 }
 
@@ -115,19 +96,4 @@ fn identifiers() -> impl Iterator<Item = &'static str> {
         .chain(ATTUNEMENT)
         .map(|stat| stat.short_name())
         .chain(["TTL", "PWR", "PVP", "PVE"])
-}
-
-#[allow(clippy::cast_precision_loss, reason = "stat values are small")]
-fn context_for(stats: &StatMap, state: CombatState) -> HashMapContext<DefaultNumericTypes> {
-    let mut ctx = HashMapContext::<DefaultNumericTypes>::new();
-
-    for stat in CORE.iter().chain(WEAPON).chain(ATTUNEMENT) {
-        let _ = ctx.set_value(stat.short_name().to_string(), Value::Float(stats.get(stat) as f64));
-    }
-    let _ = ctx.set_value("TTL".to_string(), Value::Float(stats.cost() as f64));
-    let _ = ctx.set_value("PWR".to_string(), Value::Float(stats.level(None) as f64));
-    let _ = ctx.set_value("PVP".to_string(), Value::Boolean(state == CombatState::Pvp));
-    let _ = ctx.set_value("PVE".to_string(), Value::Boolean(state == CombatState::Pve));
-
-    ctx
 }

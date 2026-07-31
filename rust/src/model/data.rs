@@ -646,6 +646,58 @@ impl DeepData {
     pub fn objectives(&self) -> impl Iterator<Item = &Objective> {
         self.objectives.values()
     }
+
+    /// Returns an unstructured diff (prob make structured later) of two pocamind/data versions.
+    /// `self` is the older version.
+    #[must_use]
+    pub fn changed_items(&self, new: &DeepData) -> Vec<String> {
+        let mut changed = Vec::new();
+
+        for talent in new.talents() {
+            match self.get_talent(&talent.name) {
+                Some(prev)
+                    if prev.contributions == talent.contributions => {}
+                _ => changed.push(talent.name.clone()),
+            }
+        }
+        for talent in self.talents() {
+            if new.get_talent(&talent.name).is_none() {
+                changed.push(talent.name.clone());
+            }
+        }
+
+        for equip in new.equipment() {
+            match self.get_equipment(&equip.name) {
+                Some(prev)
+                    if prev.innates == equip.innates
+                        && prev.pips == equip.pips
+                        && prev.talents == equip.talents => {}
+                _ => changed.push(equip.name.clone()),
+            }
+        }
+        for equip in self.equipment() {
+            if new.get_equipment(&equip.name).is_none() {
+                changed.push(equip.name.clone());
+            }
+        }
+
+        for outfit in new.outfits() {
+            match self.get_outfit(&outfit.name) {
+                Some(prev)
+                    if prev.resistances == outfit.resistances
+                        && prev.extra_percents == outfit.extra_percents
+                        && prev.talent == outfit.talent => {}
+                _ => changed.push(outfit.name.clone()),
+            }
+        }
+        for outfit in self.outfits() {
+            if new.get_outfit(&outfit.name).is_none() {
+                changed.push(outfit.name.clone());
+            }
+        }
+
+        changed
+    }
 }
 
 #[cfg(test)]
@@ -701,5 +753,11 @@ mod tests {
         let req = data.requirement("objective:justicar").unwrap();
         assert_eq!(req.name, Some("objective:justicar".to_string()));
         assert!(req.is_empty());
+    }
+
+    #[test]
+    fn identical_data_has_no_changed_items() {
+        let data = DeepData::default();
+        assert!(data.changed_items(&data).is_empty());
     }
 }

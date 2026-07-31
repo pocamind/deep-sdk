@@ -28,6 +28,8 @@ use winnow::token::one_of;
 /// - "reinforced = 90 FTD" -> named requirement (assignment syntax)
 /// - "base, armor => reinforced := 90 FTD" -> named requirement with prerequisites
 /// - "base => 90 FTD" -> anonymous requirement with a prerequisite
+/// - "talent:voideye" -> use of a requirement the game data defines, which the
+///   reqfile declares with 'extern talent:voideye'
 pub(crate) fn parse_req(input: &str) -> Result<Requirement> {
     let input = input.trim();
     requirement
@@ -35,11 +37,25 @@ pub(crate) fn parse_req(input: &str) -> Result<Requirement> {
         .map_err(|e| DeepError::Req(e.to_string()))
 }
 
-// requirement = prefix? bare_requirement
-// prefix = prereq_prefix | name_prefix
-pub(crate) fn requirement(input: &mut &str) -> ModalResult<Requirement> {
+// requirement = declared_requirement | external_usage
+pub fn requirement(input: &mut &str) -> ModalResult<Requirement> {
     let _ = multispace0.parse_next(input)?;
 
+    alt((declared_requirement, external_usage)).parse_next(input)
+}
+
+// external_usage = qualified_identifier
+fn external_usage(input: &mut &str) -> ModalResult<Requirement> {
+    let id = identifier
+        .verify(|id: &str| id.contains(':'))
+        .parse_next(input)?;
+
+    Ok(Requirement::external(&id))
+}
+
+// declared_requirement = prefix? bare_requirement
+// prefix = prereq_prefix | name_prefix
+fn declared_requirement(input: &mut &str) -> ModalResult<Requirement> {
     let prefix = opt(alt((prereq_prefix, name_prefix))).parse_next(input)?;
 
     let mut req = bare_requirement.parse_next(input)?;
@@ -90,13 +106,13 @@ fn prereq_group_full(input: &mut &str) -> ModalResult<PrereqGroup> {
     Ok(group)
 }
 
-pub(crate) fn prereq_group(input: &mut &str) -> ModalResult<PrereqGroup> {
+pub fn prereq_group(input: &mut &str) -> ModalResult<PrereqGroup> {
     let alts: Vec<String> =
         separated(1.., identifier, (multispace0, '|', multispace0)).parse_next(input)?;
     Ok(PrereqGroup::any(alts))
 }
 
-pub(crate) fn identifier(input: &mut &str) -> ModalResult<String> {
+pub fn identifier(input: &mut &str) -> ModalResult<String> {
     let first = segment.parse_next(input)?;
     let rest: Vec<String> = repeat(0.., ns_segment).parse_next(input)?;
 
@@ -135,9 +151,8 @@ fn bare_requirement(input: &mut &str) -> ModalResult<Requirement> {
     .collect::<BTreeSet<Clause>>();
 
     Ok(Requirement {
-        name: None,
-        prereqs: BTreeSet::new(),
         clauses,
+        ..Requirement::new()
     })
 }
 
@@ -337,7 +352,7 @@ fn number(input: &mut &str) -> ModalResult<i64> {
     digit1.try_map(|s: &str| s.parse::<i64>()).parse_next(input)
 }
 
-pub(crate) fn stat(input: &mut &str) -> ModalResult<Stat> {
+pub fn stat(input: &mut &str) -> ModalResult<Stat> {
     alpha1
         .verify_map(|s: &str| {
             let upper = s.to_uppercase();
@@ -543,6 +558,25 @@ mod tests {
         assert_eq!(req.prereqs.len(), 2);
         let reparsed = parse_req(&req.to_string()).unwrap();
         assert_eq!(req, reparsed);
+    }
+
+    #[test]
+    fn external_usage_round_trip() {
+        let req = parse_req("talent:reinforced_armor").unwrap();
+        assert!(req.external);
+        assert_eq!(req.name, Some("talent:reinforced_armor".to_string()));
+        assert!(req.clauses.is_empty());
+        assert!(req.prereqs.is_empty());
+
+        assert_eq!(req.to_string(), "talent:reinforced_armor");
+        assert_eq!(parse_req(&req.to_string()).unwrap(), req);
+
+        let json = serde_json::to_string(&req).unwrap();
+        assert_eq!(serde_json::from_str::<Requirement>(&json).unwrap(), req);
+
+        // the declaration is a reqfile statement, not a requirement
+        assert!(parse_req("extern talent:reinforced_armor").is_err());
+        assert!(parse_req("reinforced_armor").is_err());
     }
 
     #[test]

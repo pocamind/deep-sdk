@@ -3,7 +3,6 @@
 
 pub mod constants;
 pub mod error;
-pub mod formulas;
 pub mod model;
 pub mod parse;
 pub mod util;

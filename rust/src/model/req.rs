@@ -323,6 +323,10 @@ pub struct Requirement {
     pub prereqs: BTreeSet<PrereqGroup>,
 
     pub clauses: BTreeSet<Clause>,
+
+    // use of an 'extern ns:key' declaration, with its clauses and prereqs left
+    // for a later resolution pass to fill in from the game data
+    pub external: bool,
 }
 
 impl Requirement {
@@ -336,6 +340,17 @@ impl Requirement {
             name: None,
             prereqs: BTreeSet::new(),
             clauses: BTreeSet::new(),
+            external: false,
+        }
+    }
+
+    /// An unresolved requirement for the qualified id `ns:key`.
+    #[must_use]
+    pub fn external(id: &str) -> Self {
+        Self {
+            name: Some(id.to_string()),
+            external: true,
+            ..Self::new()
         }
     }
 
@@ -463,15 +478,20 @@ impl Default for Requirement {
 impl From<Clause> for Requirement {
     fn from(clause: Clause) -> Self {
         Self {
-            name: None,
-            prereqs: BTreeSet::new(),
             clauses: BTreeSet::from_iter([clause]),
+            ..Self::new()
         }
     }
 }
 
 impl fmt::Display for Requirement {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if self.external
+            && let Some(name) = &self.name
+        {
+            return write!(f, "{name}");
+        }
+
         if !self.prereqs.is_empty() {
             write!(
                 f,

@@ -132,3 +132,63 @@ In this case, the shared requirements will be duplicated into different trees.
 Then each tree itself forms an optional group. 
 
 Optional requirements are only attempted to be acquired if there is an optimization objective that requires them (e.g. your objective is to maximize the total weight of optional requirements).
+
+## Extern requirements
+
+If you want to reference a talent, mantra, or any other requirement in-game without defining the requirements and prereqs yourself, you can declare external identifiers to be resolved from in-game data:
+
+```
+# Resolves to 90 FTD along with all it's prereqs
+extern talent:reinforced_armor
+```
+
+The declaration requires a namespaced id (`namespace:key`). It is a directive, so it does not matter what section (Free, Post) you write it in. Usage example:
+
+```
+extern talent:reinforced_armor
+extern talent:silencers_blade
+extern talent:a_world_without_song
+
+Free:
+# require the talent, extern directives do not require the req 
+talent:reinforced_armor
+
+# optional stuff
++ talent:silencers_blade
+5; talent:a_world_without_song
+
+Post:
+weapon:bloodfouler
+
+# The order of directives doesn't matter.
+extern weapon:bloodfouler
+```
+
+
+An extern can also be named as a prereq, like any other identifier:
+
+```
+extern talent:silencers_blade
+
+Post:
+talent:silencers_blade => 75 wnd
+```
+
+An extern that does not have a usage line but is used as a prereq becomes a required requirement in hte `Free` section.
+
+These are all errors:
+
+```
+# using an identifier no 'extern' declares
+talent:reinforced_armor
+
+# declaring an identifier the file also defines
+extern talent:reinforced_armor
+talent:reinforced_armor := 90 ftd
+
+# annotating the declaration instead of the usage
+5; extern talent:reinforced_armor
+
+# giving prereqs to something the game data defines
+base => talent:reinforced_armor
+```

@@ -3,10 +3,7 @@ use std::collections::HashMap;
 
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
-use deepwoken_rs::model::aggregate::{BuildParams, Scenario};
 use deepwoken_rs::model::req::Requirement;
-use deepwoken_rs::util::aggregate;
-use deepwoken_rs::util::facts::{self, FactsParams};
 use deepwoken_rs::util::graph::PrereqGraph;
 use deepwoken_rs::util::statmap::StatMap;
 use deepwoken_rs::util::{algos, name_to_identifier};
@@ -200,36 +197,6 @@ impl JsDeepData {
         cached(&self.tables, "presets", || {
             to_js(&self.inner.presets().collect::<Vec<_>>())
         })
-    }
-
-    #[wasm_bindgen(js_name = "aggregateStats")]
-    pub fn aggregate_stats(
-        &self,
-        snapshot: JsValue,
-        scenario: JsValue,
-    ) -> Result<JsValue, JsError> {
-        let snapshot: BuildParams =
-            serde_wasm_bindgen::from_value(snapshot).map_err(|e| JsError::new(&e.to_string()))?;
-        let scenario: Scenario = if scenario.is_undefined() || scenario.is_null() {
-            Scenario::default()
-        } else {
-            serde_wasm_bindgen::from_value(scenario).map_err(|e| JsError::new(&e.to_string()))?
-        };
-        to_js(&aggregate::aggregate(&self.inner, &snapshot, scenario))
-    }
-
-    #[wasm_bindgen(js_name = "grantedTalents")]
-    pub fn granted_talents(&self, snapshot: JsValue) -> Result<JsValue, JsError> {
-        let snapshot: BuildParams =
-            serde_wasm_bindgen::from_value(snapshot).map_err(|e| JsError::new(&e.to_string()))?;
-        to_js(&aggregate::granted_talents(&self.inner, &snapshot))
-    }
-
-    #[wasm_bindgen(js_name = "buildFacts")]
-    pub fn build_facts(&self, params: JsValue) -> Result<JsValue, JsError> {
-        let params: FactsParams =
-            serde_wasm_bindgen::from_value(params).map_err(|e| JsError::new(&e.to_string()))?;
-        to_js(&facts::build_facts(&self.inner, &params))
     }
 }
 
