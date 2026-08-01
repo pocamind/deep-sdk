@@ -84,6 +84,7 @@ export interface Mantra {
     related_talents?: string[];
     shared_cooldowns?: string[];
     miscellaneous?: string;
+    icon?: string;
 }
 
 export interface Outfit {

@@ -269,6 +269,8 @@ pub struct Mantra {
     pub shared_cooldowns: Vec<String>,
     #[serde(default)]
     pub miscellaneous: Option<String>,
+    #[serde(default)]
+    pub icon: Option<String>,
 }
 
 impl Mantra {
