@@ -30023,7 +30023,7 @@
       "rarity": "Common",
       "reqs": "40s FLM",
       "additional_info": "On proc, a small orange particle will trail between the burning target you hit and other targets nearby, setting them on fire and granting Emperor Flame stacks. Agitating Spark bypasses block and parry. Agitating Spark procs from self damage do not apply burn. 1 second cooldown.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "explosion",
       "roll2able": false,
       "vaulted": false,
@@ -30549,7 +30549,7 @@
       "prereqs": [
         "talent:oath_arcwarder"
       ],
-      "count_towards_talent_total": true,
+      "count_towards_talent_total": false,
       "icon": "arcwarder",
       "roll2able": false,
       "vaulted": false,
@@ -30807,7 +30807,7 @@
       "rarity": "Common",
       "reqs": "70s FLM, 40s WLL",
       "additional_info": "Increases burn damage by 12.5%. Increases the radius and posture damage of Eruptions. Increases Flame of Denial's duration by 25%.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -30956,7 +30956,7 @@
       "rarity": "Common",
       "reqs": "20s STR, 20s AGL",
       "additional_info": "Affected targets cannot jump for 4 seconds. Targets gain 6 seconds of Bear Trap immunity.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "claw",
       "roll2able": false,
       "stats": {
@@ -31056,7 +31056,7 @@
       "rarity": "Common",
       "reqs": "80s STR",
       "additional_info": "Grants a Talent tool that nullifies your armor and natural armor on use. While active, your M1s nullify your opponent's armor, and your criticals gain +10% PEN. This procs effects that only activate if you or your opponent had no armor durability. Lasts 20 seconds, halved to 10 if you do not meet the Talent requirements.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "anger",
       "roll2able": false,
       "vaulted": false,
@@ -31714,7 +31714,7 @@
       "rarity": "Common",
       "reqs": "30s STR, 35s FTD",
       "additional_info": "Works on non-humanoid monsters, applying the damage reduction after they die.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "boots",
       "roll2able": false,
       "vaulted": false,
@@ -31761,7 +31761,7 @@
       "prereqs": [
         "origin:authority_ensign"
       ],
-      "count_towards_talent_total": true,
+      "count_towards_talent_total": false,
       "icon": "sword",
       "roll2able": false,
       "stats": {},
@@ -31902,7 +31902,7 @@
       "category": "Weapon Master",
       "rarity": "Common",
       "reqs": "50s HVY",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "greatsword",
       "roll2able": false,
       "vaulted": false,
@@ -31932,7 +31932,7 @@
       "category": "Raging Bull",
       "rarity": "Rare",
       "reqs": "25s STR",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "fist",
       "roll2able": false,
       "vaulted": false,
@@ -32190,7 +32190,7 @@
       "rarity": "Common",
       "reqs": "40s FLM, 5s FTD",
       "additional_info": "Does not reduce the blood damage of 'blood drain' effects, such as casting or being hit by Bloodrend Mantras, blood drain potions, and the blood loss Corrupt Resonance downside. Stacks multiplicatively with Alloyblood. The effectiveness of this Talent is reduced if you are using the Curse of the No Life King enchantment.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "stats": {
@@ -32603,7 +32603,7 @@
       "rarity": "Common",
       "reqs": "25s ICE",
       "additional_info": "Venting creates an ice patch on the floor and applies Chill to any enemy hit by it. Increases your Vent damage by 40% and changes its damage type to Frostdraw.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -32897,7 +32897,7 @@
         "talent:agitating_spark"
       ],
       "additional_info": "Your Agitating Spark cannot spread to you either.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "explosion",
       "roll2able": false,
       "vaulted": false,
@@ -32927,7 +32927,7 @@
       "category": "Cryomancer",
       "rarity": "Common",
       "reqs": "30s ICE",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -32978,7 +32978,7 @@
         "talent:agitating_spark"
       ],
       "additional_info": "Burn grip unconscious targets, even yourself, in 3.5 seconds instead of 7. The explosion does not work.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "explosion",
       "roll2able": false,
       "vaulted": false,
@@ -33039,7 +33039,7 @@
       "category": "Bloodrender",
       "rarity": "Common",
       "reqs": "35s BLD",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "bloodrend",
       "roll2able": false,
       "vaulted": false,
@@ -33185,7 +33185,7 @@
       "rarity": "Common",
       "reqs": "40s ICE",
       "additional_info": "Reduces the Ether cost of Frostdraw Mantras by 40% when standing on ice.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -33754,7 +33754,7 @@
       "rarity": "Rare",
       "reqs": "70s WLL",
       "additional_info": "The Effectiveness of Defiance will be lessened if you do not meet its Willpower requirement. Works on: Burn damage, the duration of Chill, Winded, Suffocation, time knocked, Ring of Pestilence, and Sightless Still, Crystal and Surge Rod gain, Blood Poisoning gain and Wither gain.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "grip",
       "roll2able": false,
       "vaulted": false,
@@ -33803,7 +33803,7 @@
         "mantra:flame_of_denial"
       ],
       "additional_info": "When Flame of Denial activates, release an explosion around you. This deals 20 Flamecharm damage with 5 Flamecharm scaling, meaning it gains 0.1 damage per Flamecharm investment for a total damage of 30 at 100 Flamecharm. This cannot be parried nor dodged, but can be blocked, dealing 5 posture damage. Has a windup of 0.6s.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -33832,7 +33832,7 @@
       "category": "Colossus",
       "rarity": "Rare",
       "reqs": "25s STR, 40s HVY",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "greatsword",
       "roll2able": false,
       "stats": {
@@ -34516,7 +34516,7 @@
       "rarity": "Common",
       "reqs": "90s BLD, 90r LHT OR 90r MED OR 90r HVY",
       "additional_info": "When you land basic attacks during Rush Hour, gain Temporary Health equal to 30% of your weapon's scaled damage. This cannot give more than 50 Temporary Health in a singular instance. Reduces Rush Hour's self damage by 22%, from 4.5 damage per tick to 3.5 damage per tick. Despite what the description states, this Talent still procs when hitting monsters or other non-player enemies.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "bloodrend",
       "roll2able": false,
       "vaulted": false,
@@ -34647,7 +34647,7 @@
       "prereqs": [
         "outfit:strange_merchant"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "sword",
       "roll2able": false,
       "vaulted": false,
@@ -34917,7 +34917,7 @@
       "prereqs": [
         "talent:swift_rebound"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "boots",
       "roll2able": false,
       "vaulted": false,
@@ -34995,7 +34995,7 @@
       "rarity": "Rare",
       "reqs": "40s FTD",
       "additional_info": "Exoskeleton's resistance will be less effective if you do not meet its Fortitude requirement, losing 0.125% resistance for every point under 40 Fortitude, capping at 6.875% resistance with 15 Fortitude. Chitin's resistances stack multiplicatively with Exoskeleton.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "ribcage",
       "roll2able": false,
       "stats": {
@@ -35203,7 +35203,7 @@
       "rarity": "Common",
       "reqs": "45s FLM",
       "additional_info": "Deals 5 Flamecharm damage. Upon proccing Emperor Flame, this Talent will be put on a 3s cd.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -35267,7 +35267,7 @@
       "rarity": "Common",
       "reqs": "60s MTL",
       "additional_info": "Procs against Berserk users and while Berserk is active.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "ironsing",
       "roll2able": false,
       "conditional_stats": {
@@ -35661,7 +35661,7 @@
       "rarity": "Common",
       "reqs": "25s FLM",
       "additional_info": "8 second cooldown on cast. The self burn can only be dispelled by using the tool again or through the rain/sea.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "conditional_stats": {
@@ -35732,7 +35732,7 @@
       "prereqs": [
         "talent:warding_radiance"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "stats": {
@@ -36095,7 +36095,7 @@
       "rarity": "Common",
       "reqs": "60s ICE",
       "additional_info": "Encases them in ice, removing their ability to move, parry, block, or dodge for a short amount of time. Taking damage by any source (including damage over time effects) will end the freeze early. You can spam [F] to get out of Freeze faster.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -36182,7 +36182,7 @@
       "rarity": "Common",
       "reqs": "15s HVY, 45s ICE",
       "additional_info": "On critical, create three moderately large ice patches in a linear path in front of yourself. These patches last 1 minute 30 seconds. Despite what the Talent description states, Greathammers do not proc Frost Buster but Greataxes do. Greatcannons do not proc Frost Buster either.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -36195,7 +36195,7 @@
       "category": "Ice Age",
       "rarity": "Common",
       "reqs": "25s ICE",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -36261,7 +36261,7 @@
       "rarity": "Common",
       "reqs": "100r LHT OR 100r MED OR 100r HVY, 100s ICE",
       "additional_info": "Bottom Freeze will be removed if the target takes damage from any source. This makes this Talent extremely ineffective on multihit criticals. The Chill applied from this Talent lasts 12 seconds. 10 second cooldown.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -36275,7 +36275,7 @@
       "rarity": "Rare",
       "reqs": "60s ICE",
       "additional_info": "Only procs from Chill procs on Mantras. Lasts for 0.75 seconds.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -36540,7 +36540,7 @@
       "prereqs": [
         "talent:orbital_ice"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "stats": {
@@ -37466,7 +37466,7 @@
       "category": "Pyromancer",
       "rarity": "Common",
       "reqs": "30s FLM, 15s FTD",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "jaws",
       "roll2able": false,
       "vaulted": false,
@@ -37598,7 +37598,7 @@
         "talent:agitating_spark"
       ],
       "additional_info": "\"Self-Inflicted flames\" include Flame Within, Agitating Spark you spread and environmental burns created by you. \"Apply fire damage\" applies the burn status effect instead of adding Flamecharm damage. This applies burn regardless of Flamecharm path. Instead, all instances of Physical damage, and all attacks that have the slash (blood particle) fx on hit will proc Immolation, applying burn.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "stats": {
@@ -37905,7 +37905,7 @@
       "prereqs": [
         "outfit:strange_merchant"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": false,
       "vaulted": false,
@@ -38460,7 +38460,7 @@
       "rarity": "Quest",
       "reqs": "()",
       "additional_info": "The lifesteal only works in PvE.",
-      "count_towards_talent_total": true,
+      "count_towards_talent_total": false,
       "icon": "lungs",
       "roll2able": false,
       "vaulted": false,
@@ -38911,7 +38911,7 @@
       "prereqs": [
         "talent:battle_tendency"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "shield",
       "roll2able": false,
       "stats": {
@@ -39583,7 +39583,7 @@
         "talent:unwavering_resolve"
       ],
       "additional_info": "Removes both the melee and Mantra PEN cap.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "fist",
       "roll2able": false,
       "stats": {
@@ -40184,7 +40184,7 @@
       "category": "Arcwarder",
       "rarity": "Oath",
       "reqs": "20s FTD, 20s FLM, 20s LTN",
-      "count_towards_talent_total": true,
+      "count_towards_talent_total": false,
       "icon": "arcwarder",
       "roll2able": true,
       "stats": {
@@ -40509,7 +40509,7 @@
       "rarity": "Rare",
       "reqs": "20s AGL",
       "additional_info": "Cancelling your roll quickly will grant dodge frames equals to the length of a regular roll. Basically giving extra 0.1s dodge frames.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "boots",
       "roll2able": false,
       "stats": {
@@ -40700,7 +40700,7 @@
       "rarity": "Common",
       "reqs": "65s ICE",
       "additional_info": "90 second cooldown. Durability of Orbital Ice is equal to \"Frostdraw investment +10\".",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -40861,7 +40861,7 @@
       "rarity": "Common",
       "reqs": "135s TTL",
       "additional_info": "The 3% Blunt Armor is multiplicative with other sources of Blunt resistance.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "shield",
       "roll2able": false,
       "stats": {
@@ -41002,7 +41002,7 @@
       "rarity": "Common",
       "reqs": "30s FTD, 30s WLL",
       "additional_info": "This can stack with other Talents to reduce knock time even further. (Ex. Defiance)",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "grip",
       "roll2able": false,
       "stats": {
@@ -41133,7 +41133,7 @@
       "rarity": "Advanced",
       "reqs": "100s STR",
       "additional_info": "If you do not have 100 Strength, this Talent will instead halve your opponent's armor resistances multiplicatively, before PEN on proc.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "fist",
       "roll2able": false,
       "vaulted": false,
@@ -41209,7 +41209,7 @@
       "rarity": "Common",
       "reqs": "25s FLM, 15s WLL, 15s CHA",
       "additional_info": "Does not proc with flames produced by the user with Flame Within or Agitating Spark.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -41257,7 +41257,7 @@
         "objective:flame_worshipper"
       ],
       "additional_info": "Spawns swords from the sky, similarly to First Light's critical attack.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "stats": {
@@ -41405,7 +41405,7 @@
         "mantra:ice_beam"
       ],
       "additional_info": "If the user has Crystallization, this Talent no longer freezes but instead causes crystals to explode.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -41632,7 +41632,7 @@
       "rarity": "Rare",
       "reqs": "20s HVY",
       "additional_info": "If you M1 your opponent during their M1 animation, they will be dazed for 1 second. Also procs if you land a critical with the M1 tag during their M1 animation.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "greatsword",
       "roll2able": false,
       "vaulted": false,
@@ -42524,7 +42524,7 @@
       "rarity": "Rare",
       "reqs": "50s BLD",
       "additional_info": "Use the Rush Hour tool to gain the Rush Hour status effect, granting a 30% speed boost, a 15% damage buff, and an increase to blood damage. This passively drains the user's health and blood while active. Recover 5% blood whenever you land an attack.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "bloodrend",
       "roll2able": false,
       "conditional_stats": {
@@ -42627,7 +42627,7 @@
       "rarity": "Rare",
       "reqs": "20s AGL",
       "additional_info": "Dodge IFrames increased from 0.3s to 0.35s.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "boots",
       "roll2able": false,
       "stats": {
@@ -42663,7 +42663,7 @@
         "talent:frostbite"
       ],
       "additional_info": "You can only steal non-passive healing. On Crystal Path, applying a Crystal will proc Saint Jay for 2 seconds. You cannot steal healing that you apply.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -43154,7 +43154,7 @@
       "prereqs": [
         "talent:unwavering_resolve"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "fist",
       "roll2able": false,
       "stats": {
@@ -44167,7 +44167,7 @@
         "talent:padded_armor"
       ],
       "additional_info": "The 3% Slash Armor is multiplicative with other sources of Slash resistance.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "shield",
       "roll2able": false,
       "stats": {
@@ -44658,7 +44658,7 @@
       "category": "Butterfly",
       "rarity": "Common",
       "reqs": "15s AGL",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "cloak",
       "roll2able": false,
       "vaulted": false,
@@ -44889,7 +44889,7 @@
       "category": "Toxic Personality",
       "rarity": "Common",
       "reqs": "()",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": false,
       "vaulted": false,
@@ -45064,7 +45064,7 @@
       "rarity": "Rare",
       "reqs": "210s TTL, 60s FLM",
       "additional_info": "Deals 5 Flamecharm damage on proc.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -45443,7 +45443,7 @@
         "objective:flame_worshipper"
       ],
       "additional_info": "20 second cooldown.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -45838,7 +45838,7 @@
       "prereqs": [
         "talent:unwavering_resolve"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "greatsword",
       "roll2able": false,
       "stats": {
@@ -45937,7 +45937,7 @@
       "rarity": "Advanced",
       "reqs": "100s ICE",
       "additional_info": "If you have less than 100 Frostdraw, your Chill duration (when applied through block) will be reduced down to 25% of its original duration instead.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "frostdraw",
       "roll2able": false,
       "vaulted": false,
@@ -45954,7 +45954,7 @@
       "rarity": "Common",
       "reqs": "35s FLM",
       "additional_info": "Negates the innate 10% damage debuff Flamecharm Mantras, First Light's critical, and Twisted Puppets' Puppets receive during the rain. Prevents your burn from being extinguished by the rain.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "vaulted": false,
@@ -46153,7 +46153,7 @@
       "prereqs": [
         "outfit:strange_merchant"
       ],
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": false,
       "vaulted": false,
@@ -46296,7 +46296,7 @@
       "rarity": "Rare",
       "reqs": "30s FLM, 20s AGL",
       "additional_info": "Allows you to proc Hell's Partisan on Flamecharm Mantras that aren't Fire Forge while you have the halo active. Lasts 60 seconds, but cannot be refreshed.",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
       "stats": {
@@ -46312,7 +46312,7 @@
       "category": "Weapon Master",
       "rarity": "Common",
       "reqs": "30s HVY",
-      "count_towards_talent_total": false,
+      "count_towards_talent_total": true,
       "icon": "greatsword",
       "roll2able": false,
       "vaulted": false,
