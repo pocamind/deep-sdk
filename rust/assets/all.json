@@ -533,17 +533,26 @@
       }
     },
     "felinor": {
-      "name": "Felinor",
       "desc": "Akin to their feline features, the Felinor are carefree and whimsical. Seen to be thieves and outlaws, but merely seek a life of freedom.",
+      "name": "Felinor",
       "innate": {
-        "Agility": 2,
-        "Charisma": 3
+        "Agility": 3,
+        "Charisma": 2
       },
       "talent": [
         "Nightchild"
       ],
-      "is_pathfinder": true,
       "variants": {
+        "par": {
+          "name": "Par",
+          "colors": {
+            "eye": "#00FF7F",
+            "hair": "#8F8F8F",
+            "skin": "#C5C4C3",
+            "tone": "#50504F"
+          },
+          "unlock": "spec"
+        },
         "lynx": {
           "name": "Lynx",
           "colors": {
@@ -551,6 +560,24 @@
             "hair": "#8F8F8F",
             "skin": "#C5C4C3",
             "tone": "#5A5957"
+          }
+        },
+        "sphynx": {
+          "name": "Sphynx",
+          "colors": {
+            "eye": "#D12A4E",
+            "hair": "#F2F2FF",
+            "skin": "#FFCCC9",
+            "tone": "#6A5757"
+          }
+        },
+        "leopard": {
+          "name": "Leopard",
+          "colors": {
+            "eye": "#DA9D24",
+            "hair": "#8F8572",
+            "skin": "#BFB5A9",
+            "tone": "#4D4842"
           }
         },
         "panther": {
@@ -563,45 +590,18 @@
             "sclera": "#E6E7D5"
           }
         },
-        "sphynx": {
-          "name": "Sphynx",
-          "colors": {
-            "eye": "#D12A4E",
-            "hair": "#F2F2FF",
-            "skin": "#FFCCC9",
-            "tone": "#6A5757"
-          }
-        },
-        "par": {
-          "name": "Par",
-          "unlock": "spec",
-          "colors": {
-            "eye": "#00FF7F",
-            "hair": "#8F8F8F",
-            "skin": "#C5C4C3",
-            "tone": "#50504F"
-          }
-        },
-        "leopard": {
-          "name": "Leopard",
-          "colors": {
-            "eye": "#DA9D24",
-            "hair": "#8F8572",
-            "skin": "#BFB5A9",
-            "tone": "#4D4842"
-          }
-        },
         "hallowtide": {
           "name": "Hallowtide",
-          "unlock": "hallowtide",
           "colors": {
             "eye": "#AA0000",
             "hair": "#FF5500",
             "skin": "#DA8541",
             "tone": "#533219"
-          }
+          },
+          "unlock": "hallowtide"
         }
-      }
+      },
+      "is_pathfinder": true
     },
     "ganymede": {
       "name": "Ganymede",
@@ -13186,183 +13186,6 @@
       ],
       "voi_only": false
     },
-    "blade_of_saints_flamecharm_saint_stance": {
-      "name": "Blade of Saints: Flamecharm Saint Stance",
-      "attributes": [
-        "Oath: Saintsworn"
-      ],
-      "category": "Combat",
-      "type": "Oath",
-      "stars": 0,
-      "vaulted": false,
-      "reqs": "()",
-      "prereqs": [
-        "mantra:blade_of_saints"
-      ],
-      "damage": [
-        {
-          "variant": null,
-          "levels": [
-            {
-              "level": "L1",
-              "damage": 29.38,
-              "posture_damage": 0
-            },
-            {
-              "level": "GB",
-              "damage": 0,
-              "posture_damage": null
-            }
-          ]
-        }
-      ],
-      "modifiers": [
-        "Cloudstone",
-        "Stratus Stone",
-        "Drift Shard",
-        "Rush Shard",
-        "Crystal Lens",
-        "Perfect Lens"
-      ],
-      "voi": false,
-      "desc": "Rise into the air, and slam down your Saintsblade to apply burn and knockdown to anyone hit."
-    },
-    "blade_of_saints_frostdraw_saint_stance": {
-      "name": "Blade of Saints: Frostdraw Saint Stance",
-      "attributes": [
-        "Oath: Saintsworn"
-      ],
-      "category": "Combat",
-      "type": "Oath",
-      "stars": 0,
-      "vaulted": false,
-      "reqs": "()",
-      "prereqs": [
-        "mantra:blade_of_saints"
-      ],
-      "damage": [
-        {
-          "variant": null,
-          "levels": [
-            {
-              "level": "L1",
-              "damage": 80.93,
-              "posture_damage": 0
-            },
-            {
-              "level": "GB",
-              "damage": 0,
-              "posture_damage": null
-            }
-          ]
-        }
-      ],
-      "voi": false,
-      "desc": "Use your Saintsblade to shoot out 3 crescent-shaped ice projectiles, followed up by a lunge which applies heavy knockback."
-    },
-    "blade_of_saints_galebreathe_saint_stance": {
-      "name": "Blade of Saints: Galebreathe Saint Stance",
-      "attributes": [
-        "Oath: Saintsworn"
-      ],
-      "category": "Combat",
-      "type": "Oath",
-      "stars": 0,
-      "vaulted": false,
-      "reqs": "()",
-      "prereqs": [
-        "mantra:blade_of_saints"
-      ],
-      "damage": [
-        {
-          "variant": null,
-          "levels": [
-            {
-              "level": "L1",
-              "damage": 42.12,
-              "posture_damage": 0
-            },
-            {
-              "level": "GB",
-              "damage": 0,
-              "posture_damage": null
-            }
-          ]
-        }
-      ],
-      "voi": false,
-      "desc": "You propel yourself forwards with the winds, uppercutting anyone in your wake."
-    },
-    "blade_of_saints_shadowcast_saint_stance": {
-      "name": "Blade of Saints: Shadowcast Saint Stance",
-      "attributes": [
-        "Oath: Saintsworn"
-      ],
-      "category": "Combat",
-      "type": "Oath",
-      "stars": 0,
-      "vaulted": false,
-      "reqs": "()",
-      "prereqs": [
-        "mantra:blade_of_saints"
-      ],
-      "damage": [
-        {
-          "variant": null,
-          "levels": [
-            {
-              "level": "L1",
-              "damage": 62.31,
-              "posture_damage": 0
-            },
-            {
-              "level": "GB",
-              "damage": 0,
-              "posture_damage": null
-            }
-          ]
-        }
-      ],
-      "voi": false,
-      "desc": "The Saintsblade releases a horizontal mid-range slash of darkness that pulls enemies along with it, knocking them up at the end of its path."
-    },
-    "blade_of_saints_thundercall_saint_stance": {
-      "name": "Blade of Saints: Thundercall Saint Stance",
-      "attributes": [
-        "Oath: Saintsworn"
-      ],
-      "category": "Combat",
-      "type": "Oath",
-      "stars": 0,
-      "vaulted": false,
-      "reqs": "()",
-      "prereqs": [
-        "mantra:blade_of_saints"
-      ],
-      "damage": [
-        {
-          "variant": null,
-          "levels": [
-            {
-              "level": "L1",
-              "damage": 38.23,
-              "posture_damage": 0
-            },
-            {
-              "level": "GB",
-              "damage": 0,
-              "posture_damage": null
-            }
-          ]
-        }
-      ],
-      "modifiers": [
-        "Cloudstone",
-        "Stratus Stone"
-      ],
-      "voi": false,
-      "desc": "Slash twice with your Saintsblade, applying knockdown on the second hit, followed up by a devastating bolt of lightning that applies stun."
-    },
     "blinding_dawn": {
       "name": "Blinding Dawn",
       "attributes": [
@@ -16687,6 +16510,47 @@
       "voi_only": false,
       "icon": "flame_wisp"
     },
+    "flamecharm_blade_of_saints": {
+      "voi": false,
+      "desc": "Rise into the air, and slam down your Saintsblade to apply burn and knockdown to anyone hit.",
+      "name": "Flamecharm Blade of Saints",
+      "reqs": "()",
+      "type": "Oath",
+      "stars": 0,
+      "damage": [
+        {
+          "levels": [
+            {
+              "level": "L1",
+              "damage": 29.38,
+              "posture_damage": 0
+            },
+            {
+              "level": "GB",
+              "damage": 0,
+              "posture_damage": null
+            }
+          ],
+          "variant": null
+        }
+      ],
+      "prereqs": [
+        "mantra:blade_of_saints"
+      ],
+      "vaulted": false,
+      "category": "Combat",
+      "modifiers": [
+        "Cloudstone",
+        "Stratus Stone",
+        "Drift Shard",
+        "Rush Shard",
+        "Crystal Lens",
+        "Perfect Lens"
+      ],
+      "attributes": [
+        "Oath: Saintsworn"
+      ]
+    },
     "flaming_scourge": {
       "name": "Flaming Scourge",
       "attributes": [
@@ -17204,6 +17068,39 @@
       "desc": "A servant of ice.",
       "voi_only": false
     },
+    "frostdraw_blade_of_saints": {
+      "voi": false,
+      "desc": "Use your Saintsblade to shoot out 3 crescent-shaped ice projectiles, followed up by a lunge which applies heavy knockback.",
+      "name": "Frostdraw Blade of Saints",
+      "reqs": "()",
+      "type": "Oath",
+      "stars": 0,
+      "damage": [
+        {
+          "levels": [
+            {
+              "level": "L1",
+              "damage": 80.93,
+              "posture_damage": 0
+            },
+            {
+              "level": "GB",
+              "damage": 0,
+              "posture_damage": null
+            }
+          ],
+          "variant": null
+        }
+      ],
+      "prereqs": [
+        "mantra:blade_of_saints"
+      ],
+      "vaulted": false,
+      "category": "Combat",
+      "attributes": [
+        "Oath: Saintsworn"
+      ]
+    },
     "frozen_servants": {
       "name": "Frozen Servants",
       "attributes": [
@@ -17487,6 +17384,39 @@
       "desc": "A servant of wind. Reduces fall damage by 20%. With Specter Path, makes your mantras give more Spectral Gauge. With Haunted Gale, increases the duration of your Phantoms by 3s.",
       "voi_only": false,
       "icon": "gale_wisp"
+    },
+    "galebreathe_blade_of_saints": {
+      "voi": false,
+      "desc": "You propel yourself forwards with the winds, uppercutting anyone in your wake.",
+      "name": "Galebreathe Blade of Saints",
+      "reqs": "()",
+      "type": "Oath",
+      "stars": 0,
+      "damage": [
+        {
+          "levels": [
+            {
+              "level": "L1",
+              "damage": 42.12,
+              "posture_damage": 0
+            },
+            {
+              "level": "GB",
+              "damage": 0,
+              "posture_damage": null
+            }
+          ],
+          "variant": null
+        }
+      ],
+      "prereqs": [
+        "mantra:blade_of_saints"
+      ],
+      "vaulted": false,
+      "category": "Combat",
+      "attributes": [
+        "Oath: Saintsworn"
+      ]
     },
     "galetrap": {
       "name": "Galetrap",
@@ -24267,6 +24197,39 @@
       "desc": "Create a shadow vortex that pulls in everything in its surrounding.",
       "voi_only": false
     },
+    "shadowcast_blade_of_saints": {
+      "voi": false,
+      "desc": "The Saintsblade releases a horizontal mid-range slash of darkness that pulls enemies along with it, knocking them up at the end of its path.",
+      "name": "Shadowcast Blade of Saints",
+      "reqs": "()",
+      "type": "Oath",
+      "stars": 0,
+      "damage": [
+        {
+          "levels": [
+            {
+              "level": "L1",
+              "damage": 62.31,
+              "posture_damage": 0
+            },
+            {
+              "level": "GB",
+              "damage": 0,
+              "posture_damage": null
+            }
+          ],
+          "variant": null
+        }
+      ],
+      "prereqs": [
+        "mantra:blade_of_saints"
+      ],
+      "vaulted": false,
+      "category": "Combat",
+      "attributes": [
+        "Oath: Saintsworn"
+      ]
+    },
     "shoulder_bash": {
       "name": "Shoulder Bash",
       "attributes": [
@@ -25540,6 +25503,43 @@
       "desc": "A servant of lightning.",
       "voi_only": false,
       "icon": "thunder_wisp"
+    },
+    "thundercall_blade_of_saints": {
+      "voi": false,
+      "desc": "Slash twice with your Saintsblade, applying knockdown on the second hit, followed up by a devastating bolt of lightning that applies stun.",
+      "name": "Thundercall Blade of Saints",
+      "reqs": "()",
+      "type": "Oath",
+      "stars": 0,
+      "damage": [
+        {
+          "levels": [
+            {
+              "level": "L1",
+              "damage": 38.23,
+              "posture_damage": 0
+            },
+            {
+              "level": "GB",
+              "damage": 0,
+              "posture_damage": null
+            }
+          ],
+          "variant": null
+        }
+      ],
+      "prereqs": [
+        "mantra:blade_of_saints"
+      ],
+      "vaulted": false,
+      "category": "Combat",
+      "modifiers": [
+        "Cloudstone",
+        "Stratus Stone"
+      ],
+      "attributes": [
+        "Oath: Saintsworn"
+      ]
     },
     "tornado": {
       "name": "Tornado",
@@ -27082,7 +27082,7 @@
     },
     "auroran_gremor": {
       "mats": {},
-      "name": "AuroranGremor",
+      "name": "Auroran Gremor",
       "reqs": "240r TTL",
       "notes": 0,
       "talent": "Frozone",
@@ -29563,7 +29563,7 @@
     "chime": {
       "desc": "A chime focused build preset.",
       "name": "Chime",
-      "opts": "Free:\n# we should really get these\n20; talent:neuroplasticity := 35r wll or 35r cha or 35r int\n\n15; talent:to_the_finish := 50 ftd\n15; talent:exoskeleton := 40 ftd\n\n12; talent:old_habits_die_hard := 20 wll\n\n12; talent:perfect_flash := 25 int\n12; talent:tough_love := 25 cha\n\n# really optional stuff\n1; talent:battle_tendency := 15 ftd, 15 wll\n3; talent:magical_resolve := 15 ftd, 40 wll\n1; talent:eureka := 30 int\n1; talent:master_craftsman := 45 int\n1; talent:golden_tongue := 40 cha\n3; talent:chaotic_charm := 55 cha\n1; talent:manipulator := 60 cha\n1; talent:unnecessary_theatrics := 75 cha\n\nPost:\n"
+      "opts": "extern *\n\nFree:\n\n20; talent:exoskeleton\n10; talent:to_the_finish\n\n4; mantra:exhaustion_strike := 40r wll\n3; talent:magical_resolve := 40 wll, 15 ftd\n1; talent:last_resort\n20; talent:old_habits_die_hard\n3; talent:disbelief\n3; talent:all_the_dead_gods\n\n1; talent:tap_dancer\n5; talent:ghost := 40 agl\n19; talent:risky_moves := 25 agl\n7; talent:fast_blade\n1; talent:steady_nerves\n5; talent:spine_cutter\n1; talent:backstabber\n\n11; talent:unwavering_resolve\n\n10; talent:tough_love\n1; talent:golden_tongue\n6; talent:chaotic_charm := 55 cha\n\n10; talent:everchanging_aegis\n1; talent:eureka\n1; talent:master_craftsman\n\n20; talent:neuroplasticity\n\nPost:\n1; lv2_wll := 20 wll\n2; lv3_wll := 40 wll\n4; postshrine_fortitude := 50 ftd\n18; talent:reinforced_armor"
     }
   },
   "resonances": {
@@ -30838,7 +30838,7 @@
       "rarity": "Outfit",
       "reqs": "()",
       "prereqs": [
-        "outfit:hidden_knife_armor"
+        "outfit:hired_knife_armor"
       ],
       "additional_info": "Grants a Talent tool that on use allows you to teleport to your opponent when you M1 for 20 seconds. The teleportation has a range limit of 25 studs. Additionally grants a speed boost for the full duration. 100 second cooldown.",
       "count_towards_talent_total": false,
@@ -35520,7 +35520,7 @@
       "rarity": "Equipment",
       "reqs": "()",
       "prereqs": [
-        "equipment:corrupted_duelists_mask"
+        "equipment:corrupted_duelist_mask"
       ],
       "additional_info": "Halves the effectiveness of all speed boosts. Adds true damage to your attacks, with the true damage scaling on your speed boosts and momentum.",
       "count_towards_talent_total": false,
@@ -40259,22 +40259,22 @@
       "voi_only": false
     },
     "oath_chainwarden": {
-      "name": "Oath: Chainwarden",
-      "category": "Chainwarden",
-      "rarity": "Oath",
-      "reqs": "STR + FTD + WLL = 40r",
-      "count_towards_talent_total": false,
-      "icon": "chainwarden",
-      "roll2able": false,
-      "stats": {
-        "Wildcard Mantra Slot": 1,
-        "Combat Mantra Slot": 2,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to be the chain that binds the wicked and drags them back where they belong. There are those in this world who should not be free.",
-      "voi_only": false
+      "icon": "chainwarden",
+      "name": "Oath: Chainwarden",
+      "reqs": "STR + FTD + WLL = 40r",
+      "stats": {
+        "Pen": 5,
+        "Combat Mantra Slot": 2,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Chainwarden",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_contractor": {
       "name": "Oath: Contractor",
@@ -40296,21 +40296,21 @@
       "voi_only": false
     },
     "oath_dawnwalker": {
-      "name": "Oath: Dawnwalker",
-      "category": "Dawnwalker",
-      "rarity": "Oath",
-      "reqs": "240s TTL",
-      "count_towards_talent_total": false,
-      "icon": "dawnwalker",
-      "roll2able": false,
-      "stats": {
-        "Combat Mantra Slot": 2,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to forever reach towards the brilliant Light. There is no shadow that your radiance cannot expunge.",
-      "voi_only": false
+      "icon": "dawnwalker",
+      "name": "Oath: Dawnwalker",
+      "reqs": "240s TTL",
+      "stats": {
+        "Pen": 5,
+        "Combat Mantra Slot": 3
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Dawnwalker",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_fadetrimmer": {
       "name": "Oath: Fadetrimmer",
@@ -41386,7 +41386,7 @@
       "rarity": "Equipment",
       "reqs": "()",
       "prereqs": [
-        "equipment:solar_pendant"
+        "equipment:radial_pendant"
       ],
       "count_towards_talent_total": false,
       "icon": "shadowcast",
@@ -44401,7 +44401,7 @@
       "rarity": "Equipment",
       "reqs": "()",
       "prereqs": [
-        "equipment:ascended_outlaw_boots"
+        "equipment:ascended_outlaw_breeches"
       ],
       "additional_info": "This applies a 5% slow per combat tag you have, lasting 1 second.",
       "count_towards_talent_total": false,
