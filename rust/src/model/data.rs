@@ -6,7 +6,9 @@ use serde::{Deserialize, Serialize};
 
 use crate::Stat;
 use crate::error::{DeepError, Result};
-use crate::model::enums::{EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType};
+use crate::model::enums::{
+    EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType,
+};
 use crate::model::formula::{StatContributions, StatFormula};
 use crate::model::req::{PrereqGroup, Requirement};
 use crate::util::graph::PrereqGraph;
@@ -302,6 +304,8 @@ pub struct Preset {
     /// A reqfile segment, i.e. the `Free:` and `Post:` blocks, applied as an
     /// optional reqfile when this preset is selected.
     pub opts: String,
+    #[serde(default)]
+    pub obtain_if_available: Vec<String>,
 }
 
 impl Enchant {
@@ -428,8 +432,8 @@ impl DeepData {
             .expect("bundled all.json failed to parse")
     }
 
-    /// Retrieve the raw JSON used to construct the data schema. 
-    /// 
+    /// Retrieve the raw JSON used to construct the data schema.
+    ///
     /// We expose this functionality because the data schema may be
     /// frequently updated, though it is a guarentee that the data must be
     /// parsable into the current DeepData structure and it's strongly-typed definitions.
@@ -535,8 +539,14 @@ impl DeepData {
             Outfit::NAMESPACE => self.outfits.get(key).map(|o| o.requirement(key)),
             Equipment::NAMESPACE => self.equipment.get(key).map(|e| e.requirement(key)),
             Objective::NAMESPACE => self.objectives.get(key).map(|o| o.requirement(key)),
-            Aspect::NAMESPACE => self.aspects.get(key).map(|_| reqless_requirement(qualified_id)),
-            Origin::NAMESPACE => self.origins.get(key).map(|_| reqless_requirement(qualified_id)),
+            Aspect::NAMESPACE => self
+                .aspects
+                .get(key)
+                .map(|_| reqless_requirement(qualified_id)),
+            Origin::NAMESPACE => self
+                .origins
+                .get(key)
+                .map(|_| reqless_requirement(qualified_id)),
             Resonance::NAMESPACE => self
                 .resonances
                 .get(key)
@@ -554,7 +564,12 @@ impl DeepData {
         self.talents
             .iter()
             .filter(|(_, talent)| talent.implicit)
-            .map(|(key, talent)| (format!("{}:{key}", Talent::NAMESPACE), talent.requirement(key)))
+            .map(|(key, talent)| {
+                (
+                    format!("{}:{key}", Talent::NAMESPACE),
+                    talent.requirement(key),
+                )
+            })
             .collect()
     }
 
@@ -657,8 +672,7 @@ impl DeepData {
 
         for talent in new.talents() {
             match self.get_talent(&talent.name) {
-                Some(prev)
-                    if prev.contributions == talent.contributions => {}
+                Some(prev) if prev.contributions == talent.contributions => {}
                 _ => changed.push(talent.name.clone()),
             }
         }

@@ -154,6 +154,7 @@ export interface Preset {
     name: string;
     desc: string;
     opts: string;
+    obtain_if_available: string[];
 }
 
 export interface Origin {
