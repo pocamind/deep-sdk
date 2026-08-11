@@ -20,6 +20,7 @@ export interface Talent {
     voi_only: boolean;
     implicit?: boolean;
     exclusive?: string[];
+    immediate_grants?: string[];
     stats?: Record<string, number>;
     additional_info?: string;
     icon?: string;

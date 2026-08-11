@@ -150,6 +150,8 @@ pub struct Talent {
     pub implicit: bool,
     #[serde(default)]
     pub exclusive: Vec<String>,
+    #[serde(default)]
+    pub immediate_grants: Vec<String>,
     #[serde(flatten)]
     pub contributions: StatContributions,
     #[serde(default)]
