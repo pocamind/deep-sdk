@@ -106,6 +106,16 @@ p1, p2, p3 => has_alot_of_prereqs
 
 This recursively marks all prereqs as optional, with their obtainment being directly tied to the optional dependents'. That is, `p1, p2, p3` and any of *their* prereqs are now obtained **if and only if** `has_alot_of_prereqs` is obtained. We group all of these 'linked' requirements together into an **optional group**. 
 
+The recursion stops at a prereq that is *itself* marked optional with its own weight. Such a prereq keeps its own group, but acquiring the dependent forces the prereq's group acquirement, adding the weights.
+
+```
+# EXH alone is worth 3, taking lv2_exhaustion forces EXH, so its worth 5 total
+3; EXH := 40 wll
+
+Post:
+2; EXH => lv2_exhaustion := 20 wll
+```
+
 If you still want to acquire a prereq regardless of whether the dependent is chosen, use a special directive to re-mark a prereq as required:
 
 ```
