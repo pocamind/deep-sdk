@@ -19,6 +19,33 @@ pub struct GithubAsset {
     pub browser_download_url: String,
 }
 
+/// Fetch the latest release for a given repository.
+/// Uses the GITHUB_TOKEN env var when present for higher rate limits (5000/hr) or fetches
+/// unauthenticated if
+/// not present (60/hr)
+async fn fetch_latest_release(owner: &str, repo: &str) -> Result<GithubRelease> {
+    let url = format!("https://api.github.com/repos/{owner}/{repo}/releases/latest");
+
+    let client = reqwest::Client::new();
+
+    let mut request = client
+        .get(url)
+        .header(USER_AGENT, "my-app/0.1")
+        .header(ACCEPT, "application/vnd.github+json");
+    if let Some(token) = std::env::var("GITHUB_TOKEN").ok().filter(|t| !t.is_empty()) {
+        request = request.bearer_auth(token);
+    }
+
+    let release = request
+        .send()
+        .await?
+        .error_for_status()?
+        .json::<GithubRelease>()
+        .await?;
+
+    Ok(release)
+}
+
 impl DeepData {
     /// Fetch the latest release from pocamind/data
     pub async fn latest_release() -> Result<GithubRelease> {
@@ -30,21 +57,7 @@ impl DeepData {
 
     /// Fetch the latest release from a fork
     pub async fn latest_release_from(owner: &str, repo: &str) -> Result<GithubRelease> {
-        let url = format!("https://api.github.com/repos/{owner}/{repo}/releases/latest");
-
-        let client = reqwest::Client::new();
-
-        let release = client
-            .get(url)
-            .header(USER_AGENT, "my-app/0.1")
-            .header(ACCEPT, "application/vnd.github+json")
-            .send()
-            .await?
-            .error_for_status()?
-            .json::<GithubRelease>()
-            .await?;
-
-        Ok(release)
+        fetch_latest_release(owner, repo).await
     }
 
     pub async fn from_release(release: &GithubRelease) -> Result<DeepData> {
@@ -88,25 +101,14 @@ impl DeepWiki {
     }
 
     pub async fn latest_release_from(owner: &str, repo: &str) -> Result<GithubRelease> {
-        let url = format!("https://api.github.com/repos/{owner}/{repo}/releases/latest");
-
-        let client = reqwest::Client::new();
-
-        let release = client
-            .get(url)
-            .header(USER_AGENT, "my-app/0.1")
-            .header(ACCEPT, "application/vnd.github+json")
-            .send()
-            .await?
-            .error_for_status()?
-            .json::<GithubRelease>()
-            .await?;
-
-        Ok(release)
+        fetch_latest_release(owner, repo).await
     }
 
     pub async fn from_release(release: &GithubRelease) -> Result<DeepWiki> {
-        let asset = release.assets.iter().find(|asset| asset.name == "wiki.json");
+        let asset = release
+            .assets
+            .iter()
+            .find(|asset| asset.name == "wiki.json");
 
         if let Some(asset) = asset {
             let client = reqwest::Client::new();
