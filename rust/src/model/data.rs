@@ -275,6 +275,10 @@ pub struct Mantra {
     pub miscellaneous: Option<String>,
     #[serde(default)]
     pub icon: Option<String>,
+    #[serde(default)]
+    pub ether_cost: Option<i64>,
+    #[serde(default)]
+    pub flat_level_5_cost: Option<i64>,
 }
 
 impl Mantra {

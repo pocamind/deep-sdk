@@ -86,6 +86,8 @@ export interface Mantra {
     shared_cooldowns?: string[];
     miscellaneous?: string;
     icon?: string;
+    ether_cost?: number;
+    flat_level_5_cost?: number;
 }
 
 export interface Outfit {
