@@ -12509,6 +12509,421 @@
       "voi_only": false
     }
   },
+  "items": {
+    "aegis_gem": {
+      "name": "Aegis Gem",
+      "kind": "gem",
+      "asset": "aegis_gem",
+      "desc": "It's unnaturally dense...",
+      "effect": "On hit, grants Aegis, reducing damage by 10% for 10 seconds. (10s CD)"
+    },
+    "aeon_logstone": {
+      "name": "Aeon Logstone",
+      "kind": "modifier",
+      "asset": "aeon_logstone"
+    },
+    "alestrian_coral": {
+      "name": "Alestrian Coral",
+      "kind": "ingredient",
+      "brewing": {
+        "damage": -1.75,
+        "posture_damage": -5,
+        "speed": 0.25
+      }
+    },
+    "antithetic_salts": {
+      "name": "Antithetic Salts",
+      "kind": "salt",
+      "icon": "saltchemist",
+      "desc": "Alter your brews to invert their effects. Does not count towards the ingredient limit.",
+      "effect": "This inverts the effects of the ingredients in the potion."
+    },
+    "aromatic_salts": {
+      "name": "Aromatic Salts",
+      "kind": "salt",
+      "icon": "saltchemist",
+      "desc": "Alter your brews to create lingering clouds of mist on shattering. Does not count towards the ingredient limit.",
+      "effect": "Lasts for roughly 10 seconds. Ticks once every 0.5sec, for a total of 20 ticks of whatever the potion effect is for the duration of the gas cloud. Ingredients that alter a potion's duration such as Redds and Spider Eggs do not affect the lingering clouds."
+    },
+    "bamboo_bundle": {
+      "name": "Bamboo Bundle",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_ether": -23,
+        "posture_resistance": 10
+      }
+    },
+    "beeswax": {
+      "name": "Beeswax",
+      "kind": "ingredient",
+      "brewing": {
+        "speed": -5,
+        "health_regen": 85
+      }
+    },
+    "biotic_salts": {
+      "name": "Biotic Salts",
+      "kind": "salt",
+      "icon": "saltchemist",
+      "desc": "Alter your brews to have reduced positive effects on your enemies and somewhat reduced negative effects on your allies when thrown. Does not count towards the ingredient limit.",
+      "effect": "Halves negative effects for allies, and positive effects for enemies."
+    },
+    "blast_spark": {
+      "name": "Blast Spark",
+      "kind": "spark",
+      "asset": "blast_spark"
+    },
+    "blessed_gem": {
+      "name": "Blessed Gem",
+      "kind": "gem",
+      "asset": "blessed_gem",
+      "desc": "A frequency emits from within like a choir...",
+      "effect": "On hit, reduces the cooldown of a Mantra by 50%. (5s CD)"
+    },
+    "bloodless_gem": {
+      "name": "Bloodless Gem",
+      "kind": "gem",
+      "asset": "bloodless_gem",
+      "desc": "It bleeds...",
+      "effect": "On hit, heal for 30% of the unscaled damage dealt, but reduce the damage dealt to your opponent by 20%. After healing 15 HP, goes on cooldown for 2s."
+    },
+    "blue_gem": {
+      "name": "Blue Gem",
+      "kind": "gem",
+      "asset": "blue_gem",
+      "desc": "It oozes Ether.",
+      "effect": "Reduces the total Ether cost of a Mantra by 25%."
+    },
+    "bluecap": {
+      "name": "Bluecap",
+      "kind": "ingredient",
+      "voi": false,
+      "brewing": {
+        "instant_health": -5,
+        "instant_ether": 23,
+        "sanity_regen": 3.75
+      }
+    },
+    "browncap": {
+      "name": "Browncap",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_health": -4,
+        "damage": 2
+      }
+    },
+    "calabash": {
+      "name": "Calabash",
+      "kind": "ingredient",
+      "brewing": {
+        "posture_resistance": 10,
+        "ether_regen": -5
+      }
+    },
+    "chum": {
+      "name": "Chum",
+      "kind": "ingredient",
+      "brewing": {
+        "sanity_regen": -0.1
+      }
+    },
+    "cloudstone": {
+      "name": "Cloudstone",
+      "kind": "modifier",
+      "asset": "cloudstone"
+    },
+    "crustacean_meat": {
+      "name": "Crustacean Meat",
+      "kind": "ingredient",
+      "brewing": {
+        "damage": -1.75,
+        "duration": 20
+      }
+    },
+    "crystal_lens": {
+      "name": "Crystal Lens",
+      "kind": "modifier",
+      "asset": "crystal_lens"
+    },
+    "dentifilo": {
+      "name": "Dentifilo",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_health": -2,
+        "instant_ether": 23
+      }
+    },
+    "drift_shard": {
+      "name": "Drift Shard",
+      "kind": "modifier",
+      "asset": "drift_shard"
+    },
+    "eternal_logstone": {
+      "name": "Eternal Logstone",
+      "kind": "modifier",
+      "asset": "eternal_logstone"
+    },
+    "fish": {
+      "name": "Fish",
+      "kind": "ingredient",
+      "brewing": {}
+    },
+    "gathered_wheat": {
+      "name": "Gathered Wheat",
+      "kind": "ingredient",
+      "brewing": {
+        "damage": -1.75,
+        "ether_regen": 90
+      }
+    },
+    "glass_stone": {
+      "name": "Glass Stone",
+      "kind": "modifier",
+      "asset": "glass_stone"
+    },
+    "glumfig": {
+      "name": "Glumfig",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_health": 5,
+        "damage": -2,
+        "posture_resistance": -15,
+        "sanity_regen": -0.1
+      }
+    },
+    "gobletto": {
+      "name": "Gobletto",
+      "kind": "ingredient",
+      "brewing": {
+        "speed": -5,
+        "health_regen": 85
+      }
+    },
+    "grudgeroot": {
+      "name": "Grudgeroot",
+      "kind": "ingredient",
+      "voi": false,
+      "brewing": {
+        "wither": -4
+      }
+    },
+    "hemobloom": {
+      "name": "Hemobloom",
+      "kind": "ingredient",
+      "brewing": null
+    },
+    "insignia_gem": {
+      "name": "Insignia Gem",
+      "kind": "gem",
+      "asset": "insignia_gem",
+      "desc": "A sign of intelligence.",
+      "effect": "On hit, casting a Mantra within 3 seconds will lower its windup by 15%. (5s CD)"
+    },
+    "kyrsan_gem": {
+      "name": "Kyrsan Gem",
+      "kind": "gem",
+      "asset": "kyrsan_gem",
+      "desc": "It chills you to the bone...",
+      "effect": "On hit, slow your opponents. This effect is stackable. (2s CD)"
+    },
+    "magnet_spark": {
+      "name": "Magnet Spark",
+      "kind": "spark",
+      "asset": "magnet_spark"
+    },
+    "magnifying_stone": {
+      "name": "Magnifying Stone",
+      "kind": "modifier",
+      "asset": "magnifying_stone"
+    },
+    "marram_grass": {
+      "name": "Marram Grass",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_ether": -23,
+        "posture_resistance": 10
+      }
+    },
+    "might_gem": {
+      "name": "Might Gem",
+      "kind": "gem",
+      "asset": "might_gem",
+      "desc": "A sign of strength...",
+      "effect": "Increases a Mantra's posture damage by 10%."
+    },
+    "multiplying_spark": {
+      "name": "Multiplying Spark",
+      "kind": "spark",
+      "asset": "multiplying_spark"
+    },
+    "nocturnal_gem": {
+      "name": "Nocturnal Gem",
+      "kind": "gem",
+      "asset": "nocturnal_gem",
+      "desc": "A strange gem you aren't sure is even from this world. As you listen closely, you hear faint squeaking noises.",
+      "effect": "On hit, summons bats on your enemies, dealing damage to your opponents. (25s CD)"
+    },
+    "ongo": {
+      "name": "Ongo",
+      "kind": "ingredient",
+      "brewing": {
+        "posture_damage": 10,
+        "posture_resistance": -5
+      }
+    },
+    "ore": {
+      "name": "Ore",
+      "kind": "ingredient",
+      "brewing": {}
+    },
+    "perfect_lens": {
+      "name": "Perfect Lens",
+      "kind": "modifier",
+      "asset": "perfect_lens"
+    },
+    "plumfruit": {
+      "name": "Plumfruit",
+      "kind": "ingredient",
+      "brewing": {
+        "damage": 2,
+        "health_regen": -30
+      }
+    },
+    "pomar": {
+      "name": "Pomar",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_health": -3,
+        "speed": 0.25
+      }
+    },
+    "redd": {
+      "name": "Redd",
+      "kind": "ingredient",
+      "brewing": {
+        "instant_health": 4,
+        "ether_regen": -5,
+        "duration": -25
+      }
+    },
+    "reversal_spark": {
+      "name": "Reversal Spark",
+      "kind": "spark",
+      "asset": "reversal_spark"
+    },
+    "round_spark": {
+      "name": "Round Spark",
+      "kind": "spark",
+      "asset": "round_spark"
+    },
+    "rush_shard": {
+      "name": "Rush Shard",
+      "kind": "modifier",
+      "asset": "rush_shard"
+    },
+    "sap": {
+      "name": "Sap",
+      "kind": "ingredient",
+      "brewing": {
+        "speed": -5,
+        "ether_regen": 90
+      }
+    },
+    "scallop": {
+      "name": "Scallop",
+      "kind": "ingredient",
+      "brewing": {
+        "sanity_regen": -0.1
+      }
+    },
+    "seaweed_bundle": {
+      "name": "Seaweed Bundle",
+      "kind": "ingredient",
+      "brewing": {
+        "sanity_regen": -0.1
+      }
+    },
+    "spider_egg": {
+      "name": "Spider Egg",
+      "kind": "ingredient",
+      "brewing": {
+        "duration": 50
+      }
+    },
+    "spring_spark": {
+      "name": "Spring Spark",
+      "kind": "spark",
+      "asset": "spring_spark"
+    },
+    "stick": {
+      "name": "Stick",
+      "kind": "ingredient",
+      "brewing": {}
+    },
+    "stratus_stone": {
+      "name": "Stratus Stone",
+      "kind": "modifier",
+      "asset": "stratus_stone"
+    },
+    "sweetgourd": {
+      "name": "Sweetgourd",
+      "kind": "ingredient",
+      "voi_only": true,
+      "brewing": null
+    },
+    "thresher_egg": {
+      "name": "Thresher Egg",
+      "kind": "ingredient",
+      "brewing": {
+        "sanity_regen": -0.1
+      }
+    },
+    "tornado_spark": {
+      "name": "Tornado Spark",
+      "kind": "spark",
+      "asset": "tornado_spark"
+    },
+    "urchin": {
+      "name": "Urchin",
+      "kind": "ingredient",
+      "brewing": {
+        "sanity_regen": -0.1
+      }
+    },
+    "vibrant_gem": {
+      "name": "Vibrant Gem",
+      "kind": "modifier",
+      "asset": "vibrant_gem"
+    },
+    "warped_blue_gem": {
+      "name": "Warped Blue Gem",
+      "kind": "gem",
+      "asset": "warped_blue_gem",
+      "desc": "Worn down and clouded by the tides, this Blue Gem's full power is only available to those in tune with the sea. Perhaps it can be used for something else?",
+      "effect": "While in water, reduces the total Ether cost of a Mantra by 50%."
+    },
+    "wayward_gem": {
+      "name": "Wayward Gem",
+      "kind": "gem",
+      "asset": "wayward_gem",
+      "desc": "It's phasing in and out of existence...",
+      "effect": "On hit, activate Wayward Warp and teleport to your opponent after a 1s delay. (8s CD)"
+    },
+    "wind_gem": {
+      "name": "Wind Gem",
+      "kind": "gem",
+      "asset": "wind_gem",
+      "desc": "It breathes...",
+      "effect": "On hit, apply a speed boost for 10s. (10s CD)"
+    },
+    "wrath_gem": {
+      "name": "Wrath Gem",
+      "kind": "gem",
+      "asset": "wrath_gem",
+      "desc": "It hurts to hold...",
+      "effect": "On hit, apply Wrath."
+    }
+  },
   "mantras": {
     "abyssal_ridge": {
       "name": "Abyssal Ridge",
@@ -29954,6 +30369,208 @@
       "voi_only": false
     }
   },
+  "potion_effects": {
+    "blood": {
+      "name": "Blood",
+      "order": 9,
+      "timed": false,
+      "unit": "flat",
+      "formula": "SUM * POT / DIL",
+      "positive_suffixes": [],
+      "negative_suffixes": [],
+      "positive": "Revitalizing",
+      "negative": "Debilitating"
+    },
+    "damage": {
+      "name": "Damage",
+      "order": 2,
+      "timed": true,
+      "unit": "percent",
+      "formula": "x = SUM * POT / DIL; if(x > 25, min((x - 25) / 2 + 25, 50), if(x < -25, max((x + 25) / 2 - 25, -50), x))",
+      "positive_suffixes": [
+        "Salve",
+        "Tincture",
+        "Potion"
+      ],
+      "negative_suffixes": [
+        "Potion",
+        "Bane",
+        "Blight"
+      ],
+      "positive": "Strengthening",
+      "negative": "Dulling"
+    },
+    "duration": {
+      "name": "Duration",
+      "order": 10,
+      "timed": false,
+      "unit": "seconds",
+      "formula": "(15 - if(HRP > 0, 3.75, 0)) * (1 + SUM / DIL / 100)",
+      "positive_suffixes": [],
+      "negative_suffixes": []
+    },
+    "ether_regen": {
+      "name": "Ether Regen",
+      "order": 7,
+      "timed": true,
+      "unit": "percent",
+      "formula": "(SUM / 10 * POT / DIL) * if(QUAFF > 0, if(SUM > 0, 1.3, 1), 1)",
+      "positive_suffixes": [
+        "Elixir",
+        "Salve",
+        "Tincture"
+      ],
+      "negative_suffixes": [
+        "Potion",
+        "Bane",
+        "Blight"
+      ],
+      "positive": "Focusing",
+      "negative": "Icky"
+    },
+    "health_regen": {
+      "name": "Health Regen",
+      "order": 6,
+      "timed": true,
+      "unit": "percent",
+      "formula": "(if(COMBAT > 0, SUMPOS * 60 / 85, SUMPOS) * if(QUAFF > 0, 1.15, 1) + SUMNEG) / 10 * POT / DIL",
+      "positive_suffixes": [
+        "Potion",
+        "Tincture",
+        "Elixir",
+        "Salve"
+      ],
+      "negative_suffixes": [
+        "Bane",
+        "Blight"
+      ],
+      "positive": "Invigorating",
+      "negative": "Grueling"
+    },
+    "instant_ether": {
+      "name": "Instant Ether",
+      "order": 1,
+      "timed": false,
+      "unit": "flat",
+      "formula": "SUM * POT / DIL",
+      "positive_suffixes": [
+        "Tincture",
+        "Potion",
+        "Salve"
+      ],
+      "negative_suffixes": [
+        "Blight",
+        "Potion"
+      ],
+      "positive": "Soothing",
+      "negative": "Appalling"
+    },
+    "instant_health": {
+      "name": "Instant Health",
+      "order": 0,
+      "timed": false,
+      "unit": "flat",
+      "formula": "SUM * POT / DIL * if(SUM > 0, if(DRINK + THROW > 0, if(COMBAT > 0, if(QUAFF > 0, 0.5, 0.25), if(QUAFF > 0, 1, 0.75)), 1), 1)",
+      "positive_suffixes": [
+        "Salve"
+      ],
+      "negative_suffixes": [
+        "Bane",
+        "Blight"
+      ],
+      "positive": "Rejuvenating",
+      "negative": "Disgusting"
+    },
+    "posture_damage": {
+      "name": "Posture Damage",
+      "order": 3,
+      "timed": true,
+      "unit": "percent",
+      "formula": "x = SUM * POT / DIL; if(x > 25, min((x - 25) / 2 + 25, 50), if(x < -25, max((x + 25) / 2 - 25, -50), x))",
+      "positive_suffixes": [
+        "Salve"
+      ],
+      "negative_suffixes": [
+        "Potion"
+      ],
+      "positive": "Staggering",
+      "negative": "Weakening"
+    },
+    "posture_resistance": {
+      "name": "Posture Resistance",
+      "order": 4,
+      "timed": true,
+      "unit": "percent",
+      "formula": "x = SUM / 10 * POT / DIL; if(x > 25, min((x - 25) / 2 + 25, 50), if(x < -25, max((x + 25) / 2 - 25, -50), x))",
+      "positive_suffixes": [
+        "Tincture",
+        "Potion",
+        "Elixir",
+        "Salve"
+      ],
+      "negative_suffixes": [
+        "Bane",
+        "Blight"
+      ],
+      "positive": "Steadfast",
+      "negative": "Buckling"
+    },
+    "sanity_regen": {
+      "name": "Sanity Regen",
+      "order": 8,
+      "timed": true,
+      "unit": "per_second",
+      "formula": "(SUM * POT / DIL) * if(QUAFF > 0, if(SUM > 0, 1.3, 1), 1)",
+      "positive_suffixes": [
+        "Remedy",
+        "Potion",
+        "Salve",
+        "Tincture",
+        "Elixir"
+      ],
+      "negative_suffixes": [
+        "Bane",
+        "Blight",
+        "Potion"
+      ],
+      "positive": "Heartening",
+      "negative": "Mindbreaker"
+    },
+    "speed": {
+      "name": "Speed",
+      "order": 5,
+      "timed": true,
+      "unit": "multiplier",
+      "formula": "if(SUMPOS == 0.0, 0, (1 + if(NPOS == 1.0, SUMPOS / 2, SUMPOS)) ^ 0.5 - 1) + (SUMNEG * 0.75 * POT / DIL) / 100",
+      "positive_suffixes": [
+        "Potion",
+        "Elixir",
+        "Salve",
+        "Tincture"
+      ],
+      "negative_suffixes": [
+        "Blight"
+      ],
+      "positive": "Hastening",
+      "negative": "Slowing"
+    },
+    "wither": {
+      "name": "Wither",
+      "order": 11,
+      "timed": false,
+      "unit": "percent",
+      "formula": "SUM * POT / DIL",
+      "positive_suffixes": [
+        "Bane"
+      ],
+      "negative_suffixes": [
+        "Salve",
+        "Potion"
+      ],
+      "positive": "Eroding",
+      "negative": "Renewing"
+    }
+  },
   "presets": {
     "chime": {
       "desc": "A chime focused build preset.\n\nAuthor: The Builders",
@@ -33448,17 +34065,17 @@
       "voi_only": false
     },
     "crimson_fountain": {
-      "name": "Crimson Fountain",
-      "category": "Bloodrender",
-      "rarity": "Common",
-      "reqs": "35s BLD",
-      "count_towards_talent_total": true,
-      "icon": "bloodrend",
-      "roll2able": false,
-      "vaulted": false,
       "voi": false,
-      "desc": "Blockbreaking or flourishing an enemy now spills a pool of blood below them.",
-      "voi_only": false
+      "desc": "Blockbreaking or flourishing an enemy now spills a pool of blood below them. Blood mantras cast within blood pools have a reduced blood cost.",
+      "icon": "bloodrend",
+      "name": "Crimson Fountain",
+      "reqs": "35s BLD",
+      "rarity": "Common",
+      "vaulted": false,
+      "category": "Bloodrender",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": true
     },
     "crippling_comeuppance": {
       "name": "Crippling Comeuppance",
@@ -43598,19 +44215,6 @@
       "desc": "Your Strong Left and Wind-up punches will always guard break mobs.",
       "voi_only": true
     },
-    "sheltering_grasp": {
-      "name": "Sheltering Grasp",
-      "category": "Bloodrender",
-      "rarity": "Common",
-      "reqs": "30s BLD",
-      "additional_info": "Halves the blood cost of the Mantra.",
-      "count_towards_talent_total": true,
-      "icon": "bloodrend",
-      "roll2able": true,
-      "vaulted": false,
-      "voi": false,
-      "desc": "Blood mantras cast within blood pools have a reduced blood cost."
-    },
     "shield_breaker": {
       "name": "Shield Breaker",
       "category": "Rampaging Brute",
@@ -45599,6 +46203,23 @@
       "vaulted": false,
       "voi": false,
       "desc": "Getting flourished applies a metal rod on your attacker.",
+      "voi_only": false
+    },
+    "threadripper": {
+      "name": "Threadripper",
+      "category": "Weapon",
+      "rarity": "Weapon",
+      "reqs": "()",
+      "prereqs": [
+        "weapon:palace_tachi"
+      ],
+      "additional_info": "If the player is a Contractor, the Palace Tachi critical attack will automatically execute Unconscious targets, or targets who are knocked Unconscious by the critical attack.",
+      "count_towards_talent_total": false,
+      "icon": "sword",
+      "roll2able": false,
+      "vaulted": false,
+      "voi": false,
+      "desc": "When used by a Contractor, your Critical is empowered to eviscerate opponents.",
       "voi_only": false
     },
     "threefold_impact": {
@@ -51242,6 +51863,34 @@
       "can_offhand": true,
       "only_offhand": true,
       "desc": "A shield designed intricately, most likely from a pre-Canticlysm era. Its intricate design suggests previous use in royalty, although it cannot be said for sure.",
+      "voi_only": false
+    },
+    "palace_tachi": {
+      "name": "Palace Tachi",
+      "type": "Sword",
+      "rarity": "Mythical",
+      "damage": 22.5,
+      "posture_damage": 5,
+      "range": 8,
+      "reqs": "80r MED",
+      "damage_types": [
+        "Slash"
+      ],
+      "range_type": "Sweep",
+      "attack_duration": 0.7,
+      "swing_speed": 0.93,
+      "scaling": {
+        "Medium Weapon": 6.5
+      },
+      "chip_damage": 0.05,
+      "penetration": 0.05,
+      "enchantable": true,
+      "equip_motifs": false,
+      "voi": false,
+      "desc": "The dark tachi of a Threadcutter. Weighted by its alloys, the center of mass runs further along the length of the blade, making for slow but devastating cutting power.",
+      "talents": [
+        "Threadripper"
+      ],
       "voi_only": false
     },
     "pale_briar": {
