@@ -314,6 +314,48 @@ pub struct Preset {
     pub obtain_if_available: Vec<String>,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Item {
+    pub name: String,
+    pub kind: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub asset: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub icon: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub desc: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub effect: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub brewing: Option<HashMap<String, f64>>,
+    #[serde(default)]
+    pub voi: bool,
+    #[serde(default)]
+    pub voi_only: bool,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PotionEffect {
+    pub name: String,
+    #[serde(default)]
+    pub order: i64,
+    pub timed: bool,
+    pub unit: String,
+    pub formula: String,
+    #[serde(default)]
+    pub positive_suffixes: Vec<String>,
+    #[serde(default)]
+    pub negative_suffixes: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub positive: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub negative: Option<String>,
+}
+
+impl Item {
+    pub const NAMESPACE: &'static str = "item";
+}
+
 impl Enchant {
     pub const NAMESPACE: &'static str = "enchant";
 }
@@ -383,6 +425,8 @@ pub struct DeepData {
     resonances: HashMap<String, Resonance>,
     objectives: HashMap<String, Objective>,
     presets: HashMap<String, Preset>,
+    items: HashMap<String, Item>,
+    potion_effects: HashMap<String, PotionEffect>,
 
     /// The raw json payload used to construct the object, which may be more up-to-date.
     /// The shape is guarenteed to have at least the fields that `DeepData` has.
@@ -517,6 +561,16 @@ impl DeepData {
     #[must_use]
     pub fn get_preset(&self, name: &str) -> Option<&Preset> {
         self.presets.get(&name_to_identifier(name))
+    }
+
+    #[must_use]
+    pub fn get_item(&self, name: &str) -> Option<&Item> {
+        self.items.get(&name_to_identifier(name))
+    }
+
+    #[must_use]
+    pub fn get_potion_effect(&self, name: &str) -> Option<&PotionEffect> {
+        self.potion_effects.get(&name_to_identifier(name))
     }
 
     #[must_use]
@@ -656,6 +710,14 @@ impl DeepData {
     /// Retrieve an iterator of presets
     pub fn presets(&self) -> impl Iterator<Item = &Preset> {
         self.presets.values()
+    }
+
+    pub fn items(&self) -> impl Iterator<Item = &Item> {
+        self.items.values()
+    }
+
+    pub fn potion_effects(&self) -> impl Iterator<Item = &PotionEffect> {
+        self.potion_effects.values()
     }
 
     pub fn origins(&self) -> impl Iterator<Item = &Origin> {

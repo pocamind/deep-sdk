@@ -160,6 +160,30 @@ export interface Preset {
     obtain_if_available: string[];
 }
 
+export interface Item {
+    name: string;
+    kind: string;
+    asset?: string;
+    icon?: string;
+    desc?: string;
+    effect?: string;
+    brewing?: Record<string, number> | null;
+    voi?: boolean;
+    voi_only?: boolean;
+}
+
+export interface PotionEffect {
+    name: string;
+    order: number;
+    timed: boolean;
+    unit: string;
+    formula: string;
+    positive_suffixes: string[];
+    negative_suffixes: string[];
+    positive?: string;
+    negative?: string;
+}
+
 export interface Origin {
     name: string;
     desc: string;
