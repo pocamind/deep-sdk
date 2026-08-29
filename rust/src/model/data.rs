@@ -360,6 +360,21 @@ impl Enchant {
     pub const NAMESPACE: &'static str = "enchant";
 }
 
+/// A buff that can be slotted into a piece of equipment.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Pip {
+    pub name: String,
+    /// Equipment type, then stat, then rarity, ending in what a single pip of this buff
+    /// grants there. An absent equipment type, stat or rarity is one the buff does not
+    /// roll at. Use [`crate::util::pips::pip_stats`] to read it.
+    #[serde(default)]
+    pub amounts: HashMap<EquipmentSlot, HashMap<String, HashMap<String, f64>>>,
+}
+
+impl Pip {
+    pub const NAMESPACE: &'static str = "pip";
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Origin {
     pub name: String,
@@ -421,6 +436,7 @@ pub struct DeepData {
     outfits: HashMap<String, Outfit>,
     equipment: HashMap<String, Equipment>,
     enchants: HashMap<String, Enchant>,
+    pips: HashMap<String, Pip>,
     origins: HashMap<String, Origin>,
     resonances: HashMap<String, Resonance>,
     objectives: HashMap<String, Objective>,
@@ -552,6 +568,15 @@ impl DeepData {
     #[must_use]
     pub fn get_enchant(&self, name: &str) -> Option<&Enchant> {
         self.enchants.get(&name_to_identifier(name))
+    }
+
+    /// Retrieve a pip buff by it's name.
+    ///
+    /// The passed in name can be it's in-game name, or the
+    /// internal map key
+    #[must_use]
+    pub fn get_pip(&self, name: &str) -> Option<&Pip> {
+        self.pips.get(&name_to_identifier(name))
     }
 
     /// Retrieve a preset by it's name.
@@ -705,6 +730,11 @@ impl DeepData {
     /// Retrieve an iterator of enchants
     pub fn enchants(&self) -> impl Iterator<Item = &Enchant> {
         self.enchants.values()
+    }
+
+    /// Retrieve an iterator of pip buffs
+    pub fn pips(&self) -> impl Iterator<Item = &Pip> {
+        self.pips.values()
     }
 
     /// Retrieve an iterator of presets

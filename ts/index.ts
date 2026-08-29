@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Objective, Origin, Outfit, Preset, RangeType, Resonance, Stat, StatFormula, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
+export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Objective, Origin, Outfit, Pip, Preset, RangeType, Resonance, Stat, StatFormula, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { Aspect, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Preset, Resonance, Stat, Talent, Weapon } from './types.js';
+import type { Aspect, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Pip, Preset, Resonance, Stat, Talent, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 // a top-level await here breaks older webkit stuff
@@ -65,6 +65,7 @@ export class DeepData {
     getEquipment(name: string): Equipment | null { return this._wasm.getEquipment(name); }
     getAspect(name: string): Aspect | null { return this._wasm.getAspect(name); }
     getEnchant(name: string): Enchant | null { return this._wasm.getEnchant(name); }
+    getPip(name: string): Pip | null { return this._wasm.getPip(name); }
     getPreset(name: string): Preset | null { return this._wasm.getPreset(name); }
     getOrigin(name: string): Origin | null { return this._wasm.getOrigin(name); }
     getResonance(name: string): Resonance | null { return this._wasm.getResonance(name); }
@@ -89,6 +90,7 @@ export class DeepData {
     equipment(): Equipment[] { return this._wasm.equipment(); }
     aspects(): Aspect[] { return this._wasm.aspects(); }
     enchants(): Enchant[] { return this._wasm.enchants(); }
+    pips(): Pip[] { return this._wasm.pips(); }
     presets(): Preset[] { return this._wasm.presets(); }
     origins(): Origin[] { return this._wasm.origins(); }
     resonances(): Resonance[] { return this._wasm.resonances(); }

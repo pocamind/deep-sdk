@@ -102,6 +102,11 @@ impl JsDeepData {
         to_js(&self.inner.get_enchant(name))
     }
 
+    #[wasm_bindgen(js_name = "getPip")]
+    pub fn get_pip(&self, name: &str) -> Result<JsValue, JsError> {
+        to_js(&self.inner.get_pip(name))
+    }
+
     #[wasm_bindgen(js_name = "getPreset")]
     pub fn get_preset(&self, name: &str) -> Result<JsValue, JsError> {
         to_js(&self.inner.get_preset(name))
@@ -172,6 +177,12 @@ impl JsDeepData {
     pub fn enchants(&self) -> Result<JsValue, JsError> {
         cached(&self.tables, "enchants", || {
             to_js(&self.inner.enchants().collect::<Vec<_>>())
+        })
+    }
+
+    pub fn pips(&self) -> Result<JsValue, JsError> {
+        cached(&self.tables, "pips", || {
+            to_js(&self.inner.pips().collect::<Vec<_>>())
         })
     }
 

@@ -153,6 +153,11 @@ export interface Enchant {
     conditional_multiplicative_percents?: Record<string, StatFormula>;
 }
 
+export interface Pip {
+    name: string;
+    amounts: Partial<Record<EquipmentSlot, Record<string, Record<string, number>>>>;
+}
+
 export interface Preset {
     name: string;
     desc: string;

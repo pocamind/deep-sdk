@@ -1,11 +1,44 @@
+use crate::model::data::DeepData;
 use crate::model::enums::EquipmentSlot;
 
 pub const PIP_RARITIES: &[&str] = &["Common", "Uncommon", "Rare", "Legendary"];
 
+/// What a single pip of `pip` grants in a slot of the given equipment type and rarity, as
+/// stat name and amount. Empty when the buff does not roll there at all.
+///
+/// Stats come back sorted by name so the same lookup always reads the same way.
+#[must_use]
+pub fn pip_stats<'a>(
+    data: &'a DeepData,
+    pip: &str,
+    slot: EquipmentSlot,
+    rarity: &str,
+) -> Vec<(&'a str, f64)> {
+    let mut stats: Vec<(&str, f64)> = if data.pips().next().is_none() {
+        static_pip_stats(pip, slot, rarity)
+    } else {
+        data.get_pip(pip)
+            .and_then(|buff| buff.amounts.get(&slot))
+            .map(|stats| {
+                stats
+                    .iter()
+                    .filter_map(|(stat, amounts)| {
+                        amounts.get(rarity).map(|amount| (stat.as_str(), *amount))
+                    })
+                    .collect()
+            })
+            .unwrap_or_default()
+    };
+
+    stats.sort_by(|(a, _), (b, _)| a.cmp(b));
+    stats
+}
+
 type PipRow = (&'static str, EquipmentSlot, &'static str, [Option<f64>; 4]);
 
-// TODO! ok maybe lazy map for this one
-// do not underestimate modern cpu..
+// Serves bundles that predate the `pips` table, which is where these amounts now live.
+// Delete this table, `static_pip_stats`, and the branch in `pip_stats` that reaches for it,
+// once a data release carries the table.
 const PIP_BUFFS: &[PipRow] = &[
     ("Health", EquipmentSlot::Head, "Health", [None, Some(4.0), Some(4.0), Some(5.0)]),
     ("Health", EquipmentSlot::Arms, "Health", [Some(3.0), Some(4.0), Some(4.0), Some(5.0)]),
@@ -35,8 +68,7 @@ const PIP_BUFFS: &[PipRow] = &[
     ("Anchor", EquipmentSlot::Legs, "Knockback Resistance", [None, None, None, Some(10.0)]),
 ];
 
-#[must_use]
-pub fn pip_stats(pip: &str, slot: EquipmentSlot, rarity: &str) -> Vec<(&'static str, f64)> {
+fn static_pip_stats(pip: &str, slot: EquipmentSlot, rarity: &str) -> Vec<(&'static str, f64)> {
     let Some(index) = PIP_RARITIES.iter().position(|r| *r == rarity) else {
         return Vec::new();
     };
@@ -52,24 +84,86 @@ pub fn pip_stats(pip: &str, slot: EquipmentSlot, rarity: &str) -> Vec<(&'static 
 mod tests {
     use super::*;
 
+    /// Sanity is the interesting row: two stats, and one equipment type it skips.
+    const FIXTURE: &str = r#"{
+        "pips": {
+            "sanity": {
+                "name": "Sanity",
+                "amounts": {
+                    "Rings": {
+                        "Sanity": { "Uncommon": 4, "Rare": 6, "Legendary": 8 },
+                        "Ether": { "Uncommon": 4, "Rare": 6, "Legendary": 8 }
+                    },
+                    "Earrings": {
+                        "Sanity": { "Rare": 6 },
+                        "Ether": { "Rare": 6 }
+                    }
+                }
+            }
+        }
+    }"#;
+
+    fn fixture() -> DeepData {
+        DeepData::from_json(FIXTURE).unwrap()
+    }
+
     #[test]
     fn pip_stats_lookup() {
+        let data = DeepData::default();
+
         assert_eq!(
-            pip_stats("Health", EquipmentSlot::Rings, "Rare"),
+            pip_stats(&data, "Health", EquipmentSlot::Rings, "Rare"),
             vec![("Health", 3.0)]
         );
-        assert_eq!(pip_stats("Health", EquipmentSlot::Head, "Common"), vec![]);
-        assert_eq!(pip_stats("Posture", EquipmentSlot::Head, "Legendary"), vec![]);
-        assert_eq!(pip_stats("Health", EquipmentSlot::Rings, "Mythic"), vec![]);
+        assert_eq!(pip_stats(&data, "Health", EquipmentSlot::Head, "Common"), vec![]);
+        assert_eq!(pip_stats(&data, "Posture", EquipmentSlot::Head, "Legendary"), vec![]);
+        assert_eq!(pip_stats(&data, "Health", EquipmentSlot::Rings, "Mythic"), vec![]);
     }
 
     #[test]
     fn multi_stat_pips_grant_riders() {
-        let anchor = pip_stats("Anchor", EquipmentSlot::Legs, "Legendary");
+        let data = DeepData::default();
+
+        let anchor = pip_stats(&data, "Anchor", EquipmentSlot::Legs, "Legendary");
         assert_eq!(anchor.len(), 3);
         assert!(anchor.contains(&("Knockback Resistance", 10.0)));
 
-        let sanity = pip_stats("Sanity", EquipmentSlot::Rings, "Uncommon");
+        let sanity = pip_stats(&data, "Sanity", EquipmentSlot::Rings, "Uncommon");
         assert_eq!(sanity.len(), 2);
+    }
+
+    #[test]
+    fn loaded_table_answers_the_lookup() {
+        let data = fixture();
+
+        assert_eq!(
+            pip_stats(&data, "Sanity", EquipmentSlot::Rings, "Uncommon"),
+            vec![("Ether", 4.0), ("Sanity", 4.0)]
+        );
+        assert_eq!(
+            pip_stats(&data, "Sanity", EquipmentSlot::Earrings, "Legendary"),
+            vec![]
+        );
+        assert_eq!(pip_stats(&data, "Sanity", EquipmentSlot::Head, "Rare"), vec![]);
+    }
+
+    /// A loaded table is the whole truth. A buff missing from it does not roll, rather than
+    /// falling through to the built-in copy.
+    #[test]
+    fn loaded_table_shuts_off_the_fallback() {
+        let data = fixture();
+
+        assert_eq!(pip_stats(&data, "Health", EquipmentSlot::Rings, "Rare"), vec![]);
+    }
+
+    #[test]
+    fn fallback_and_loaded_table_agree_on_order() {
+        let data = fixture();
+        let empty = DeepData::default();
+
+        let loaded = pip_stats(&data, "Sanity", EquipmentSlot::Rings, "Rare");
+        let fallback = pip_stats(&empty, "Sanity", EquipmentSlot::Rings, "Rare");
+
+        assert_eq!(loaded, fallback);
     }
 }
