@@ -30369,6 +30369,199 @@
       "voi_only": false
     }
   },
+  "pips": {
+    "anchor": {
+      "name": "Anchor",
+      "amounts": {
+        "Legs": {
+          "Health": {
+            "Legendary": 3
+          },
+          "Posture": {
+            "Legendary": 0.5
+          },
+          "Knockback Resistance": {
+            "Legendary": 10
+          }
+        }
+      }
+    },
+    "elemental_armor": {
+      "name": "Elemental Armor",
+      "amounts": {
+        "Head": {
+          "Elemental Armor": {
+            "Rare": 3,
+            "Legendary": 4
+          }
+        },
+        "Arms": {
+          "Elemental Armor": {
+            "Rare": 3,
+            "Legendary": 4
+          }
+        }
+      }
+    },
+    "ether": {
+      "name": "Ether",
+      "amounts": {
+        "Head": {
+          "Ether": {
+            "Uncommon": 8,
+            "Rare": 10,
+            "Legendary": 12
+          }
+        },
+        "Arms": {
+          "Ether": {
+            "Uncommon": 8,
+            "Rare": 10,
+            "Legendary": 12
+          }
+        },
+        "Legs": {
+          "Ether": {
+            "Uncommon": 8,
+            "Rare": 10,
+            "Legendary": 12
+          }
+        },
+        "Torso": {
+          "Ether": {
+            "Uncommon": 8,
+            "Rare": 10,
+            "Legendary": 12
+          }
+        },
+        "Face": {
+          "Ether": {
+            "Uncommon": 4,
+            "Rare": 6,
+            "Legendary": 8
+          }
+        },
+        "Earrings": {
+          "Ether": {
+            "Uncommon": 4,
+            "Legendary": 8
+          }
+        },
+        "Rings": {
+          "Ether": {
+            "Common": 4,
+            "Uncommon": 6,
+            "Rare": 8,
+            "Legendary": 10
+          }
+        }
+      }
+    },
+    "health": {
+      "name": "Health",
+      "amounts": {
+        "Head": {
+          "Health": {
+            "Uncommon": 4,
+            "Rare": 4,
+            "Legendary": 5
+          }
+        },
+        "Arms": {
+          "Health": {
+            "Common": 3,
+            "Uncommon": 4,
+            "Rare": 4,
+            "Legendary": 5
+          }
+        },
+        "Legs": {
+          "Health": {
+            "Uncommon": 4,
+            "Rare": 4,
+            "Legendary": 5
+          }
+        },
+        "Torso": {
+          "Health": {
+            "Common": 3,
+            "Rare": 4,
+            "Legendary": 5
+          }
+        },
+        "Rings": {
+          "Health": {
+            "Uncommon": 2,
+            "Rare": 3,
+            "Legendary": 4
+          }
+        }
+      }
+    },
+    "physical_armor": {
+      "name": "Physical Armor",
+      "amounts": {
+        "Head": {
+          "Physical Armor": {
+            "Rare": 2,
+            "Legendary": 4
+          }
+        },
+        "Arms": {
+          "Physical Armor": {
+            "Rare": 2,
+            "Legendary": 4
+          }
+        }
+      }
+    },
+    "posture": {
+      "name": "Posture",
+      "amounts": {
+        "Rings": {
+          "Posture": {
+            "Rare": 1,
+            "Legendary": 2
+          }
+        }
+      }
+    },
+    "sanity": {
+      "name": "Sanity",
+      "amounts": {
+        "Face": {
+          "Sanity": {
+            "Rare": 4,
+            "Legendary": 6
+          },
+          "Ether": {
+            "Rare": 6,
+            "Legendary": 8
+          }
+        },
+        "Earrings": {
+          "Sanity": {
+            "Rare": 6
+          },
+          "Ether": {
+            "Rare": 6
+          }
+        },
+        "Rings": {
+          "Sanity": {
+            "Uncommon": 4,
+            "Rare": 6,
+            "Legendary": 8
+          },
+          "Ether": {
+            "Uncommon": 4,
+            "Rare": 6,
+            "Legendary": 8
+          }
+        }
+      }
+    }
+  },
   "potion_effects": {
     "blood": {
       "name": "Blood",
@@ -30470,7 +30663,7 @@
       "order": 0,
       "timed": false,
       "unit": "flat",
-      "formula": "SUM * POT / DIL * if(SUM > 0, if(DRINK + THROW > 0, if(COMBAT > 0, if(QUAFF > 0, 0.5, 0.25), if(QUAFF > 0, 1, 0.75)), 1), 1)",
+      "formula": "SUM * POT / DIL * if(SUM > 0, if(DRINK + THROW > 0, if(COMBAT > 0, if(QUAFF > 0, 0.5, 0.25), if(QUAFF > 0, 1, 0.75)), 1), 1) * if(SUM < 0, if(SPLASH > 0, 0.25, 1), 1)",
       "positive_suffixes": [
         "Salve"
       ],
