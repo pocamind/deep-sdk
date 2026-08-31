@@ -1,8 +1,8 @@
 export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Objective, Origin, Outfit, Pip, Preset, RangeType, Resonance, Stat, StatFormula, Talent, TalentRarity, Weapon, WeaponType } from './types.js';
+export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Objective, Origin, Outfit, Pip, Preset, RangeType, Resonance, Stat, StatFormula, Talent, TalentRarity, Variable, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
 
-import type { Aspect, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Pip, Preset, Resonance, Stat, Talent, Weapon } from './types.js';
+import type { Aspect, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Pip, Preset, Resonance, Stat, Talent, Variable, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
 
 // a top-level await here breaks older webkit stuff
@@ -84,6 +84,8 @@ export class DeepData {
     }
 
     talents(): Talent[] { return this._wasm.talents(); }
+    variables(): Variable[] { return this._wasm.variables(); }
+    variableUsers(): Record<string, string[]> { return this._wasm.variableUsers(); }
     mantras(): Mantra[] { return this._wasm.mantras(); }
     weapons(): Weapon[] { return this._wasm.weapons(); }
     outfits(): Outfit[] { return this._wasm.outfits(); }

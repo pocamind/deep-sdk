@@ -19,21 +19,28 @@ pub enum StatFormula {
 
 impl StatFormula {
     /// Parses the expression and checks every identifier resolves
-    pub fn validate(&self) -> Result<()> {
+    pub fn validate(&self, variables: &[&str]) -> Result<Vec<String>> {
         let StatFormula::Expr(src) = self else {
-            return Ok(());
+            return Ok(Vec::new());
         };
 
         let node = build_operator_tree::<DefaultNumericTypes>(src)
             .map_err(|e| DeepError::Formula(format!("{src:?}: {e}")))?;
 
+        let mut read: Vec<String> = Vec::new();
         for ident in node.iter_variable_identifiers() {
-            if !identifiers().any(|known| known == ident) {
-                return Err(DeepError::Formula(format!("{src:?}: unknown stat {ident:?}")));
+            if variables.contains(&ident) {
+                if !read.iter().any(|seen| seen == ident) {
+                    read.push(ident.to_string());
+                }
+            } else if !identifiers().any(|known| known == ident) {
+                return Err(DeepError::Formula(format!(
+                    "{src:?}: unknown variable {ident:?}"
+                )));
             }
         }
 
-        Ok(())
+        Ok(read)
     }
 }
 
@@ -43,44 +50,44 @@ impl Default for StatFormula {
     }
 }
 
-/// The four ways any source can contribute to a build's stats
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "lowercase")]
+pub enum Variable {
+    Toggle {
+        id: String,
+        label: String,
+        default: bool,
+    },
+    Slider {
+        id: String,
+        label: String,
+        min: f64,
+        max: f64,
+        step: f64,
+        default: f64,
+    },
+}
+
+impl Variable {
+    #[must_use]
+    pub fn id(&self) -> &str {
+        match self {
+            Variable::Toggle { id, .. } | Variable::Slider { id, .. } => id,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct StatContributions {
-    /// Always applies
     pub stats: HashMap<String, StatFormula>,
-    /// Only applies on some condition we don't know. Stored at its maximum
-    /// and only counted under 'optimistic' circumstances 
-    pub conditional_stats: HashMap<String, StatFormula>,
     /// Multiplies its stat's total rather than adding. Caps still apply
     pub multiplicative_percents: HashMap<String, StatFormula>,
-    pub conditional_multiplicative_percents: HashMap<String, StatFormula>,
 }
 
 impl StatContributions {
-    /// The additive maps that apply in this mode
-    pub fn additive(&self, optimistic: bool) -> impl Iterator<Item = &HashMap<String, StatFormula>> {
-        std::iter::once(&self.stats).chain(optimistic.then_some(&self.conditional_stats))
-    }
-
-    /// The multiplicative maps that apply in this mode
-    pub fn multiplicative(
-        &self,
-        optimistic: bool,
-    ) -> impl Iterator<Item = &HashMap<String, StatFormula>> {
-        std::iter::once(&self.multiplicative_percents)
-            .chain(optimistic.then_some(&self.conditional_multiplicative_percents))
-    }
-
-    /// Every map regardless of mode
     pub fn all(&self) -> impl Iterator<Item = &HashMap<String, StatFormula>> {
-        [
-            &self.stats,
-            &self.conditional_stats,
-            &self.multiplicative_percents,
-            &self.conditional_multiplicative_percents,
-        ]
-        .into_iter()
+        [&self.stats, &self.multiplicative_percents].into_iter()
     }
 }
 

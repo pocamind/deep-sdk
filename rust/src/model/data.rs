@@ -9,7 +9,7 @@ use crate::error::{DeepError, Result};
 use crate::model::enums::{
     EquipmentSlot, ItemRarity, MantraType, RangeType, TalentRarity, WeaponType,
 };
-use crate::model::formula::{StatContributions, StatFormula};
+use crate::model::formula::{StatContributions, StatFormula, Variable};
 use crate::model::req::{PrereqGroup, Requirement};
 use crate::util::graph::PrereqGraph;
 use crate::util::name_to_identifier;
@@ -429,6 +429,7 @@ impl Objective {
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(default)]
 pub struct DeepData {
+    variables: HashMap<String, Variable>,
     aspects: HashMap<String, Aspect>,
     talents: HashMap<String, Talent>,
     mantras: HashMap<String, Mantra>,
@@ -444,6 +445,9 @@ pub struct DeepData {
     items: HashMap<String, Item>,
     potion_effects: HashMap<String, PotionEffect>,
 
+    #[serde(skip, default)]
+    variable_users: HashMap<String, Vec<String>>,
+
     /// The raw json payload used to construct the object, which may be more up-to-date.
     /// The shape is guarenteed to have at least the fields that `DeepData` has.
     #[serde(skip, default)]
@@ -455,40 +459,76 @@ impl DeepData {
         let mut ret: DeepData = serde_json::from_str(json).map_err(DeepError::from)?;
 
         ret.raw = json.to_string();
-        ret.validate_formulas()?;
+        ret.variable_users = ret.validate_formulas()?;
 
         Ok(ret)
     }
 
-    fn validate_formulas(&self) -> Result<()> {
+    fn validate_formulas(&self) -> Result<HashMap<String, Vec<String>>> {
         let named = |item: &str, stat: &str, e: DeepError| {
             DeepError::Formula(format!("{item} / {stat}: {e}"))
         };
+        let variables = self
+            .variables
+            .values()
+            .map(Variable::id)
+            .collect::<Vec<_>>();
 
         let named_sources = self
             .talents
-            .values()
-            .map(|t| (&t.name, &t.contributions))
-            .chain(self.mantras.values().map(|m| (&m.name, &m.contributions)));
+            .iter()
+            .map(|(key, t)| (Talent::NAMESPACE, key, &t.name, &t.contributions))
+            .chain(
+                self.mantras
+                    .iter()
+                    .map(|(key, m)| (Mantra::NAMESPACE, key, &m.name, &m.contributions)),
+            )
+            .chain(
+                self.enchants
+                    .iter()
+                    .map(|(key, e)| (Enchant::NAMESPACE, key, &e.name, &e.contributions)),
+            );
 
-        for (item, contributions) in named_sources {
+        let mut users = variables
+            .iter()
+            .map(|id| ((*id).to_string(), Vec::new()))
+            .collect::<HashMap<String, Vec<String>>>();
+        let mut record = |namespace: &str, key: &str, read: Vec<String>| {
+            for variable in read {
+                users
+                    .entry(variable)
+                    .or_default()
+                    .push(format!("{namespace}:{key}"));
+            }
+        };
+
+        for (namespace, key, item, contributions) in named_sources {
             for map in contributions.all() {
                 for (stat, formula) in map {
-                    formula.validate().map_err(|e| named(item, stat, e))?;
+                    let read = formula
+                        .validate(&variables)
+                        .map_err(|e| named(item, stat, e))?;
+                    record(namespace, key, read);
                 }
             }
         }
 
-        for equip in self.equipment.values() {
+        for (key, equip) in &self.equipment {
             for (stat, innate) in &equip.innates {
-                innate
+                let read = innate
                     .value
-                    .validate()
+                    .validate(&variables)
                     .map_err(|e| named(&equip.name, stat, e))?;
+                record(Equipment::NAMESPACE, key, read);
             }
         }
 
-        Ok(())
+        for sources in users.values_mut() {
+            sources.sort_unstable();
+            sources.dedup();
+        }
+
+        Ok(users)
     }
 
     /// Retrieve Deepwoken data that was bundled with this release. This may be severely out of date and should not be relied on for up-to-date info, prefer DeepData::latest_release + from_release instead.
@@ -702,6 +742,14 @@ impl DeepData {
         self.talents.values()
     }
 
+    pub fn variables(&self) -> impl Iterator<Item = &Variable> {
+        self.variables.values()
+    }
+
+    pub fn variable_users(&self) -> &HashMap<String, Vec<String>> {
+        &self.variable_users
+    }
+
     /// Retrieve an iterator of talents
     pub fn mantras(&self) -> impl Iterator<Item = &Mantra> {
         self.mantras.values()
@@ -873,5 +921,83 @@ mod tests {
     fn identical_data_has_no_changed_items() {
         let data = DeepData::default();
         assert!(data.changed_items(&data).is_empty());
+    }
+
+    #[cfg(feature = "static")]
+    #[test]
+    fn bundled_data_loads() {
+        DeepData::bundled();
+    }
+
+    #[test]
+    fn declared_formula_variables_load() {
+        let data = DeepData::from_json(
+            r#"{
+                "variables": {
+                    "active": {
+                        "id": "ACTIVE",
+                        "label": "Active",
+                        "kind": "toggle",
+                        "default": true
+                    },
+                    "unread": {
+                        "id": "UNREAD",
+                        "label": "Unread",
+                        "kind": "toggle",
+                        "default": false
+                    },
+                    "stacks": {
+                        "id": "STACKS",
+                        "label": "Stacks",
+                        "kind": "slider",
+                        "min": 0,
+                        "max": 5,
+                        "step": 1,
+                        "default": 5
+                    }
+                },
+                "enchants": {
+                    "test": {
+                        "name": "Test",
+                        "category": "Weapon",
+                        "info": "",
+                        "stats": {
+                            "Damage": "if(ACTIVE, STACKS, 0)"
+                        }
+                    }
+                }
+            }"#,
+        )
+        .unwrap();
+
+        assert_eq!(data.variables().count(), 3);
+        assert_eq!(
+            data.get_enchant("test").unwrap().contributions.stats["Damage"],
+            StatFormula::Expr("if(ACTIVE, STACKS, 0)".to_string())
+        );
+
+        let users = data.variable_users();
+        assert_eq!(users["ACTIVE"], vec!["enchant:test".to_string()]);
+        assert_eq!(users["STACKS"], vec!["enchant:test".to_string()]);
+        assert!(users["UNREAD"].is_empty());
+    }
+
+    #[test]
+    fn undeclared_formula_variable_is_rejected() {
+        let error = DeepData::from_json(
+            r#"{
+                "enchants": {
+                    "test": {
+                        "name": "Test",
+                        "category": "Weapon",
+                        "info": "",
+                        "stats": { "Damage": "if(ACTIVE, 10, 0)" }
+                    }
+                }
+            }"#,
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("unknown variable \"ACTIVE\""));
     }
 }

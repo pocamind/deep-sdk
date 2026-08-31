@@ -1629,11 +1629,14 @@
       "obtainable_in": "Pathfinder"
     },
     "curse_of_captain_greene": {
-      "info": "Your weapon's base damage is tied to your current Notes. Your weapon's base damage is reduced by 15%. For every Note you have, your weapon's base damage will be increased by 0.002%, capping at +15% base damage with 15k Notes. Upon taking damage from a player, lose 100 Notes. Upon landing a weapon attack, your opponent will lose 50 Notes. Both of these effects are signified by a coin splash sound effect. This enchantment will do nothing if you have not completed The Gaunt Man's trial on your character.",
+      "info": "Your weapon's base damage is tied to your current Notes. Your weapon's base damage is reduced by 7.5%. For every Note you have, your weapon's base damage will be increased by 0.001%, capping at +7.5% base damage with 15k Notes. Upon taking damage from a player, lose 100 Notes. Upon landing a weapon attack, your opponent will lose 50 Notes. Both of these effects are signified by a coin splash sound effect. This enchantment will do nothing if you have not completed The Gaunt Man's trial on your character.",
       "name": "Curse of Captain Greene",
       "category": "Weapon",
       "in_game_desc": "Known throughout the Summer Company, many heard of the famous treasurer Captain Greene. You inherit his strange ability of gaining damage the more rich you are. However since you aren't Captrain [sic] Greene himself, you lose notes whenever you get hit. A strange curse indeed...",
-      "obtainable_in": "Pathfinder"
+      "obtainable_in": "Pathfinder",
+      "stats": {
+        "Weapon Base Damage": "(NOTES - 7500) * 0.001"
+      }
     },
     "curse_of_repulsion": {
       "info": "Upon blocking an attack, push the attacker backwards. Additionally, you take 30% chip damage from the attack that procced this enchant. Curse of Repulsion has a 2.5 second cooldown. There is no range limit for this effect.",
@@ -1777,8 +1780,8 @@
       "category": "Weapon",
       "in_game_desc": "Once enough stacks have been applied, Grim is applied for 6s, increasing all incoming damage by 25% and incoming posture damage by 50%.",
       "obtainable_in": "Pathfinder",
-      "conditional_stats": {
-        "Damage": 25
+      "stats": {
+        "Damage": "if(GRIM, 25, 0)"
       }
     },
     "harrowing": {
@@ -1789,13 +1792,13 @@
       "obtainable_in": "Pathfinder"
     },
     "heroism": {
-      "info": "When above 75% HP: gain +4% damage for every 5% HP above 75% HP. (20% more damage at 100% HP) When below 25% HP: gain +4% damage for every 5% HP below 25% HP. (20% more damage at 0% HP) In PVE the damage buff is 0.25x the damage buff in PVP (4% -> 1%, 20% -> 5%). Landing weapon attacks will reflect certain status effects that are affecting you back onto your attacker. These status effects include: elemental Status Effects (Burn, Chill, Suffocation, Winded, Shock, and Fear), Antiheal, and Taunt. Note: This does not clear the status effect from yourself. Additionally, the reflected status effects are applied as if they were your own (e.g. Burn scales on your Flamecharm investment, not your opponents).",
+      "info": "At or above 75% HP: gain +4% damage, increasing by another 4% for every 5% HP above 75% HP. (20% more damage at 100% HP) At or below 25% HP: gain +4% damage, increasing by another 4% for every 5% HP below 25% HP. (20% more damage at 0% HP) In PVE the damage buff is 0.25x the damage buff in PVP (4% -> 1%, 20% -> 5%). Landing weapon attacks will reflect certain status effects that are affecting you back onto your attacker. These status effects include: elemental Status Effects (Burn, Chill, Suffocation, Winded, Shock, and Fear), Antiheal, and Taunt. Note: This does not clear the status effect from yourself. Additionally, the reflected status effects are applied as if they were your own (e.g. Burn scales on your Flamecharm investment, not your opponents).",
       "name": "Heroism",
       "category": "Weapon",
-      "in_game_desc": "When above 75% HP, gain 4% damage for every 5% HP above 75%. When below 25% HP, gain 4% damage for every 5% HP below 25% HP. You can reflect negative status effects with light attacks or criticals to your opponent.",
+      "in_game_desc": "At or above 75% HP, gain damage that increases with your HP. At or below 25% HP, gain damage that increases as your HP falls. You can reflect negative status effects with light attacks or criticals to your opponent.",
       "obtainable_in": "Pathfinder",
-      "conditional_stats": {
-        "Damage": "if(PVP, 20, 5)"
+      "stats": {
+        "Damage": "if(HEALTH_PERCENT >= 75, 4 * min(floor((HEALTH_PERCENT - 75) / 5) + 1, 5), if(HEALTH_PERCENT <= 25, 4 * min(floor((25 - HEALTH_PERCENT) / 5) + 1, 5), 0)) * if(PVP, 1, 0.25)"
       }
     },
     "joes": {
@@ -1878,10 +1881,8 @@
       "in_game_desc": "Weapon gains +5% PEN. Applies Cauterize on hit for 15s, as well as draining their Water. Cauterized foes take more PEN the more stacks are applied.",
       "obtainable_in": "Pathfinder",
       "stats": {
-        "Melee Pen": 5
-      },
-      "conditional_stats": {
-        "Pen": 40
+        "Melee Pen": 5,
+        "Pen": "CAUTERIZE_PEN"
       }
     },
     "solar": {
@@ -23071,8 +23072,8 @@
           ]
         }
       ],
-      "conditional_stats": {
-        "Damage": 5
+      "stats": {
+        "Damage": "if(REINFORCE, if(REINFORCE_BUFFED_OTHER, 5, 2.5), 0)"
       },
       "shared_cooldowns": [
         "Iceberg"
@@ -24226,8 +24227,8 @@
       "scaling": {
         "Shadowcast": 2.75
       },
-      "conditional_stats": {
-        "Damage": 20
+      "stats": {
+        "Damage": "if(SHADE_DEVOUR, SHADE_DEVOUR_BUFF, 0)"
       },
       "modifiers": [
         "Drift Shard",
@@ -26020,8 +26021,8 @@
           ]
         }
       ],
-      "conditional_stats": {
-        "Damage": 20
+      "stats": {
+        "Damage": "if(TAUNT, 20, 0)"
       },
       "voi": true,
       "desc": "Taunt those around you, causing them to be unable to jump and to take 20% more damage. However, they deal 10% more damage.",
@@ -26462,9 +26463,9 @@
           ]
         }
       ],
-      "conditional_stats": {
-        "Monster Armor": 10,
-        "Damage vs. Monsters": 10
+      "stats": {
+        "Monster Armor": "if(TRANQUIL_CIRCLE, 10, 0)",
+        "Damage vs. Monsters": "if(TRANQUIL_CIRCLE, 10, 0)"
       },
       "modifiers": [
         "Glass Stone",
@@ -31183,16 +31184,16 @@
       "category": "Galeforce",
       "rarity": "Common",
       "reqs": "40s WND",
-      "additional_info": "The damage After Cut deals is based on the attack's modified damage.",
+      "additional_info": "After Cut deals 5% of a weapon attack's modified damage or 2.5% of a Mantra's modified damage.",
       "count_towards_talent_total": true,
       "icon": "galebreathe",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "After Cut": "if(AFTER_CUT, 5, 0)"
       },
       "vaulted": false,
       "voi": false,
-      "desc": "If an attack is physical and wind it will apply an after cut that does 10% of the damage you dealt. If an attack was a mantra, it does 5% damage instead.",
+      "desc": "Physical wind attacks apply an after cut that deals 5% of the damage dealt. Mantra after cuts deal 2.5% instead.",
       "voi_only": false
     },
     "against_all_odds": {
@@ -31203,6 +31204,9 @@
       "count_towards_talent_total": true,
       "icon": "eye",
       "roll2able": true,
+      "stats": {
+        "Damage": "2 * min(TAGS, 7)"
+      },
       "vaulted": false,
       "voi": false,
       "desc": "For each combat tag you have on your character, increase your damage by 2% (max of 14%).",
@@ -31448,8 +31452,8 @@
       "count_towards_talent_total": true,
       "icon": "thundercall",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(AMPED, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -31764,28 +31768,25 @@
       "voi_only": false
     },
     "ardour_scream": {
-      "name": "Ardour Scream",
-      "category": "Murmur",
-      "rarity": "Common",
-      "reqs": "()",
-      "prereqs": [
-        "talent:murmur_ardour",
-        "talent:oath_soulbreaker"
-      ],
-      "additional_info": "Consumes 100% of your Ether on use. Ardour Scream requires you to have a minimum of 100% Ether to be casted. Having the Soul Infusion Talent will reduce this to a minimum of 40% Ether.  Combat tags opponents hit. Notably, its damage and posture damage buffs are applied on-hit to incoming attacks rather than being a debuff that increases damage/posture damage taken, meaning Ardour Scream is affected by the damage and posture damage modifier caps. Also has a 95-Stud range (245 if Soulbreaker),",
-      "count_towards_talent_total": true,
-      "icon": "sword",
-      "roll2able": true,
-      "stats": {
-        "Sanity": 9
-      },
-      "conditional_stats": {
-        "Damage": 25
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "Amplify your shout into a scream using Ardour, dominating weaker foes, Victims take 12.5% more damage and 50% more posture damage for 10s.",
-      "voi_only": false
+      "icon": "sword",
+      "name": "Ardour Scream",
+      "reqs": "()",
+      "stats": {
+        "Sanity": 9,
+        "Damage": "if(ARDOUR_SCREAM, 25, 0)"
+      },
+      "rarity": "Common",
+      "prereqs": [
+        "talent:murmur_ardour"
+      ],
+      "vaulted": false,
+      "category": "Murmur",
+      "voi_only": false,
+      "roll2able": true,
+      "additional_info": "Consumes 100% of your Ether on use. Ardour Scream requires you to have a minimum of 100% Ether to be casted. Having the Soul Infusion Talent will reduce this to a minimum of 40% Ether.  Combat tags opponents hit. Notably, its damage and posture damage buffs are applied on-hit to incoming attacks rather than being a debuff that increases damage/posture damage taken, meaning Ardour Scream is affected by the damage and posture damage modifier caps. Also has a 95-Stud range (245 if Soulbreaker),",
+      "count_towards_talent_total": true
     },
     "armor_conserver": {
       "name": "Armor Conserver",
@@ -33540,8 +33541,8 @@
       "count_towards_talent_total": true,
       "icon": "sword",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(CHARGED_RETURN, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -33589,8 +33590,8 @@
       "stats": {
         "Passive Agility": 6
       },
-      "conditional_multiplicative_percents": {
-        "Melee Pen": "10 - 0.11 * max(65 - AGL, 0)"
+      "multiplicative_percents": {
+        "Melee Pen": "if(SPEED_BOOST, 10 - 0.11 * max(65 - AGL, 0), 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -34442,8 +34443,8 @@
       "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": true,
-      "conditional_stats": {
-        "Pen": 15
+      "stats": {
+        "Pen": "3 * min(CHARMED_TARGETS, 5)"
       },
       "vaulted": false,
       "voi": false,
@@ -35501,8 +35502,8 @@
       "count_towards_talent_total": true,
       "icon": "thundercall",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(AMPED, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -36508,8 +36509,8 @@
       "count_towards_talent_total": true,
       "icon": "ironsing",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(EXPOSED_DURABILITY, 10, 0)"
       },
       "vaulted": false,
       "voi": true,
@@ -36902,8 +36903,8 @@
       "count_towards_talent_total": true,
       "icon": "flamecharm",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(FLAME_WITHIN, 10, 0)"
       },
       "vaulted": false,
       "voi": true,
@@ -39731,10 +39732,8 @@
       "icon": "fist",
       "roll2able": true,
       "stats": {
-        "Sanity": 10
-      },
-      "conditional_stats": {
-        "Damage": 5
+        "Sanity": 10,
+        "Damage": "if(HEALTH_PERCENT < 25, 5, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -40064,10 +40063,8 @@
       "icon": "eye",
       "roll2able": false,
       "stats": {
-        "Sanity": 5
-      },
-      "conditional_stats": {
-        "Damage": 15
+        "Sanity": 5,
+        "Damage": "if(SANITY_PERCENT <= 70, 15 - 15 * (SANITY_PERCENT / 70) ^ 1.2, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -40205,8 +40202,8 @@
       "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 20
+      "stats": {
+        "Damage": "if(TARGET_CHARMED, 20, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -40307,8 +40304,8 @@
       "count_towards_talent_total": false,
       "icon": "claw",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": 5
+      "stats": {
+        "Damage": "if(MARK_OF_THE_LONE_WARRIOR, 5, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -40601,8 +40598,8 @@
       "count_towards_talent_total": true,
       "icon": "claw",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 20
+      "stats": {
+        "Damage": "if(MATADOR, 20, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -41415,8 +41412,8 @@
       "count_towards_talent_total": true,
       "icon": "sword",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(NULLIFYING_CLARITY, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -41424,83 +41421,83 @@
       "voi_only": false
     },
     "oath_arcwarder": {
-      "name": "Oath: Arcwarder",
-      "category": "Arcwarder",
-      "rarity": "Oath",
-      "reqs": "20s FTD, 20s FLM, 20s LTN",
-      "count_towards_talent_total": false,
-      "icon": "arcwarder",
-      "roll2able": true,
-      "stats": {
-        "Wildcard Mantra Slot": 1,
-        "Combat Mantra Slot": 2,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to be a shield for your comrades, to wear your regalia with pride and serve the greater collective. From each according to their ability, to each according to their needs.",
-      "voi_only": false
+      "icon": "arcwarder",
+      "name": "Oath: Arcwarder",
+      "reqs": "20r FTD, 20r FLM, 20r LTN",
+      "stats": {
+        "Pen": 5,
+        "Combat Mantra Slot": 2,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Arcwarder",
+      "voi_only": false,
+      "roll2able": true,
+      "count_towards_talent_total": false
     },
     "oath_bladeharper": {
-      "name": "Oath: Bladeharper",
-      "category": "Bladeharper",
-      "rarity": "Oath",
-      "reqs": "LHT + MED + HVY = 90r OR 75r MED, 25r AGL OR 25r STR",
-      "count_towards_talent_total": false,
-      "icon": "bladeharper",
-      "roll2able": false,
-      "stats": {
-        "Combat Mantra Slot": 3,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to carry your blades as an instrument, to lend yourself to any cause it guides you to. Collapse the infinite number of possibilities ahead of you into just one. The blade keeps you as much as you keep it. ",
-      "voi_only": false
+      "icon": "bladeharper",
+      "name": "Oath: Bladeharper",
+      "reqs": "LHT + MED + HVY = 90r OR 75r MED, 25r AGL OR 25r STR",
+      "stats": {
+        "Pen": 5,
+        "Combat Mantra Slot": 3
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Bladeharper",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_blightsurger": {
-      "name": "Oath: Blightsurger",
-      "category": "Blightsurger",
-      "rarity": "Oath",
-      "reqs": "STR + FTD + AGL = 80r, WND + LTN = 40r",
-      "count_towards_talent_total": false,
-      "icon": "fist",
-      "roll2able": false,
-      "stats": {
-        "Combat Mantra Slot": 2,
-        "Wildcard Mantra Slot": 1,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "Fists and storm. Wield sacred lightning, tear through foes and leave them withered.",
-      "voi_only": false
+      "icon": "fist",
+      "name": "Oath: Blightsurger",
+      "reqs": "STR + FTD + AGL = 80r, WND + LTN = 40r",
+      "stats": {
+        "Pen": 5,
+        "Combat Mantra Slot": 2,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Blightsurger",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_blindseer": {
+      "voi": false,
+      "desc": "You vow to not let the horrors of the world pierce your tightly fastened blindfold. Everything is simply as we choose to perceive it.",
+      "icon": "blindseer",
       "name": "Oath: Blindseer",
-      "category": "Blindseer",
+      "reqs": "40r WLL",
+      "stats": {
+        "Pen": 5,
+        "Sanity": 10,
+        "Combat Mantra Slot": 1,
+        "Support Mantra Slot": 1,
+        "Wildcard Mantra Slot": 1
+      },
       "rarity": "Oath",
-      "reqs": "40s WLL",
       "prereqs": [
         "talent:breathing_exercise",
         "talent:conquer_your_fears",
         "talent:disbelief"
       ],
-      "additional_info": "You can now see while blinded, but the world gains a blue hue.",
-      "count_towards_talent_total": false,
-      "icon": "blindseer",
-      "roll2able": false,
-      "stats": {
-        "Sanity": 10,
-        "Support Mantra Slot": 1,
-        "Wildcard Mantra Slot": 1,
-        "Combat Mantra Slot": 1,
-        "Pen": 5
-      },
       "vaulted": false,
-      "voi": false,
-      "desc": "You vow to not let the horrors of the world pierce your tightly fastened blindfold. Everything is simply as we choose to perceive it.",
-      "voi_only": false
+      "category": "Blindseer",
+      "voi_only": false,
+      "roll2able": false,
+      "additional_info": "You can now see while blinded, but the world gains a blue hue.",
+      "count_towards_talent_total": false
     },
     "oath_chainwarden": {
       "voi": false,
@@ -41544,7 +41541,7 @@
       "desc": "You vow to forever reach towards the brilliant Light. There is no shadow that your radiance cannot expunge.",
       "icon": "dawnwalker",
       "name": "Oath: Dawnwalker",
-      "reqs": "240s TTL",
+      "reqs": "240r TTL",
       "stats": {
         "Pen": 5,
         "Combat Mantra Slot": 3
@@ -41557,42 +41554,42 @@
       "count_towards_talent_total": false
     },
     "oath_fadetrimmer": {
-      "name": "Oath: Fadetrimmer",
-      "category": "Fadetrimmer",
-      "rarity": "Oath",
-      "reqs": "195s TTL",
-      "count_towards_talent_total": false,
-      "icon": "fadetrimmer",
-      "roll2able": false,
-      "stats": {
-        "Wildcard Mantra Slot": 1,
-        "Combat Mantra Slot": 2,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to forever hone your precision with the scissors. There will never be another fringe incident again.",
-      "voi_only": false
+      "icon": "fadetrimmer",
+      "name": "Oath: Fadetrimmer",
+      "reqs": "195r TTL",
+      "stats": {
+        "Pen": 5,
+        "Combat Mantra Slot": 2,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Fadetrimmer",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_jetstriker": {
-      "name": "Oath: Jetstriker",
-      "category": "Jetstriker",
-      "rarity": "Oath",
-      "reqs": "50s AGL",
-      "additional_info": "Gain Momentum by sprinting. At maximum Momentum, your Jetstriker Mantras deal 20% more damage.",
-      "count_towards_talent_total": false,
-      "icon": "jetstriker",
-      "roll2able": false,
-      "stats": {
-        "Wildcard Mantra Slot": 1,
-        "Mobility Mantra Slot": 1,
-        "Passive Agility": 8,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to flow with the Song itself, drifting across where the trails may take you. If the Song permeates everything, then let it be your conduit, and you its master.",
-      "voi_only": false
+      "icon": "jetstriker",
+      "name": "Oath: Jetstriker",
+      "reqs": "50r AGL",
+      "stats": {
+        "Pen": 5,
+        "Passive Agility": 8,
+        "Mobility Mantra Slot": 1,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Jetstriker",
+      "voi_only": false,
+      "roll2able": false,
+      "additional_info": "Gain Momentum by sprinting. At maximum Momentum, your Jetstriker Mantras deal 20% more damage.",
+      "count_towards_talent_total": false
     },
     "oath_linkstrider": {
       "name": "Oath: Linkstrider",
@@ -41661,42 +41658,42 @@
       "voi_only": false
     },
     "oath_saltchemist": {
-      "name": "Oath: Saltchemist",
-      "category": "Saltchemist",
-      "rarity": "Oath",
-      "reqs": "75s INT",
-      "count_towards_talent_total": false,
-      "icon": "saltchemist",
-      "roll2able": false,
-      "stats": {
-        "Support Mantra Slot": 1,
-        "Wildcard Mantra Slot": 1,
-        "Carry Load": 20,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to dedicate body and mind to the furthering of the Material Arts. Your body is a conduit through which true knowledge shall be siphoned. Knowledge is power, and you shall be its vessel.",
-      "voi_only": false
+      "icon": "saltchemist",
+      "name": "Oath: Saltchemist",
+      "reqs": "75r INT",
+      "stats": {
+        "Pen": 5,
+        "Carry Load": 20,
+        "Support Mantra Slot": 1,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Saltchemist",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_silentheart": {
-      "name": "Oath: Silentheart",
-      "category": "Silentheart",
-      "rarity": "Oath",
-      "reqs": "25s STR, LHT + MED + HVY = 75r, 25r AGL OR 25r CHA",
-      "additional_info": "If you have any Mantras, they will be unusable and will be entirely invisible. The weapon requirement reduction effect only reduces weapon stat requirements, and not attribute requirements. Additionally, it stacks with Khan's Versatile. Silentheart abilities can proc the Enchantment of your equipped weapon with a 30 second cooldown.",
-      "count_towards_talent_total": false,
-      "icon": "silentheart",
-      "roll2able": false,
-      "stats": {
-        "Health": 10,
-        "Posture": 2,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to reject the Words of the Song, denying yourself of mantras in pursuit of your own path to true strength, no matter the cost. You can wield weapons with 25 points below their usual requirements.",
-      "voi_only": false
+      "icon": "silentheart",
+      "name": "Oath: Silentheart",
+      "reqs": "25r STR, LHT + MED + HVY = 75r, 25r AGL OR 25r CHA",
+      "stats": {
+        "Pen": 5,
+        "Health": 10,
+        "Posture": 2
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Silentheart",
+      "voi_only": false,
+      "roll2able": false,
+      "additional_info": "If you have any Mantras, they will be unusable and will be entirely invisible. The weapon requirement reduction effect only reduces weapon stat requirements, and not attribute requirements. Additionally, it stacks with Khan's Versatile. Silentheart abilities can proc the Enchantment of your equipped weapon with a 30 second cooldown.",
+      "count_towards_talent_total": false
     },
     "oath_soulbreaker": {
       "name": "Oath: Soulbreaker",
@@ -41723,41 +41720,41 @@
       "voi_only": false
     },
     "oath_starkindred": {
-      "name": "Oath: Starkindred",
-      "category": "Starkindred",
-      "rarity": "Oath",
-      "reqs": "40s STR",
-      "count_towards_talent_total": false,
-      "icon": "starkindred",
-      "roll2able": false,
-      "stats": {
-        "Health": 8,
-        "Combat Mantra Slot": 2,
-        "Wildcard Mantra Slot": 1,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to feel the knowledge of all that is, all at once. Your heart beats with the world itself, as the Stars above watch over you.",
-      "voi_only": false
+      "icon": "starkindred",
+      "name": "Oath: Starkindred",
+      "reqs": "40r STR",
+      "stats": {
+        "Pen": 5,
+        "Health": 8,
+        "Combat Mantra Slot": 2,
+        "Wildcard Mantra Slot": 1
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Starkindred",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "oath_visionshaper": {
-      "name": "Oath: Visionshaper",
-      "category": "Visionshaper",
-      "rarity": "Oath",
-      "reqs": "50s CHA",
-      "count_towards_talent_total": false,
-      "icon": "visionshaper",
-      "roll2able": false,
-      "stats": {
-        "Wildcard Mantra Slot": 2,
-        "Support Mantra Slot": 1,
-        "Pen": 5
-      },
-      "vaulted": false,
       "voi": false,
       "desc": "You vow to only see that which you wish to see. Reality itself is malleable, pliable to your deft hands. ",
-      "voi_only": false
+      "icon": "visionshaper",
+      "name": "Oath: Visionshaper",
+      "reqs": "50r CHA",
+      "stats": {
+        "Pen": 5,
+        "Support Mantra Slot": 1,
+        "Wildcard Mantra Slot": 2
+      },
+      "rarity": "Oath",
+      "vaulted": false,
+      "category": "Visionshaper",
+      "voi_only": false,
+      "roll2able": false,
+      "count_towards_talent_total": false
     },
     "observation": {
       "voi": true,
@@ -42043,8 +42040,8 @@
       "count_towards_talent_total": true,
       "icon": "brain",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": "10 - 0.125 * max(40 - INT, 0)"
+      "stats": {
+        "Damage": "if(OVERFLOWING_DAM, 10 - 0.125 * max(40 - INT, 0), 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -42436,12 +42433,12 @@
       "category": "Mindbreaker",
       "rarity": "Rare",
       "reqs": "80s WLL",
-      "additional_info": "Grants a 10% PEN bonus at full insanity despite what the description states. The bonus PEN is applied starting from 35% Sanity.",
+      "additional_info": "Grants 5% PEN at 35% Sanity, scaling up to 15% PEN at 0% Sanity.",
       "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": false,
-      "conditional_stats": {
-        "Pen": 10
+      "stats": {
+        "Pen": "if(SANITY_PERCENT <= 35, 15 - 10 * (SANITY_PERCENT / 35) ^ 1.2, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -42733,10 +42730,8 @@
       "icon": "galebreathe",
       "roll2able": true,
       "stats": {
-        "Passive Agility": 2
-      },
-      "conditional_stats": {
-        "Damage": 25
+        "Passive Agility": 2,
+        "Damage": "if(PRESSURE_BREAK, 25, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -42877,8 +42872,8 @@
       "count_towards_talent_total": false,
       "icon": "sword",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": 30
+      "stats": {
+        "Uncapped Damage": "10 * min(TAGS, 3)"
       },
       "vaulted": false,
       "voi": false,
@@ -43404,8 +43399,8 @@
       "count_towards_talent_total": true,
       "icon": "ironsing",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 5
+      "stats": {
+        "Damage": "if(RESHAPE_AND_REMOLD, 5, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -43786,8 +43781,8 @@
       "count_towards_talent_total": true,
       "icon": "bloodrend",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": 15
+      "stats": {
+        "Damage": "if(RUSH_HOUR, 15, 0)"
       },
       "vaulted": false,
       "voi": true,
@@ -45006,10 +45001,8 @@
       "icon": "claw",
       "roll2able": false,
       "stats": {
-        "Passive Agility": 1
-      },
-      "conditional_stats": {
-        "Bleed": 7.5
+        "Passive Agility": 1,
+        "Bleed": "if(SPEED_BOOST, 7.5, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -45123,10 +45116,8 @@
       "icon": "sword",
       "roll2able": true,
       "stats": {
-        "Passive Agility": 1
-      },
-      "conditional_stats": {
-        "Damage": 15
+        "Passive Agility": 1,
+        "Damage": "if(SPEED_BOOST, 15, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -46399,21 +46390,27 @@
       "voi_only": false
     },
     "threadripper": {
+      "voi": false,
+      "desc": "When used by a Contractor, your Critical is empowered to eviscerate opponents.",
+      "icon": "grip",
       "name": "Threadripper",
-      "category": "Weapon",
-      "rarity": "Weapon",
       "reqs": "()",
+      "stats": {
+        "Passive Agility": 0
+      },
+      "rarity": "Weapon",
       "prereqs": [
         "weapon:palace_tachi"
       ],
-      "additional_info": "If the player is a Contractor, the Palace Tachi critical attack will automatically execute Unconscious targets, or targets who are knocked Unconscious by the critical attack.",
-      "count_towards_talent_total": false,
-      "icon": "sword",
-      "roll2able": false,
       "vaulted": false,
-      "voi": false,
-      "desc": "When used by a Contractor, your Critical is empowered to eviscerate opponents.",
-      "voi_only": false
+      "category": "Weapon",
+      "implicit": false,
+      "voi_only": false,
+      "exclusive": [],
+      "roll2able": false,
+      "additional_info": "Critical autogrips knocked opponents when used by a contractor",
+      "immediate_grants": [],
+      "count_towards_talent_total": false
     },
     "threefold_impact": {
       "name": "Threefold Impact",
@@ -46608,8 +46605,8 @@
       "count_towards_talent_total": true,
       "icon": "handshake",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(TARGET_CHARMED, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -46951,8 +46948,8 @@
       "count_towards_talent_total": true,
       "icon": "grip",
       "roll2able": true,
-      "conditional_stats": {
-        "Damage": "2.5 + 0.0375 * max(0, min(WLL - 20, 40)) + 10"
+      "stats": {
+        "Damage": "if(TARGET_HAS_MORE_CURRENT_HP, 2.5 + 0.0375 * max(0, min(WLL - 20, 40)), 0) + if(TARGET_IS_LARGER, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -47948,8 +47945,8 @@
       "count_towards_talent_total": true,
       "icon": "claw",
       "roll2able": false,
-      "conditional_stats": {
-        "Damage": 10
+      "stats": {
+        "Damage": "if(WYVERNS_CLAW, 10, 0)"
       },
       "vaulted": false,
       "voi": false,
@@ -47969,6 +47966,215 @@
       "voi": false,
       "desc": "When you're attacked, one of your many allies will leap into action to protect their boss.",
       "voi_only": false
+    }
+  },
+  "variables": {
+    "after_cut": {
+      "id": "AFTER_CUT",
+      "label": "After Cut",
+      "kind": "toggle",
+      "default": true
+    },
+    "amped": {
+      "id": "AMPED",
+      "label": "Amped",
+      "kind": "toggle",
+      "default": true
+    },
+    "ardour_scream": {
+      "id": "ARDOUR_SCREAM",
+      "label": "Ardour Scream",
+      "kind": "toggle",
+      "default": true
+    },
+    "cauterize_pen": {
+      "id": "CAUTERIZE_PEN",
+      "label": "Cauterize Pen",
+      "kind": "slider",
+      "min": 0,
+      "max": 40,
+      "step": 0.05,
+      "default": 40
+    },
+    "charged_return": {
+      "id": "CHARGED_RETURN",
+      "label": "Charged Return",
+      "kind": "toggle",
+      "default": true
+    },
+    "charmed_targets": {
+      "id": "CHARMED_TARGETS",
+      "label": "Charmed Targets",
+      "kind": "slider",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    "exposed_durability": {
+      "id": "EXPOSED_DURABILITY",
+      "label": "Exposed Durability",
+      "kind": "toggle",
+      "default": true
+    },
+    "flame_within": {
+      "id": "FLAME_WITHIN",
+      "label": "Flame Within",
+      "kind": "toggle",
+      "default": true
+    },
+    "grim": {
+      "id": "GRIM",
+      "label": "Grim",
+      "kind": "toggle",
+      "default": true
+    },
+    "health_percent": {
+      "id": "HEALTH_PERCENT",
+      "label": "Health Percent",
+      "kind": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    "mark_of_the_lone_warrior": {
+      "id": "MARK_OF_THE_LONE_WARRIOR",
+      "label": "Mark of the Lone Warrior",
+      "kind": "toggle",
+      "default": true
+    },
+    "matador": {
+      "id": "MATADOR",
+      "label": "Matador",
+      "kind": "toggle",
+      "default": true
+    },
+    "notes": {
+      "id": "NOTES",
+      "label": "Notes",
+      "kind": "slider",
+      "min": 0,
+      "max": 15000,
+      "step": 1,
+      "default": 15000
+    },
+    "nullifying_clarity": {
+      "id": "NULLIFYING_CLARITY",
+      "label": "Nullifying Clarity",
+      "kind": "toggle",
+      "default": true
+    },
+    "overflowing_dam": {
+      "id": "OVERFLOWING_DAM",
+      "label": "Overflowing Dam",
+      "kind": "toggle",
+      "default": true
+    },
+    "pressure_break": {
+      "id": "PRESSURE_BREAK",
+      "label": "Pressure Break",
+      "kind": "toggle",
+      "default": true
+    },
+    "reinforce": {
+      "id": "REINFORCE",
+      "label": "Reinforce",
+      "kind": "toggle",
+      "default": true
+    },
+    "reinforce_buffed_other": {
+      "id": "REINFORCE_BUFFED_OTHER",
+      "label": "Reinforce Buffed Other",
+      "kind": "toggle",
+      "default": true
+    },
+    "reshape_and_remold": {
+      "id": "RESHAPE_AND_REMOLD",
+      "label": "Reshape and Remold",
+      "kind": "toggle",
+      "default": true
+    },
+    "rush_hour": {
+      "id": "RUSH_HOUR",
+      "label": "Rush Hour",
+      "kind": "toggle",
+      "default": true
+    },
+    "sanity_percent": {
+      "id": "SANITY_PERCENT",
+      "label": "Sanity Percent",
+      "kind": "slider",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    "shade_devour": {
+      "id": "SHADE_DEVOUR",
+      "label": "Shade Devour",
+      "kind": "toggle",
+      "default": true
+    },
+    "shade_devour_buff": {
+      "id": "SHADE_DEVOUR_BUFF",
+      "label": "Shade Devour Buff",
+      "kind": "slider",
+      "min": 20,
+      "max": 25,
+      "step": 0.1,
+      "default": 25
+    },
+    "speed_boost": {
+      "id": "SPEED_BOOST",
+      "label": "Speed Boost",
+      "kind": "toggle",
+      "default": true
+    },
+    "tags": {
+      "id": "TAGS",
+      "label": "Combat Tags",
+      "kind": "slider",
+      "min": 0,
+      "max": 7,
+      "step": 1,
+      "default": 7
+    },
+    "target_charmed": {
+      "id": "TARGET_CHARMED",
+      "label": "Target Charmed",
+      "kind": "toggle",
+      "default": true
+    },
+    "target_has_more_current_hp": {
+      "id": "TARGET_HAS_MORE_CURRENT_HP",
+      "label": "Target Has More Current HP",
+      "kind": "toggle",
+      "default": true
+    },
+    "target_is_larger": {
+      "id": "TARGET_IS_LARGER",
+      "label": "Target Is Larger",
+      "kind": "toggle",
+      "default": true
+    },
+    "taunt": {
+      "id": "TAUNT",
+      "label": "Taunt",
+      "kind": "toggle",
+      "default": true
+    },
+    "tranquil_circle": {
+      "id": "TRANQUIL_CIRCLE",
+      "label": "Tranquil Circle",
+      "kind": "toggle",
+      "default": true
+    },
+    "wyverns_claw": {
+      "id": "WYVERNS_CLAW",
+      "label": "Wyvern’s Claw",
+      "kind": "toggle",
+      "default": true
     }
   },
   "weapons": {
@@ -52059,32 +52265,39 @@
       "voi_only": false
     },
     "palace_tachi": {
+      "voi": false,
+      "desc": "The dark tachi of a Threadcutter. Weighted by its alloys, the center of mass runs further along the length of the blade, making for slow but devastating cutting power.",
       "name": "Palace Tachi",
+      "reqs": "80r MED, 165r TTL",
       "type": "Sword",
-      "rarity": "Mythical",
-      "damage": 22.5,
-      "posture_damage": 5,
       "range": 8,
-      "reqs": "80r MED",
-      "damage_types": [
-        "Slash"
-      ],
-      "range_type": "Sweep",
-      "attack_duration": 0.7,
-      "swing_speed": 0.93,
+      "damage": 22.5,
+      "endlag": 0,
+      "rarity": "Mythical",
+      "prereqs": [],
       "scaling": {
         "Medium Weapon": 6.5
       },
-      "chip_damage": 0.05,
-      "penetration": 0.05,
-      "enchantable": true,
-      "equip_motifs": false,
-      "voi": false,
-      "desc": "The dark tachi of a Threadcutter. Weighted by its alloys, the center of mass runs further along the length of the blade, making for slow but devastating cutting power.",
       "talents": [
         "Threadripper"
       ],
-      "voi_only": false
+      "voi_only": false,
+      "range_type": "Sweep",
+      "can_offhand": false,
+      "chip_damage": 0,
+      "enchantable": false,
+      "penetration": 5,
+      "posture_max": 0,
+      "swing_speed": 0.93,
+      "bleed_damage": 0,
+      "damage_types": [
+        "Slash"
+      ],
+      "equip_motifs": false,
+      "only_offhand": false,
+      "posture_damage": 5,
+      "attack_duration": 0.7,
+      "posture_restoration": 0
     },
     "pale_briar": {
       "name": "Pale Briar",

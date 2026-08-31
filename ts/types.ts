@@ -4,7 +4,7 @@ export type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRari
 import type { EquipmentSlot, ItemRarity, MantraType, RangeType, Stat, TalentRarity, WeaponType } from './generated.js';
 
 export interface StatValue {
-    value: number;
+    value: StatFormula;
     percentage: boolean;
 }
 
@@ -21,7 +21,8 @@ export interface Talent {
     implicit?: boolean;
     exclusive?: string[];
     immediate_grants?: string[];
-    stats?: Record<string, number>;
+    stats?: Record<string, StatFormula>;
+    multiplicative_percents?: Record<string, StatFormula>;
     additional_info?: string;
     icon?: string;
     roll2able?: boolean;
@@ -80,6 +81,8 @@ export interface Mantra {
     voi_only: boolean;
     damage?: MantraDamageVariant[];
     scaling?: Record<string, number>;
+    stats?: Record<string, StatFormula>;
+    multiplicative_percents?: Record<string, StatFormula>;
     modifiers?: string[];
     sparks?: string[];
     related_talents?: string[];
@@ -141,6 +144,23 @@ export interface Aspect {
 /** A stat contribution: a constant, or an expression over stat short-names (see docs/stat_expressions.md). */
 export type StatFormula = number | string;
 
+export type Variable =
+    | {
+        kind: "toggle";
+        id: string;
+        label: string;
+        default: boolean;
+    }
+    | {
+        kind: "slider";
+        id: string;
+        label: string;
+        min: number;
+        max: number;
+        step: number;
+        default: number;
+    };
+
 export interface Enchant {
     name: string;
     category: string;
@@ -148,9 +168,7 @@ export interface Enchant {
     in_game_desc?: string;
     obtainable_in?: string;
     stats?: Record<string, StatFormula>;
-    conditional_stats?: Record<string, StatFormula>;
     multiplicative_percents?: Record<string, StatFormula>;
-    conditional_multiplicative_percents?: Record<string, StatFormula>;
 }
 
 export interface Pip {

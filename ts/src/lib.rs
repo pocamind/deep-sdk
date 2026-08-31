@@ -144,6 +144,19 @@ impl JsDeepData {
         })
     }
 
+    pub fn variables(&self) -> Result<JsValue, JsError> {
+        cached(&self.tables, "variables", || {
+            to_js(&self.inner.variables().collect::<Vec<_>>())
+        })
+    }
+
+    #[wasm_bindgen(js_name = "variableUsers")]
+    pub fn variable_users(&self) -> Result<JsValue, JsError> {
+        cached(&self.tables, "variable_users", || {
+            to_js(self.inner.variable_users())
+        })
+    }
+
     pub fn mantras(&self) -> Result<JsValue, JsError> {
         cached(&self.tables, "mantras", || {
             to_js(&self.inner.mantras().collect::<Vec<_>>())
