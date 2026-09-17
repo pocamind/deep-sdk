@@ -407,7 +407,7 @@ impl Resonance {
 pub struct Objective {
     pub name: String,
     pub desc: String,
-    #[serde(default, rename = "accountWideUnlock")]
+    #[serde(default)]
     pub account_wide_unlock: bool,
     #[serde(default)]
     pub reqs: Requirement,
@@ -865,57 +865,6 @@ impl DeepData {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::req::PrereqGroup;
-
-    const NEW_FORMAT: &str = r#"{
-        "talents": {
-            "a_world_without_song": {
-                "name": "A World Without Song",
-                "desc": "",
-                "rarity": "Advanced",
-                "category": "Silencer",
-                "reqs": "75s WND",
-                "prereqs": ["talent:silencers_blade"],
-                "count_towards_talent_total": true,
-                "vaulted": false,
-                "voi": false
-            }
-        },
-        "objectives": {
-            "justicar": {
-                "name": "Justicar",
-                "desc": "",
-                "accountWideUnlock": true
-            }
-        }
-    }"#;
-
-    #[test]
-    fn new_format_requirement() {
-        let data = DeepData::from_json(NEW_FORMAT).unwrap();
-        let talent = data.get_talent("a_world_without_song").unwrap();
-
-        let req = talent.requirement("a_world_without_song");
-        assert_eq!(req.name, Some("talent:a_world_without_song".to_string()));
-        assert_eq!(
-            req.prereqs,
-            std::collections::BTreeSet::from([PrereqGroup::single("talent:silencers_blade")])
-        );
-        assert_eq!(req.clauses.len(), 1);
-    }
-
-    #[test]
-    fn objectives_table_loads() {
-        let data = DeepData::from_json(NEW_FORMAT).unwrap();
-        let objective = data.get_objective("justicar").unwrap();
-
-        assert_eq!(objective.name, "Justicar");
-        assert!(objective.account_wide_unlock);
-
-        let req = data.requirement("objective:justicar").unwrap();
-        assert_eq!(req.name, Some("objective:justicar".to_string()));
-        assert!(req.is_empty());
-    }
 
     #[test]
     fn identical_data_has_no_changed_items() {

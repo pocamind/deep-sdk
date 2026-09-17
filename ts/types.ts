@@ -225,7 +225,7 @@ export interface Resonance {
 export interface Objective {
     name: string;
     desc: string;
-    accountWideUnlock: boolean;
+    account_wide_unlock: boolean;
     reqs: string;
     prereqs: string[];
 }
