@@ -100,7 +100,7 @@ export interface Outfit {
     durability: number;
     resistances: Record<string, number>;
     extra_percents: Record<string, number>;
-    talent: string | null;
+    talents: string[];
     reqs: string;
     mats: Record<string, number>;
     notes: number;

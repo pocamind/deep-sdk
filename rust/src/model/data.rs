@@ -73,7 +73,8 @@ pub struct Outfit {
     pub durability: i64,
     pub resistances: HashMap<String, f64>,
     pub extra_percents: HashMap<String, i64>,
-    pub talent: Option<String>,
+    #[serde(default)]
+    pub talents: Vec<String>,
     pub reqs: Requirement,
     #[serde(default)]
     pub prereqs: Vec<PrereqGroup>,
@@ -848,7 +849,7 @@ impl DeepData {
                 Some(prev)
                     if prev.resistances == outfit.resistances
                         && prev.extra_percents == outfit.extra_percents
-                        && prev.talent == outfit.talent => {}
+                        && prev.talents == outfit.talents => {}
                 _ => changed.push(outfit.name.clone()),
             }
         }
