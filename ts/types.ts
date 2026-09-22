@@ -139,6 +139,7 @@ export interface Aspect {
     variants: Record<string, AspectVariantInfo>;
     talent?: string[];
     exclude_cosmetics?: string[];
+    exclusive_cosmetics?: string[];
 }
 
 /** A stat contribution: a constant, or an expression over stat short-names (see docs/stat_expressions.md). */

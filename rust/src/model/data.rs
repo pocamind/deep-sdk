@@ -52,6 +52,8 @@ pub struct Aspect {
     pub talent: Vec<String>,
     #[serde(default)]
     pub exclude_cosmetics: Vec<String>,
+    #[serde(default)]
+    pub exclusive_cosmetics: Vec<String>,
 }
 
 impl Aspect {
