@@ -114,6 +114,8 @@ pub struct Equipment {
     pub innates: HashMap<String, StatValue>,
     #[serde(default)]
     pub pips: HashMap<String, i64>,
+    #[serde(default)]
+    pub scaling_multipliers: HashMap<String, f64>,
     pub reqs: Requirement,
     #[serde(default)]
     pub prereqs: Vec<PrereqGroup>,
@@ -836,7 +838,8 @@ impl DeepData {
                 Some(prev)
                     if prev.innates == equip.innates
                         && prev.pips == equip.pips
-                        && prev.talents == equip.talents => {}
+                        && prev.talents == equip.talents
+                        && prev.scaling_multipliers == equip.scaling_multipliers => {}
                 _ => changed.push(equip.name.clone()),
             }
         }

@@ -46,9 +46,6 @@ pub const REQUIREMENT_PENALTY: f64 = 0.25;
 pub const SCALING_FACTOR: f64 = 0.75;
 pub const SCALING_DIVISOR: f64 = 1000.0;
 
-/// A rank-k scaling ring contributes `RING_FACTOR * investment / (2^(k-1) * 1000)`.
-pub const RING_FACTOR: f64 = 1.2;
-
 /// Proficiency raises the weapon scaling term
 pub const PROFICIENCY_PER_POINT: f64 = 0.065;
 

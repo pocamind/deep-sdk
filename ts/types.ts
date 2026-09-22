@@ -119,6 +119,7 @@ export interface Equipment {
     talents: string[];
     innates: Record<string, StatValue>;
     pips: Record<string, number>;
+    scaling_multipliers: Record<string, number>;
     reqs: string;
     voi: boolean;
     voi_only: boolean;
