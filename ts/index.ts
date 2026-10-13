@@ -1,9 +1,9 @@
-export { ATTUNEMENT_STATS, CORE_STATS, WEAPON_STATS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_TYPES, EQUIPMENT_SLOTS } from './types.js';
-export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Objective, Origin, Outfit, Pip, Preset, RangeType, Resonance, Stat, StatFormula, Talent, TalentRarity, Variable, Weapon, WeaponType } from './types.js';
 export type { Atom, Clause, ClauseType, Reducability } from './requirement.js';
+export { ATTUNEMENT_STATS, CORE_STATS, EQUIPMENT_SLOTS, ITEM_RARITIES, TALENT_RARITIES, WEAPON_STATS, WEAPON_TYPES } from './types.js';
+export type { Aspect, Enchant, Equipment, EquipmentSlot, ItemRarity, Mantra, MantraType, Objective, Origin, Outfit, Pip, Preset, RangeType, Resonance, Stat, StatFormula, Talent, TalentRarity, Variable, Weapon, WeaponType } from './types.js';
 
-import type { Aspect, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Pip, Preset, Resonance, Stat, Talent, Variable, Weapon } from './types.js';
 import type { Clause } from './requirement.js';
+import type { Aspect, Enchant, Equipment, Mantra, Objective, Origin, Outfit, Pip, Preset, Resonance, Stat, Talent, Variable, Weapon } from './types.js';
 
 // a top-level await here breaks older webkit stuff
 let wasm: any = null;
@@ -122,6 +122,15 @@ export function nameToIdentifier(name: string): string {
     return w().nameToIdentifier(name);
 }
 
+export interface ShrineOutput {
+    /// the immediate post-shrine output
+    stats: StatMap;
+    /// the equlibrium level that stats tend towards, formally,
+    /// an integer that is less than or equal to every post-shrine output, equal if the stat is free
+    /// and less than if the stat is fixed, by definition
+    level: number | null;
+}
+
 export class StatMap {
     /** @internal */
     _wasm: any;
@@ -139,10 +148,9 @@ export class StatMap {
 
     get(stat: Stat): number { return this._wasm.get(stat); }
     set(stat: Stat, value: number) { this._wasm.set(stat, value); }
-    shrineOrder(racial: StatMap): StatMap {
-        const result = new StatMap();
-        result._wasm = this._wasm.shrineOrder(racial._wasm);
-        return result;
+    shrineOrder(racial: StatMap): ShrineOutput {
+        const out = this._wasm.shrineOrder(racial._wasm);
+        return { stats: new StatMap(out.stats), level: out.level };
     }
     toJSON(): Partial<Record<Stat, number>> { return this._wasm.toJSON(); }
 

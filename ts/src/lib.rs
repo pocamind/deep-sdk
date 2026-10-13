@@ -314,10 +314,8 @@ impl JsStatMap {
     }
 
     #[wasm_bindgen(js_name = "shrineOrder")]
-    pub fn shrine_order(&self, racial: &JsStatMap) -> JsStatMap {
-        JsStatMap {
-            inner: algos::shrine_order_dwb(&self.inner, &racial.inner),
-        }
+    pub fn shrine_order(&self, racial: &JsStatMap) -> Result<JsValue, JsError> {
+        to_js(&algos::shrine_order_dwb(&self.inner, &racial.inner))
     }
 
     /// The implicit talents granted by this stat map
@@ -328,10 +326,8 @@ impl JsStatMap {
 }
 
 #[wasm_bindgen(js_name = "shrineOrderDwb")]
-pub fn shrine_order_dwb(pre: &JsStatMap, racial: &JsStatMap) -> JsStatMap {
-    JsStatMap {
-        inner: algos::shrine_order_dwb(&pre.inner, &racial.inner),
-    }
+pub fn shrine_order_dwb(pre: &JsStatMap, racial: &JsStatMap) -> Result<JsValue, JsError> {
+    to_js(&algos::shrine_order_dwb(&pre.inner, &racial.inner))
 }
 
 /// Transforms the name of things ingame into an identifier/key used in the database

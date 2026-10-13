@@ -56,7 +56,7 @@ impl StatMap {
     }
 
     #[must_use]
-    pub fn shrine_order(&self, racial: &StatMap) -> StatMap {
+    pub fn shrine_order(&self, racial: &StatMap) -> algos::ShrineOutput {
         algos::shrine_order_dwb(self, racial)
     }
 
