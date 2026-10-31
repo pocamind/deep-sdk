@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 use deepwoken_rs::Stat;
 use deepwoken_rs::data::DeepData;
@@ -278,7 +278,7 @@ pub struct JsStatMap {
 impl JsStatMap {
     #[wasm_bindgen(constructor)]
     pub fn new(map: JsValue) -> Result<JsStatMap, JsError> {
-        let map: HashMap<Stat, i64> =
+        let map: BTreeMap<Stat, i64> =
             serde_wasm_bindgen::from_value(map).map_err(|e| JsError::new(&e.to_string()))?;
         Ok(JsStatMap {
             inner: StatMap::from(map),

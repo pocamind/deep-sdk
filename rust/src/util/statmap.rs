@@ -1,5 +1,5 @@
 use std::{
-    collections::HashMap,
+    collections::BTreeMap,
     ops::{Deref, DerefMut},
 };
 
@@ -13,15 +13,15 @@ use crate::{
     util::algos,
 };
 
-/// Wrapper around a `HashMap` of stats to their values
+/// Wrapper around a `BTreeMap` of stats to their values
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct StatMap(pub HashMap<Stat, i64>);
+pub struct StatMap(pub BTreeMap<Stat, i64>);
 
 impl StatMap {
     /// Creates a new empty Stats map.
     #[must_use]
     pub fn new() -> Self {
-        StatMap(HashMap::new())
+        StatMap(BTreeMap::new())
     }
 
     #[must_use]
@@ -87,7 +87,7 @@ impl Default for StatMap {
 }
 
 impl Deref for StatMap {
-    type Target = HashMap<Stat, i64>;
+    type Target = BTreeMap<Stat, i64>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -100,17 +100,13 @@ impl DerefMut for StatMap {
     }
 }
 
-impl From<HashMap<Stat, i64>> for StatMap {
-    fn from(map: HashMap<Stat, i64>) -> Self {
+impl From<BTreeMap<Stat, i64>> for StatMap {
+    fn from(map: BTreeMap<Stat, i64>) -> Self {
         StatMap(map)
     }
 }
 
-#[allow(
-    clippy::implicit_hasher,
-    reason = "StatMap itself is not generic over hashers"
-)]
-impl From<StatMap> for HashMap<Stat, i64> {
+impl From<StatMap> for BTreeMap<Stat, i64> {
     fn from(val: StatMap) -> Self {
         val.0
     }
